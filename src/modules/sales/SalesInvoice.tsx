@@ -55,7 +55,7 @@ const ledgers = [
 ];
 
 export default function SalesInvoiceGlobal() {
-  const [activeTab, setActiveTab] = useState("create");
+  const [activeTab, setActiveTab] = useState("all");
   const [invoiceType, setInvoiceType] = useState("tax_invoice");
   const [currency, setCurrency] = useState("INR");
   const [placeOfSupply, setPlaceOfSupply] = useState("KL");
