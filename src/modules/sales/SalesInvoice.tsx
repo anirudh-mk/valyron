@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FileText, Plus, Eye, Download, Send, Globe, Building2 } from "lucide-react";
 import { format } from "date-fns";
 import LedgerAutoComplete from "@/components/CommonComponents/LedgerAutoComplete";
-import GlobalInvoiceItemsTable from "@/components/ItemTable/GlobalInvoiceItemsTable";
+import { FrappeStyleInvoiceTable } from "@/components/ItemTable/GlobalInvoiceItemsTable";
 // Indian States for Place of Supply
 const indianStates = [
   { code: "AN", name: "Andaman and Nicobar Islands" },
@@ -65,12 +65,25 @@ export default function SalesInvoiceGlobal() {
   const [items, setItems] = useState<any[]>([]);
 
   const isIndianCustomer = selectedCustomer?.country === "India";
-  const isExport = invoiceType.includes("export") || invoiceType.includes("sez");
   const isDomesticGST = invoiceType === "tax_invoice" && isIndianCustomer;
-  const isIGST = isDomesticGST && selectedCustomer?.state !== "KL";
-  const showTaxColumns = isDomesticGST || currency === "INR";
 
   const currencySymbol = currencies.find(c => c.value === currency)?.symbol || "₹";
+
+
+
+  const [state, setState] = useState({
+    voucherType: "Sales Invoice",
+    currency: "INR", 
+    exchangeRate: 1,
+    placeOfSupply: "KL",
+    reverseCharge: false,
+    applyTDS: false,
+    selectedCustomer: null,
+    items: [],
+    grandtotal: 0,
+    taxamount: 0,
+    taxpercent: 0,
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
@@ -94,7 +107,7 @@ export default function SalesInvoiceGlobal() {
 
           <TabsContent value="create" className="mt-0">
             <Card className="shadow-2xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+              <CardHeader className="">
                 <CardTitle className="text-2xl">Create New Invoice</CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-8">
@@ -219,17 +232,7 @@ export default function SalesInvoiceGlobal() {
                 )}
 
                 {/* Items Table */}
-                <GlobalInvoiceItemsTable
-                  items={items}
-                  onItemsChange={setItems}
-                  currency={currency}
-                  currencySymbol={currencySymbol}
-                  invoiceType={invoiceType}
-                  placeOfSupply={placeOfSupply}
-                  companyState="KL"
-                  customerState={selectedCustomer?.state || ""}
-                  reverseCharge={reverseCharge}
-                />
+                <FrappeStyleInvoiceTable  />
 
                 <div className="flex justify-end gap-3 pt-8">
                   <Button variant="outline">Save as Draft</Button>

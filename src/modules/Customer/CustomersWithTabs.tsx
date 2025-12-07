@@ -32,43 +32,43 @@ import { format } from "date-fns";
 
 // Mock Customers Data
 const mockCustomers = [
-  { 
-    id: "CUST-2025-0001", 
-    name: "Acme Corporation Inc.", 
-    email: "billing@acme.com", 
-    phone: "+1 (555) 123-4567", 
-    country: "United States", 
-    status: "Active", 
+  {
+    id: "CUST-2025-0001",
+    name: "Acme Corporation Inc.",
+    email: "billing@acme.com",
+    phone: "+1 (555) 123-4567",
+    country: "United States",
+    status: "Active",
     createdDate: "2025-01-15",
     totalSpent: "$124,500.00"
   },
-  { 
-    id: "CUST-2025-0002", 
-    name: "TechCorp Ltd", 
-    email: "accounts@techcorp.in", 
-    phone: "+91 98765 43210", 
-    country: "India", 
-    status: "Active", 
+  {
+    id: "CUST-2025-0002",
+    name: "TechCorp Ltd",
+    email: "accounts@techcorp.in",
+    phone: "+91 98765 43210",
+    country: "India",
+    status: "Active",
     createdDate: "2025-02-20",
     totalSpent: "₹8,75,000.00"
   },
-  { 
-    id: "CUST-2025-0003", 
-    name: "Global Solutions GmbH", 
-    email: "finance@globalsol.de", 
-    phone: "+49 30 12345678", 
-    country: "Germany", 
-    status: "Inactive", 
+  {
+    id: "CUST-2025-0003",
+    name: "Global Solutions GmbH",
+    email: "finance@globalsol.de",
+    phone: "+49 30 12345678",
+    country: "Germany",
+    status: "Inactive",
     createdDate: "2025-03-10",
     totalSpent: "€45,200.00"
   },
-  { 
-    id: "CUST-2025-0004", 
-    name: "EuroTech Partners", 
-    email: "sales@eurotech.fr", 
-    phone: "+33 1 23 45 67 89", 
-    country: "France", 
-    status: "Active", 
+  {
+    id: "CUST-2025-0004",
+    name: "EuroTech Partners",
+    email: "sales@eurotech.fr",
+    phone: "+33 1 23 45 67 89",
+    country: "France",
+    status: "Active",
     createdDate: "2025-04-05",
     totalSpent: "€32,100.00"
   },
@@ -76,7 +76,42 @@ const mockCustomers = [
 
 export default function CustomersWithTabs() {
   const [activeTab, setActiveTab] = useState("all");
-  const [country, setCountry] = useState("India");
+  const [state, setState] = useState({
+    customerName: "",
+    customerType: "corporate",
+    industry: "technology",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    postalCode: "",
+    email: "",
+    phone: "",
+    website: "",
+    taxId: "",
+    creditLimit: "",
+    paymentTerms: "net30",
+    currency: "USD",
+    status: "active",
+    notes: "",
+    country: "India",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log(name, ":", value);
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    console.log("Form submitted:", state);
+    // Add form submission logic here (e.g., API call)        
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
@@ -111,16 +146,31 @@ export default function CustomersWithTabs() {
                     <div className="space-y-4">
                       <div>
                         <Label>Customer Name *</Label>
-                        <Input placeholder="e.g., Acme Corporation Inc." className="font-semibold text-lg" />
+                        {/* <Input placeholder="e.g., Acme Corporation Inc." className="font-semibold text-lg" /> */}
+                        <Input
+                          name="customerName"
+                          value={state.customerName}
+                          onChange={handleChange}
+                          placeholder="e.g., Acme Corporation Inc."
+                          required
+                        />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>Customer ID</Label>
-                          <Input placeholder="Auto-generated" readOnly />
+                          {/* <Input placeholder="Auto-generated" readOnly /> */}
+                          <Input
+                            value="Auto-generated"
+                            disabled
+                            className="bg-gray-100"
+                          />
                         </div>
                         <div>
                           <Label>Customer Type</Label>
-                          <Select defaultValue="corporate">
+                          <Select
+                            value={state.customerType}
+                            onValueChange={(value) => handleSelectChange("customerType", value)}
+                          >
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
@@ -134,7 +184,10 @@ export default function CustomersWithTabs() {
                       </div>
                       <div>
                         <Label>Industry</Label>
-                        <Select defaultValue="technology">
+                        <Select
+                          value={state.industry}
+                          onValueChange={(value) => handleSelectChange("industry", value)}
+                          defaultValue="technology">
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -158,25 +211,56 @@ export default function CustomersWithTabs() {
                     <div className="space-y-4">
                       <div>
                         <Label>Address Line 1 *</Label>
-                        <Input placeholder="Street address" />
+                        {/* <Input placeholder="Street address" /> */}
+                        <Input
+                          name="addressLine1"
+                          value={state.addressLine1}
+                          onChange={handleChange}
+                          placeholder="Street address"
+                          required
+                        />
                       </div>
                       <div>
                         <Label>Address Line 2</Label>
-                        <Input placeholder="Suite, floor, etc." />
+                        {/* <Input placeholder="Suite, floor, etc." /> */}
+                        <Input
+                          name="addressLine2"
+                          value={state.addressLine2}
+                          onChange={handleChange}
+                          placeholder="Suite, floor, etc."
+                        />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>City *</Label>
-                          <Input placeholder="City" />
+                          {/* <Input placeholder="City" /> */}
+                          <Input
+                            name="city"
+                            value={state.city}
+                            onChange={handleChange}
+                            placeholder="City"
+                            required
+                          />
                         </div>
                         <div>
                           <Label>Postal Code *</Label>
-                          <Input placeholder="ZIP / PIN" />
+                          {/* <Input placeholder="ZIP / PIN" /> */}
+                          <Input
+                            name="postalCode"
+                            value={state.postalCode}
+                            onChange={handleChange}
+                            placeholder="ZIP / PIN"
+                            required
+                          />
                         </div>
                       </div>
                       <div>
                         <Label>Country *</Label>
-                        <Select value={country} onValueChange={setCountry}>
+                        {/* <Select value={country} onValueChange={setCountry}> */}
+                        <Select
+                          value={state.country}
+                          onValueChange={(value) => handleSelectChange("country", value)}
+                        >
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -204,19 +288,47 @@ export default function CustomersWithTabs() {
                     <div className="space-y-4">
                       <div>
                         <Label>Email *</Label>
-                        <Input type="email" placeholder="billing@company.com" />
+                        {/* <Input type="email" placeholder="billing@company.com" /> */}
+                        <Input
+                          type="email"
+                          name="email"
+                          value={state.email}
+                          onChange={handleChange}
+                          placeholder="billing@company.com"
+                          required
+                        />
                       </div>
                       <div>
                         <Label>Phone *</Label>
-                        <Input placeholder="+1 (555) 123-4567" />
+                        {/* <Input placeholder="+1 (555) 123-4567" /> */}
+                        <Input
+                          name="phone"
+                          value={state.phone}
+                          onChange={handleChange}
+                          placeholder="+1 (555) 123-4567"
+                          required
+                        />
                       </div>
                       <div>
                         <Label>Website</Label>
-                        <Input placeholder="https://company.com" type="url" />
+                        {/* <Input placeholder="https://company.com" type="url" /> */}
+                        <Input
+                          name="website"
+                          value={state.website}
+                          onChange={handleChange}
+                          placeholder="https://company.com"
+                          type="url"
+                        />
                       </div>
                       <div>
                         <Label>GSTIN / VAT / Tax ID</Label>
-                        <Input placeholder="e.g., 32AAGCV1234A1Z5" />
+                        {/* <Input placeholder="e.g., 32AAGCV1234A1Z5" /> */}
+                        <Input
+                          name="taxId"
+                          value={state.taxId}
+                          onChange={handleChange}
+                          placeholder="e.g., 32AAGCV1234A1Z5"
+                        />
                       </div>
                     </div>
                   </div>
@@ -229,11 +341,22 @@ export default function CustomersWithTabs() {
                     <div className="space-y-4">
                       <div>
                         <Label>Credit Limit</Label>
-                        <Input type="number" placeholder="0" />
+                        {/* <Input type="number" placeholder="0" /> */}
+                        <Input
+                          name="creditLimit"
+                          value={state.creditLimit}
+                          onChange={handleChange}
+                          type="number"
+                          placeholder="50000"
+                        />
                       </div>
                       <div>
                         <Label>Payment Terms</Label>
-                        <Select defaultValue="net30">
+                        {/* <Select defaultValue="net30"> */}
+                        <Select
+                          value={state.paymentTerms}
+                          onValueChange={(value) => handleSelectChange("paymentTerms", value)}
+                        >
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -247,7 +370,11 @@ export default function CustomersWithTabs() {
                       </div>
                       <div>
                         <Label>Preferred Currency</Label>
-                        <Select defaultValue="USD">
+                        {/* <Select defaultValue="USD"> */}
+                        <Select
+                          value={state.currency}
+                          onValueChange={(value) => handleSelectChange("currency", value)}
+                        >
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -261,7 +388,11 @@ export default function CustomersWithTabs() {
                       </div>
                       <div>
                         <Label>Status</Label>
-                        <Select defaultValue="active">
+                        {/* <Select defaultValue="active"> */}
+                        <Select
+                          value={state.status}
+                          onValueChange={(value) => handleSelectChange("status", value)}
+                        >
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -281,6 +412,9 @@ export default function CustomersWithTabs() {
                 <div>
                   <Label>Notes</Label>
                   <Textarea
+                    name="notes"
+                    value={state.notes}
+                    onChange={handleChange}
                     rows={4}
                     placeholder="Any additional notes about this customer..."
                     className="mt-2"
@@ -289,7 +423,7 @@ export default function CustomersWithTabs() {
 
                 <div className="flex justify-end gap-3 pt-8">
                   <Button variant="outline">Cancel</Button>
-                  <Button>
+                  <Button onClick={handleSubmit}>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Customer
                   </Button>

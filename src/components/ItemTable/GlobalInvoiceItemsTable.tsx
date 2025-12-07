@@ -1,293 +1,310 @@
-// src/components/ItemTable/GlobalInvoiceItemsTable.tsx
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2, Plus } from "lucide-react";
-import { Separator } from "@radix-ui/react-separator";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Trash2, Plus, Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  hsnSac: string;
-  rate: number;
-  taxRate: number;
-}
-
-const defaultProducts: Product[] = [
-  { id: 1, name: "Website Development", description: "Full-stack web application", hsnSac: "998314", rate: 85000, taxRate: 18 },
-  { id: 2, name: "Mobile App (React Native)", description: "iOS & Android app", hsnSac: "998314", rate: 140000, taxRate: 18 },
-  { id: 3, name: "API Integration", description: "Third-party API setup", hsnSac: "998319", rate: 30000, taxRate: 18 },
-  { id: 4, name: "Cloud Migration", description: "AWS/Azure migration", hsnSac: "998315", rate: 95000, taxRate: 18 },
-  { id: 5, name: "Consulting (per day)", description: "Technical consulting", hsnSac: "998319", rate: 18000, taxRate: 18 },
+// Mock Product Database (replace with your API later)
+const PRODUCTS = [
+  {
+    id: "1",
+    productCode: "P001",
+    barcode: "8901234567890",
+    productName: "Wireless Mouse",
+    rate: 25.0,
+  },
+  {
+    id: "2",
+    productCode: "P002",
+    barcode: "8900987654321",
+    productName: "USB Keyboard",
+    rate: 45.0,
+  },
+  {
+    id: "3",
+    productCode: "P003",
+    barcode: "1234567890123",
+    productName: "HD Webcam",
+    rate: 89.99,
+  },
+  {
+    id: "4",
+    productCode: "P004",
+    barcode: "9876543210987",
+    productName: "Bluetooth Speaker",
+    rate: 59.5,
+  },
+  {
+    id: "5",
+    productCode: "P005",
+    barcode: "1111222233334",
+    productName: "Laptop Stand",
+    rate: 35.0,
+  },
 ];
 
-export interface InvoiceItem {
+interface Item {
   id: string;
-  productId?: number;
-  description: string;
-  hsnSac: string;
+  productId?: string;
+  productCode: string;
+  barcode: string;
+  productName: string;
   qty: number;
   rate: number;
-  amount: number;
-  taxRate: number;
 }
 
-interface GlobalInvoiceItemsTableProps {
-  items: InvoiceItem[];
-  onItemsChange: (items: InvoiceItem[]) => void;
-  currency: string;
-  currencySymbol: string;
-  invoiceType: string;
-  placeOfSupply: string;
-  companyState: string; // e.g., "KL"
-  customerState: string; // e.g., "MH"
-  reverseCharge: boolean;
-}
+export function FrappeStyleInvoiceTable() {
+  const [items, setItems] = useState<Item[]>([]);
 
-const GlobalInvoiceItemsTable = ({
-  items,
-  onItemsChange,
-  currency,
-  currencySymbol,
-  invoiceType,
-  placeOfSupply,
-  companyState,
-  customerState,
-  reverseCharge,
-}: GlobalInvoiceItemsTableProps) => {
-  const isExportOrSEZ = invoiceType.includes("export") || invoiceType.includes("sez");
-  const isDomesticGST = invoiceType === "tax_invoice" && customerState && companyState;
-  const isIGST = isDomesticGST && customerState !== companyState;
-
-  const addItem = () => {
-    const newItem: InvoiceItem = {
+  const addRow = () => {
+    const newItem: Item = {
       id: Date.now().toString(),
-      description: "",
-      hsnSac: "",
+      productId: undefined,
+      productCode: "",
+      barcode: "",
+      productName: "",
       qty: 1,
       rate: 0,
-      amount: 0,
-      taxRate: isExportOrSEZ ? 0 : 18,
     };
-    onItemsChange([...items, newItem]);
+    setItems([...items, newItem]);
   };
 
-  const updateItem = (id: string, field: keyof InvoiceItem, value: any) => {
-    const updated = items.map((item) => {
-      if (item.id === id) {
-        const updatedItem = { ...item, [field]: value };
-        if (field === "qty" || field === "rate") {
-          updatedItem.amount = Number(updatedItem.qty) * Number(updatedItem.rate);
-        }
-        return updatedItem;
-      }
-      return item;
-    });
-    onItemsChange(updated);
+  const removeRow = (id: string) => {
+    setItems(items.filter((item) => item.id !== id));
   };
 
-  const removeItem = (id: string) => {
-    onItemsChange(items.filter((i) => i.id !== id));
+  const updateItem = (
+    id: string,
+    field: keyof Item,
+    value: string | number
+  ) => {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              [field]:
+                field === "qty" || field === "rate" ? Number(value) || 0 : value,
+            }
+          : item
+      )
+    );
   };
 
-  const handleProductSelect = (id: string, productId: string) => {
-    const product = defaultProducts.find((p) => p.id === Number(productId));
-    if (product) {
-      updateItem(id, "description", product.description);
-      updateItem(id, "hsnSac", product.hsnSac);
-      updateItem(id, "rate", product.rate);
-      updateItem(id, "taxRate", isExportOrSEZ ? 0 : product.taxRate);
-    }
+  const selectProduct = (id: string, product: typeof PRODUCTS[0]) => {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              productId: product.id,
+              productCode: product.productCode,
+              barcode: product.barcode,
+              productName: product.productName,
+              rate: product.rate,
+            }
+          : item
+      )
+    );
   };
 
-  // Calculations
-  const subtotal = items.reduce((sum, i) => sum + i.amount, 0);
-  const effectiveTaxRate = isExportOrSEZ ? 0 : items.reduce((sum, i) => sum + i.taxRate, 0) / (items.length || 1);
+  const getRowTotal = (item: Item) => (item.qty * item.rate).toFixed(2);
 
-  const cgst = isDomesticGST && !isIGST ? subtotal * (effectiveTaxRate / 2 / 100) : 0;
-  const sgst = isDomesticGST && !isIGST ? subtotal * (effectiveTaxRate / 2 / 100) : 0;
-  const igst = isDomesticGST && isIGST ? subtotal * (effectiveTaxRate / 100) : 0;
-  const totalTax = cgst + sgst + igst;
-  const grandTotal = subtotal + totalTax;
+  const grandTotal = items
+    .reduce((sum, item) => sum + item.qty * item.rate, 0)
+    .toFixed(2);
 
   return (
-    <div className="space-y-6">
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-gray-50">
-            <TableHead className="w-[40%]">Item & Description</TableHead>
-            {isDomesticGST && <TableHead>HSN/SAC</TableHead>}
-            <TableHead className="text-center">Qty</TableHead>
-            <TableHead className="text-right">Rate</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-            {isDomesticGST && <TableHead className="text-center">Tax</TableHead>}
-            <TableHead className="w-12"></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={7} className="text-center py-12 text-gray-500">
-                No items added. Click "Add Item" to begin.
-              </TableCell>
+    <div className="w-full max-w-6xl mx-auto p-6">
+      <div className="border rounded-lg overflow-hidden shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/50">
+              <TableHead className="w-32">Code</TableHead>
+              <TableHead className="w-40">Barcode</TableHead>
+              <TableHead className="min-w-64">Item Name</TableHead>
+              <TableHead className="text-center w-24">Qty</TableHead>
+              <TableHead className="text-right w-32">Rate</TableHead>
+              <TableHead className="text-right w-32">Amount</TableHead>
+              <TableHead className="w-20"></TableHead>
             </TableRow>
-          )}
-          {items.map((item) => (
-            <TableRow key={item.id} className="hover:bg-gray-50">
-              <TableCell>
-                <Select onValueChange={(val) => handleProductSelect(item.id, val)}>
-                  <SelectTrigger className="mb-2">
-                    <SelectValue placeholder="Select product/service" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {defaultProducts.map((p) => (
-                      <SelectItem key={p.id} value={p.id.toString()}>
-                        <div className="flex justify-between w-full">
-                          <span>{p.name}</span>
-                          <span className="text-gray-500 ml-4">
-                            {currencySymbol}{p.rate.toLocaleString()}
-                          </span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Input
-                  value={item.description}
-                  onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                  placeholder="Enter description"
-                  className="mt-1"
-                />
-              </TableCell>
-
-              {isDomesticGST && (
+          </TableHeader>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id} className="hover:bg-muted/30">
+                {/* Product Code */}
                 <TableCell>
                   <Input
-                    value={item.hsnSac}
-                    onChange={(e) => updateItem(item.id, "hsnSac", e.target.value)}
-                    placeholder="998314"
+                    value={item.productCode}
+                    readOnly
+                    placeholder="Auto"
+                    className="h-9 border-0 bg-transparent text-muted-foreground"
                   />
                 </TableCell>
-              )}
 
-              <TableCell>
-                <Input
-                  type="number"
-                  value={item.qty}
-                  onChange={(e) => updateItem(item.id, "qty", Number(e.target.value) || 1)}
-                  className="w-24 mx-auto"
-                  min="1"
-                />
-              </TableCell>
-
-              <TableCell className="text-right">
-                <Input
-                  type="number"
-                  value={item.rate}
-                  onChange={(e) => updateItem(item.id, "rate", Number(e.target.value))}
-                  className="w-32 text-right"
-                />
-              </TableCell>
-
-              <TableCell className="text-right font-semibold">
-                {currencySymbol}{item.amount.toLocaleString()}
-              </TableCell>
-
-              {isDomesticGST && (
-                <TableCell className="text-center">
-                  <Badge variant="secondary">
-                    {isExportOrSEZ ? "0%" : `${item.taxRate}% ${isIGST ? "IGST" : "GST"}`}
-                  </Badge>
+                {/* Barcode */}
+                <TableCell>
+                  <Input
+                    value={item.barcode}
+                    readOnly
+                    placeholder="Auto"
+                    className="h-9 border-0 bg-transparent text-muted-foreground"
+                  />
                 </TableCell>
-              )}
 
-              <TableCell>
+                {/* Product Name with Autocomplete */}
+                <TableCell>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      {/* <div> */}
+                      <Button
+                        variant="ghost"
+                        role="combobox"
+                        className={cn(
+                          "w-full justify-between h-9 px-3 font-normal",
+                          !item.productName && "text-muted-foreground"
+                        )}
+                      >
+                        {item.productName || "Select product..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0" align="start">
+                      <Command>
+                        <CommandInput placeholder="Search product..." />
+                        <CommandList>
+                          <CommandEmpty>No product found.</CommandEmpty>
+                          <CommandGroup>
+                            {PRODUCTS.map((product) => (
+                              <CommandItem
+                                key={product.id}
+                                value={`${product.productName} ${product.productCode}`}
+                                onSelect={() => selectProduct(item.id, product)}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    item.productId === product.id
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                <div className="flex flex-col">
+                                  <div className="font-medium">{product.productName}</div>
+                                  <div className="text-xs text-muted-foreground">
+                                    {product.productCode} • ${product.rate}
+                                  </div>
+                                </div>
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+
+                {/* Quantity */}
+                <TableCell>
+                  <Input
+                    type="number"
+                    value={item.qty || ""}
+                    onChange={(e) => updateItem(item.id, "qty", e.target.value)}
+                    className="h-9 w-20 text-center border-0 bg-transparent"
+                    min="1"
+                  />
+                </TableCell>
+
+                {/* Rate */}
+                <TableCell>
+                  <Input
+                    type="number"
+                    value={item.rate || ""}
+                    onChange={(e) => updateItem(item.id, "rate", e.target.value)}
+                    className="h-9 w-28 text-right border-0 bg-transparent"
+                    step="0.01"
+                    placeholder="0.00"
+                  />
+                </TableCell>
+
+                {/* Amount */}
+                <TableCell className="text-right font-semibold">
+                  ${getRowTotal(item)}
+                </TableCell>
+
+                {/* Delete */}
+                <TableCell className="text-center">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeRow(item.id)}
+                    className="h-8 w-8 text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+
+            {/* Add Row Button */}
+            <TableRow>
+              <TableCell colSpan={7}>
                 <Button
-                  size="icon"
                   variant="ghost"
-                  onClick={() => removeItem(item.id)}
-                  className="text-red-600 hover:bg-red-50"
+                  onClick={addRow}
+                  className="w-full h-12 text-primary hover:bg-primary/10 text-lg font-medium"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Plus className="h-5 w-5 mr-2" />
+                  Add a row
                 </Button>
               </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableBody>
 
-      <Button onClick={addItem} variant="outline" className="w-full">
-        <Plus className="h-4 w-4 mr-2" /> Add Item
-      </Button>
-
-      {/* === TAX SUMMARY & TOTAL === */}
-      <div className="ml-auto max-w-lg space-y-3">
-        <div className="border rounded-lg bg-gray-50 p-6 space-y-3">
-          <div className="flex justify-between text-lg">
-            <span>Subtotal</span>
-            <span className="font-semibold">
-              {currencySymbol}{subtotal.toFixed(2)}
-            </span>
-          </div>
-
-          {isDomesticGST && !isExportOrSEZ && (
-            <>
-              {cgst > 0 && (
-                <div className="flex justify-between">
-                  <span>CGST @{(effectiveTaxRate / 2).toFixed(1)}%</span>
-                  <span>{currencySymbol}{cgst.toFixed(2)}</span>
-                </div>
-              )}
-              {sgst > 0 && (
-                <div className="flex justify-between">
-                  <span>SGST @{(effectiveTaxRate / 2).toFixed(1)}%</span>
-                  <span>{currencySymbol}{sgst.toFixed(2)}</span>
-                </div>
-              )}
-              {igst > 0 && (
-                <div className="flex justify-between">
-                  <span>IGST @{effectiveTaxRate.toFixed(1)}%</span>
-                  <span>{currencySymbol}{igst.toFixed(2)}</span>
-                </div>
-              )}
-            </>
-          )}
-
-          {isExportOrSEZ && (
-            <div className="flex justify-between text-green-600 font-medium">
-              <span>Tax (Zero Rated - Export/SEZ)</span>
-              <span>{currencySymbol}0.00</span>
-            </div>
-          )}
-
-          {reverseCharge && (
-            <div className="text-orange-600 text-sm italic">
-              Reverse Charge Applicable (Tax payable by recipient)
-            </div>
-          )}
-
-          <Separator />
-
-          <div className="flex justify-between text-xl font-bold">
-            <span>Total Amount</span>
-            <span className="text-primary">
-              {currencySymbol}{grandTotal.toFixed(2)}
-            </span>
-          </div>
-
-          {isExportOrSEZ && (
-            <div className="text-sm text-gray-600 mt-3 p-3 bg-blue-50 rounded border border-blue-200">
-              This is a <strong>Zero-Rated Supply</strong> under GST (Export/SEZ)
-            </div>
-          )}
-        </div>
+          <TableFooter>
+            <TableRow className="bg-muted/50 font-bold">
+              <TableCell colSpan={5} className="text-right text-lg">
+                Total
+              </TableCell>
+              <TableCell className="text-right text-lg">
+                ${grandTotal}
+              </TableCell>
+              <TableCell />
+            </TableRow>
+          </TableFooter>
+        </Table>
       </div>
+
+      {/* Debug: Show JSON */}
+      {/* <div className="mt-8">
+        <pre className="text-sm bg-gray-100 p-4 rounded-lg overflow-x-auto">
+          {JSON.stringify(items, null, 2)}
+        </pre>
+      </div> */}
     </div>
   );
-};
-
-export default GlobalInvoiceItemsTable;
+}
