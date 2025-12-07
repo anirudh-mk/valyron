@@ -110,7 +110,31 @@ export default function CustomersWithTabs() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); 
     console.log("Form submitted:", state);
-    // Add form submission logic here (e.g., API call)        
+    // Add form submission logic here (e.g., API call)    
+    clearForm();    
+  }
+
+
+  const clearForm = () => {
+    setState({
+      customerName: "", 
+      customerType: "corporate",
+      industry: "technology",
+      addressLine1: "",
+      addressLine2: "",
+      city: "",
+      postalCode: "", 
+      email: "",
+      phone: "",
+      website: "",
+      taxId: "",
+      creditLimit: "",
+      paymentTerms: "net30",
+      currency: "USD",
+      status: "active",
+      notes: "",
+      country: "India",
+    });
   }
 
   return (
