@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -27,11 +27,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Plus, Eye, Download, Send, MapPin, Phone, Mail, Building } from "lucide-react";
+import { Users, Plus, Eye, Download, Send, MapPin, Phone, Mail, Building, Loader2 } from "lucide-react";
 import { format } from "date-fns";
+import { createCustomer, retrieveCustomerData } from "@/services/customerService";
 
 // Mock Customers Data
-const mockCustomers = [
+const mockCustomers: Customer[] = [
   {
     id: "CUST-2025-0001",
     name: "Acme Corporation Inc.",
@@ -39,7 +40,6 @@ const mockCustomers = [
     phone: "+1 (555) 123-4567",
     country: "United States",
     status: "Active",
-    createdDate: "2025-01-15",
     totalSpent: "$124,500.00"
   },
   {
@@ -49,7 +49,6 @@ const mockCustomers = [
     phone: "+91 98765 43210",
     country: "India",
     status: "Active",
-    createdDate: "2025-02-20",
     totalSpent: "₹8,75,000.00"
   },
   {
@@ -59,7 +58,6 @@ const mockCustomers = [
     phone: "+49 30 12345678",
     country: "Germany",
     status: "Inactive",
-    createdDate: "2025-03-10",
     totalSpent: "€45,200.00"
   },
   {
@@ -69,10 +67,19 @@ const mockCustomers = [
     phone: "+33 1 23 45 67 89",
     country: "France",
     status: "Active",
-    createdDate: "2025-04-05",
     totalSpent: "€32,100.00"
   },
 ];
+interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  status: "Active" | "Inactive" | "Suspended";
+  createdDate?: string;
+  totalSpent?: string;
+}
 
 export default function CustomersWithTabs() {
   const [activeTab, setActiveTab] = useState("all");
@@ -95,6 +102,9 @@ export default function CustomersWithTabs() {
     notes: "",
     country: "India",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [customers, setCustomers] = useState<Customer[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,23 +117,49 @@ export default function CustomersWithTabs() {
   };
 
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("Form submitted:", state);
-    // Add form submission logic here (e.g., API call)    
-    clearForm();    
+    // Add form submission logic here (e.g., API call) 
+    let payload = {
+      name: state.customerName,
+      type: state.customerType,
+      industry: state.industry,
+      address: {
+        line1: state.addressLine1,
+        line2: state.addressLine2,
+        city: state.city,
+        postalCode: state.postalCode,
+        country: state.country,
+      },
+      contact: {
+        email: state.email,
+        phone: state.phone,
+        website: state.website,
+        taxId: state.taxId,
+      },
+      payment: {
+        creditLimit: state.creditLimit,
+        paymentTerms: state.paymentTerms,
+        currency: state.currency,
+      },
+      status: state.status,
+      notes: state.notes,
+    }
+    const res = await createCustomer({ payload });
+    console.log(res.data);
+    clearForm();
   }
-
 
   const clearForm = () => {
     setState({
-      customerName: "", 
+      customerName: "",
       customerType: "corporate",
       industry: "technology",
       addressLine1: "",
       addressLine2: "",
       city: "",
-      postalCode: "", 
+      postalCode: "",
       email: "",
       phone: "",
       website: "",
@@ -136,6 +172,27 @@ export default function CustomersWithTabs() {
       country: "India",
     });
   }
+
+  const fetchCustomers = async () => {
+    setIsFetching(true);
+    try {
+      const res = await retrieveCustomerData();
+      const data = res?.data?.data || res?.data || [];
+      setCustomers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to fetch customers:", err);
+      // setCustomers(mockCustomers); // fallback
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === "all") {
+      fetchCustomers();
+    }
+  }, [activeTab]);
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
@@ -464,63 +521,80 @@ export default function CustomersWithTabs() {
                 <p className="text-gray-600">View and manage your customer records</p>
               </CardHeader>
               <CardContent>
-                <div className="rounded-lg border overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-50">
-                        <TableHead>Customer ID</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Country</TableHead>
-                        <TableHead className="text-right">Total Spent</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-center">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockCustomers.map((cust) => (
-                        <TableRow key={cust.id} className="hover:bg-gray-50 transition">
-                          <TableCell className="font-medium">{cust.id}</TableCell>
-                          <TableCell className="font-semibold">{cust.name}</TableCell>
-                          <TableCell>
-                            <div className="space-y-1">
-                              <p className="text-sm">{cust.email}</p>
-                              <p className="text-xs text-gray-500">{cust.phone}</p>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline">{cust.country}</Badge>
-                          </TableCell>
-                          <TableCell className="text-right font-semibold">{cust.totalSpent}</TableCell>
-                          <TableCell>
-                            <Badge variant={cust.status === "Active" ? "default" : "secondary"}>
-                              {cust.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center justify-center gap-2">
-                              <Button size="icon" variant="ghost">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button size="icon" variant="ghost">
-                                <Download className="h-4 w-4" />
-                              </Button>
-                              <Button size="icon" variant="ghost">
-                                <Send className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
+                {isFetching ? (
+                  <div className="flex justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+                  </div>
+                ) : (
+                  <div className="rounded-lg border overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-gray-50">
+                          <TableHead>Customer ID</TableHead>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Contact</TableHead>
+                          <TableHead>Country</TableHead>
+                          <TableHead className="text-right">Total Spent</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead className="text-center">Actions</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+                      </TableHeader>
+                      <TableBody>
+                        {customers.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={7} className="text-center py-10 text-gray-500">
+                              No customers found.
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          customers.map((cust) => (
+                            <TableRow key={cust.id} className="hover:bg-gray-50">
+                              <TableCell className="font-medium">{cust.id}</TableCell>
+                              <TableCell className="font-semibold">{cust.name}</TableCell>
+                              <TableCell>
+                                <div className="space-y-1">
+                                  <p className="text-sm">{cust.email}</p>
+                                  <p className="text-xs text-gray-500">{cust.phone}</p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="outline">{cust.country}</Badge>
+                              </TableCell>
+                              <TableCell className="text-right font-semibold">
+                                {cust.totalSpent || "-"}
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={cust.status === "Active" ? "default" : "secondary"}>
+                                  {cust.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-center">
+                                <div className="flex justify-center gap-2">
+                                  <Button size="icon" variant="ghost">
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                  <Button size="icon" variant="ghost">
+                                    <Download className="h-4 w-4" />
+                                  </Button>
+                                  <Button size="icon" variant="ghost">
+                                    <Send className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
 
                 <div className="mt-6 flex justify-between items-center">
-                  <p className="text-sm text-gray-600">Showing 4 of 156 customers</p>
+                  <p className="text-sm text-gray-600">
+                    Showing {customers.length} customer{customers.length !== 1 ? "s" : ""}
+                  </p>
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm">Export CSV</Button>
-                    <Button variant="outline" size="sm">Load More</Button>
                   </div>
                 </div>
               </CardContent>

@@ -82,6 +82,65 @@ export default function SuppliersWithTabs() {
   const [activeTab, setActiveTab] = useState("all");
   const [preferredCurrency, setPreferredCurrency] = useState("USD");
 
+  const [state, setState] = useState({
+    supplierName: "",
+    supplierType: "manufacturer",
+    category: "electronics",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "United States",
+    email: "",
+    phone: "",
+    website: "",
+    taxId: "",
+    currency: "USD",
+    paymentTerms: "net30",
+    leadTime: "",
+    status: "active",
+    notes: "",
+  });
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log(name, ":", value);
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", state);
+    // Add form submission logic here (e.g., API call)    
+    clearForm();
+  }
+
+  const clearForm = () => {
+    setState({
+      supplierName: "",
+      supplierType: "manufacturer",
+      category: "electronics",
+      address: "",
+      city: "",
+      postalCode: "",
+      country: "United States",
+      email: "",
+      phone: "",
+      website: "",
+      taxId: "",
+      currency: "USD",
+      paymentTerms: "net30",
+      leadTime: "",
+      status: "active",
+      notes: "",
+    });
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-6">
       <div className="max-w-7xl mx-auto px-4">
@@ -118,12 +177,21 @@ export default function SuppliersWithTabs() {
                     <div className="space-y-4">
                       <div>
                         <Label>Supplier Name *</Label>
-                        <Input placeholder="e.g., Tech Distributors Inc." className="font-semibold text-lg" />
+                        <Input
+                          placeholder="e.g., Tech Distributors Inc."
+                          className="font-semibold text-lg"
+                          value={state.supplierName}
+                          onChange={handleChange}
+                        />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>Supplier ID</Label>
-                          <Input placeholder="Auto-generated" readOnly className="bg-gray-100" />
+                          <Input
+                            placeholder="Auto-generated"
+                            readOnly
+                            className="bg-gray-100"
+                          />
                         </div>
                         <div>
                           <Label>Supplier Type</Label>
@@ -344,8 +412,8 @@ export default function SuppliersWithTabs() {
                                 sup.status === "Active"
                                   ? "default"
                                   : sup.status === "On Hold"
-                                  ? "secondary"
-                                  : "outline"
+                                    ? "secondary"
+                                    : "outline"
                               }
                             >
                               {sup.status}
