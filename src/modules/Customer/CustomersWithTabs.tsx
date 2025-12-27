@@ -29,7 +29,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Plus, Eye, Download, Send, MapPin, Phone, Mail, Building, Loader2 } from "lucide-react";
 import { format } from "date-fns";
-import { createCustomer, retrieveCustomerData } from "@/services/customerService";
+import { createCustomer, retrievePartyData } from "@/services/customerService";
 
 // Mock Customers Data
 const mockCustomers: Customer[] = [
@@ -173,10 +173,14 @@ export default function CustomersWithTabs() {
     });
   }
 
+  const addByExcel = () =>{
+    console.log("This code is working");
+    
+  }
   const fetchCustomers = async () => {
     setIsFetching(true);
     try {
-      const res = await retrieveCustomerData();
+      const res = await retrievePartyData();
       const data = res?.data?.data || res?.data || [];
       setCustomers(Array.isArray(data) ? data : []);
     } catch (err) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -27,60 +27,31 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Truck, Plus, Eye, Download, Send, Building2, Globe, Phone, Mail, CreditCard } from "lucide-react";
-import { format } from "date-fns";
+import { Truck, Plus, Eye, Download, Send, Building2, Globe, Phone, Mail, CreditCard, Loader2 } from "lucide-react";
+import { createCustomer, retrievePartyData } from "@/services/customerService";
 
-// Mock Suppliers Data
-const mockSuppliers = [
-  {
-    id: "SUP-2025-0001",
-    name: "Tech Distributors Inc.",
-    email: "procurement@techdist.com",
-    phone: "+1 (415) 555-0198",
-    country: "United States",
-    currency: "USD",
-    status: "Active",
-    createdDate: "2025-01-10",
-    totalPurchased: "$428,500.00",
-  },
-  {
-    id: "SUP-2025-0002",
-    name: "Indian Hardware Ltd",
-    email: "accounts@indianhardware.in",
-    phone: "+91 98470 12345",
-    country: "India",
-    currency: "INR",
-    status: "Active",
-    createdDate: "2025-02-15",
-    totalPurchased: "₹68,75,000.00",
-  },
-  {
-    id: "SUP-2025-0003",
-    name: "EuroTech Supplies GmbH",
-    email: "einkauf@eurotech.de",
-    phone: "+49 89 12345670",
-    country: "Germany",
-    currency: "EUR",
-    status: "Active",
-    createdDate: "2025-03-05",
-    totalPurchased: "€198,400.00",
-  },
-  {
-    id: "SUP-2025-0004",
-    name: "Global Components Asia",
-    email: "sales@globalcomp.asia",
-    phone: "+65 6789 0123",
-    country: "Singapore",
-    currency: "SGD",
-    status: "On Hold",
-    createdDate: "2025-04-18",
-    totalPurchased: "S$87,200.00",
-  },
-];
+// import { createSupplier, getSuppliers } from "@/services/supplierService";
+
+// Types
+interface Supplier {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  currency: string;
+  status: "Active" | "On Hold" | "Inactive";
+  totalPurchased?: string;
+  type: string;
+}
+
+const mockSuppliers: Supplier[] = [/* your mock data here */];
 
 export default function SuppliersWithTabs() {
-  const [activeTab, setActiveTab] = useState("all");
-  const [preferredCurrency, setPreferredCurrency] = useState("USD");
+  const [activeTab, setActiveTab] = useState<"all" | "create">("all");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
   const [state, setState] = useState({
     supplierName: "",
@@ -101,24 +72,14 @@ export default function SuppliersWithTabs() {
     notes: "",
   });
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    console.log(name, ":", value);
-    setState((prev) => ({ ...prev, [name]: value }));
+    setState(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (name: string, value: string) => {
-    setState((prev) => ({ ...prev, [name]: value }));
+  const handleSelectChange = (name: keyof typeof state, value: string) => {
+    setState(prev => ({ ...prev, [name]: value }));
   };
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted:", state);
-    // Add form submission logic here (e.g., API call)    
-    clearForm();
-  }
 
   const clearForm = () => {
     setState({
@@ -139,23 +100,83 @@ export default function SuppliersWithTabs() {
       status: "active",
       notes: "",
     });
-  }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const payload = {
+      name: state.supplierName,
+      type: state.supplierType,
+      category: state.category,
+      address: {
+        street: state.address,
+        city: state.city,
+        postalCode: state.postalCode,
+        country: state.country,
+      },
+      contact: {
+        email: state.email,
+        phone: state.phone,
+        website: state.website,
+        taxId: state.taxId,
+      },
+      preferences: {
+        currency: state.currency,
+        paymentTerms: state.paymentTerms,
+        leadTimeDays: state.leadTime ? Number(state.leadTime) : null,
+      },
+      status: state.status,
+      notes: state.notes,
+      party_type: "supplier",
+    };
+
+    try {
+      await createCustomer({ payload });
+      alert("Supplier created successfully!");
+      clearForm();
+    } catch (err: any) {
+      console.error(err);
+      alert("Error: " + (err.response?.data?.message || "Failed to create supplier"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchSuppliers = async () => {
+    setIsFetching(true);
+    try {
+      const res = await retrievePartyData();
+      const list = res?.data?.data || res?.data || [];
+      setSuppliers(Array.isArray(list) ? list : mockSuppliers);
+    } catch (err) {
+      console.error("Failed to load suppliers:", err);
+      setSuppliers(mockSuppliers);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === "all") {
+      fetchSuppliers();
+    }
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Suppliers</h1>
-          <p className="text-gray-600 mt-1">
-            Manage your suppliers, vendors, and procurement partners worldwide
-          </p>
+          <p className="text-gray-600 mt-1">Manage your suppliers, vendors, and procurement partners worldwide</p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
           <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
             <TabsTrigger value="all" className="flex items-center gap-2">
               <Truck className="h-4 w-4" />
-              All Suppliers ({mockSuppliers.length})
+              All Suppliers ({suppliers.length})
             </TabsTrigger>
             <TabsTrigger value="create" className="flex items-center gap-2">
               <Plus className="h-4 w-4" />
@@ -163,42 +184,36 @@ export default function SuppliersWithTabs() {
             </TabsTrigger>
           </TabsList>
 
-          {/* ========== ADD SUPPLIER TAB ========== */}
-          <TabsContent value="create" className="mt-0">
-            <Card className="shadow-xl border-0 rounded-2xl overflow-hidden">
+          {/* CREATE TAB */}
+          <TabsContent value="create">
+            <Card className="shadow-xl border-0 rounded-2xl">
               <CardContent className="p-8 space-y-8">
-                {/* Company & Address */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                      <Building2 className="h-5 w-5" />
-                      Supplier Details
-                    </h3>
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Supplier Details */}
                     <div className="space-y-4">
+                      <h3 className="font-bold text-lg flex items-center gap-2">
+                        <Building2 className="h-5 w-5" /> Supplier Details
+                      </h3>
                       <div>
                         <Label>Supplier Name *</Label>
                         <Input
-                          placeholder="e.g., Tech Distributors Inc."
-                          className="font-semibold text-lg"
+                          name="supplierName"
                           value={state.supplierName}
                           onChange={handleChange}
+                          placeholder="e.g., Tech Distributors Inc."
+                          required
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label>Supplier ID</Label>
-                          <Input
-                            placeholder="Auto-generated"
-                            readOnly
-                            className="bg-gray-100"
-                          />
+                          <Input value="Auto-generated" disabled className="bg-gray-100" />
                         </div>
                         <div>
                           <Label>Supplier Type</Label>
-                          <Select defaultValue="manufacturer">
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
+                          <Select value={state.supplierType} onValueChange={(v) => handleSelectChange("supplierType", v)}>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="manufacturer">Manufacturer</SelectItem>
                               <SelectItem value="distributor">Distributor</SelectItem>
@@ -210,127 +225,100 @@ export default function SuppliersWithTabs() {
                       </div>
                       <div>
                         <Label>Category</Label>
-                        <Select defaultValue="electronics">
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Select value={state.category} onValueChange={(v) => handleSelectChange("category", v)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="electronics">Electronics & Hardware</SelectItem>
                             <SelectItem value="software">Software & Licenses</SelectItem>
-                            <SelectItem value="logistics">Logistics & Shipping</SelectItem>
+                            <SelectItem value="logistics">Logistics</SelectItem>
                             <SelectItem value="office">Office Supplies</SelectItem>
                             <SelectItem value="other">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                      <Globe className="h-5 w-5" />
-                      Address & Location
-                    </h3>
+                    {/* Address */}
                     <div className="space-y-4">
-                      <Textarea placeholder="Street address, building, floor..." rows={3} />
+                      <h3 className="font-bold text-lg flex items-center gap-2">
+                        <Globe className="h-5 w-5" /> Address
+                      </h3>
+                      <Textarea
+                        name="address"
+                        value={state.address}
+                        onChange={handleChange}
+                        placeholder="Street, building, floor..."
+                        rows={3}
+                      />
                       <div className="grid grid-cols-2 gap-4">
-                        <Input placeholder="City *" />
-                        <Input placeholder="Postal Code / ZIP *" />
+                        <Input name="city" value={state.city} onChange={handleChange} placeholder="City" />
+                        <Input name="postalCode" value={state.postalCode} onChange={handleChange} placeholder="ZIP/Postal" />
                       </div>
                       <div>
-                        <Label>Country *</Label>
-                        <Select defaultValue="United States">
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Label>Country</Label>
+                        <Select value={state.country} onValueChange={(v) => handleSelectChange("country", v)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="United States">United States</SelectItem>
                             <SelectItem value="India">India</SelectItem>
                             <SelectItem value="Germany">Germany</SelectItem>
                             <SelectItem value="Singapore">Singapore</SelectItem>
                             <SelectItem value="China">China</SelectItem>
-                            <SelectItem value="United Kingdom">United Kingdom</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <Separator />
+                  <Separator />
 
-                {/* Contact & Banking */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                      <Mail className="h-5 w-5" />
-                      Contact Information
-                    </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Contact */}
                     <div className="space-y-4">
-                      <div>
-                        <Label>Email (Procurement) *</Label>
-                        <Input type="email" placeholder="procurement@supplier.com" />
-                      </div>
-                      <div>
-                        <Label>Phone *</Label>
-                        <Input placeholder="+1 (415) 555-0198" />
-                      </div>
-                      <div>
-                        <Label>Website</Label>
-                        <Input placeholder="https://supplier.com" type="url" />
-                      </div>
-                      <div>
-                        <Label>GSTIN / VAT / Tax ID</Label>
-                        <Input placeholder="e.g., 98-7654321" />
-                      </div>
+                      <h3 className="font-bold text-lg flex items-center gap-2">
+                        <Mail className="h-5 w-5" /> Contact
+                      </h3>
+                      <Input name="email" value={state.email} onChange={handleChange} type="email" placeholder="procurement@supplier.com" required />
+                      <Input name="phone" value={state.phone} onChange={handleChange} placeholder="+1 (415) 555-0198" required />
+                      <Input name="website" value={state.website} onChange={handleChange} placeholder="https://..." />
+                      <Input name="taxId" value={state.taxId} onChange={handleChange} placeholder="GSTIN / VAT ID" />
                     </div>
-                  </div>
 
-                  <div>
-                    <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                      <CreditCard className="h-5 w-5" />
-                      Payment & Terms
-                    </h3>
+                    {/* Payment & Terms */}
                     <div className="space-y-4">
+                      <h3 className="font-bold text-lg flex items-center gap-2">
+                        <CreditCard className="h-5 w-5" /> Payment
+                      </h3>
                       <div>
-                        <Label>Preferred Currency</Label>
-                        <Select value={preferredCurrency} onValueChange={setPreferredCurrency}>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Label>Currency</Label>
+                        <Select value={state.currency} onValueChange={(v) => handleSelectChange("currency", v)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="USD">USD - US Dollar</SelectItem>
-                            <SelectItem value="INR">INR - Indian Rupee</SelectItem>
-                            <SelectItem value="EUR">EUR - Euro</SelectItem>
-                            <SelectItem value="SGD">SGD - Singapore Dollar</SelectItem>
-                            <SelectItem value="GBP">GBP - British Pound</SelectItem>
+                            <SelectItem value="USD">USD</SelectItem>
+                            <SelectItem value="INR">INR</SelectItem>
+                            <SelectItem value="EUR">EUR</SelectItem>
+                            <SelectItem value="SGD">SGD</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
+
                       <div>
                         <Label>Payment Terms</Label>
-                        <Select defaultValue="net30">
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Select value={state.paymentTerms} onValueChange={(v) => handleSelectChange("paymentTerms", v)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="prepaid">Prepaid</SelectItem>
-                            <SelectItem value="net15">Net 15 Days</SelectItem>
-                            <SelectItem value="net30">Net 30 Days</SelectItem>
-                            <SelectItem value="net60">Net 60 Days</SelectItem>
+                            <SelectItem value="net30">Net 30</SelectItem>
+                            {/* ... */}
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <Label>Lead Time (days)</Label>
-                        <Input type="number" placeholder="7" />
-                      </div>
+
+                      <Input name="leadTime" value={state.leadTime} onChange={handleChange} type="number" placeholder="Lead time (days)" />
                       <div>
                         <Label>Status</Label>
-                        <Select defaultValue="active">
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Select value={state.status} onValueChange={(v) => handleSelectChange("status", v)}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
                             <SelectItem value="active">Active</SelectItem>
                             <SelectItem value="on-hold">On Hold</SelectItem>
@@ -340,31 +328,33 @@ export default function SuppliersWithTabs() {
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <Separator />
+                  <Separator />
 
-                <div>
-                  <Label>Notes / Special Instructions</Label>
-                  <Textarea
-                    rows={4}
-                    className="mt-2"
-                    placeholder="e.g., Requires 3-day advance notice for large orders. Preferred Incoterm: FOB Shanghai."
-                  />
-                </div>
+                  <div>
+                    <Label>Notes</Label>
+                    <Textarea
+                      name="notes"
+                      value={state.notes}
+                      onChange={handleChange}
+                      rows={4}
+                      placeholder="Special instructions, Incoterms, etc."
+                    />
+                  </div>
 
-                <div className="flex justify-end gap-3 pt-8">
-                  <Button variant="outline">Cancel</Button>
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Supplier
-                  </Button>
-                </div>
+                  <div className="flex justify-end gap-3">
+                    <Button type="button" variant="outline" onClick={clearForm}>Cancel</Button>
+                    <Button type="submit" disabled={isLoading}>
+                      {isLoading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Adding...</> : <><Plus className="h-4 w-4 mr-2" /> Add Supplier</>}
+                    </Button>
+                  </div>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* ========== ALL SUPPLIERS TAB ========== */}
+          {/* LIST TAB */}
+          {/* ========== ALL SUPPLIERS TAB (LIST) ========== */}
           <TabsContent value="all" className="mt-0">
             <Card>
               <CardHeader>
@@ -372,79 +362,106 @@ export default function SuppliersWithTabs() {
                 <p className="text-gray-600">View and manage your procurement partners</p>
               </CardHeader>
               <CardContent>
-                <div className="rounded-lg border overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-50">
-                        <TableHead>Supplier ID</TableHead>
-                        <TableHead>Company Name</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Country</TableHead>
-                        <TableHead>Currency</TableHead>
-                        <TableHead className="text-right">Total Purchased</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-center">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockSuppliers.map((sup) => (
-                        <TableRow key={sup.id} className="hover:bg-gray-50 transition">
-                          <TableCell className="font-medium">{sup.id}</TableCell>
-                          <TableCell className="font-semibold">{sup.name}</TableCell>
-                          <TableCell>
-                            <div className="space-y-1">
-                              <p className="text-sm">{sup.email}</p>
-                              <p className="text-xs text-gray-500">{sup.phone}</p>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline" className="text-xs">
-                              {sup.country}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="secondary">{sup.currency}</Badge>
-                          </TableCell>
-                          <TableCell className="text-right font-semibold">{sup.totalPurchased}</TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={
-                                sup.status === "Active"
-                                  ? "default"
-                                  : sup.status === "On Hold"
-                                    ? "secondary"
-                                    : "outline"
-                              }
-                            >
-                              {sup.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center justify-center gap-2">
-                              <Button size="icon" variant="ghost">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button size="icon" variant="ghost">
-                                <Download className="h-4 w-4" />
-                              </Button>
-                              <Button size="icon" variant="ghost">
-                                <Send className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-
-                <div className="mt-6 flex justify-between items-center">
-                  <p className="text-sm text-gray-600">Showing 4 of 89 suppliers</p>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">Export CSV</Button>
-                    <Button variant="outline" size="sm">Load More</Button>
+                {isFetching ? (
+                  /* Loading State */
+                  <div className="flex flex-col items-center justify-center py-16">
+                    <Loader2 className="h-10 w-10 animate-spin text-blue-600 mb-4" />
+                    <p className="text-gray-500">Loading suppliers...</p>
                   </div>
-                </div>
+                ) : suppliers.length === 0 ? (
+                  /* Empty State */
+                  <div className="text-center py-16">
+                    <Truck className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-500 text-lg">No suppliers found</p>
+                    <p className="text-sm text-gray-400 mt-2">Start by adding your first supplier</p>
+                  </div>
+                ) : (
+                  /* Data Table */
+                  <>
+                    <div className="rounded-lg border overflow-hidden">
+                      <Table>
+                        <TableHeader>
+                          <TableRow className="bg-gray-50">
+                            <TableHead>Supplier ID</TableHead>
+                            <TableHead>Company Name</TableHead>
+                            <TableHead>Contact</TableHead>
+                            <TableHead>Country</TableHead>
+                            <TableHead>Currency</TableHead>
+                            <TableHead className="text-right">Total Purchased</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-center">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {suppliers.map((sup) => (
+                            <TableRow key={sup.id} className="hover:bg-gray-50 transition">
+                              <TableCell className="font-medium">{sup.id || "-"}</TableCell>
+                              <TableCell className="font-semibold">{sup.name}</TableCell>
+                              <TableCell>
+                                <div className="space-y-1">
+                                  <p className="text-sm">{sup.email}</p>
+                                  <p className="text-xs text-gray-500">{sup.phone}</p>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="outline" className="text-xs">
+                                  {sup.country}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="secondary">{sup.currency || "USD"}</Badge>
+                              </TableCell>
+                              <TableCell className="text-right font-semibold">
+                                {sup.totalPurchased || "-"}
+                              </TableCell>
+                              <TableCell>
+                                <Badge
+                                  variant={
+                                    sup.status === "Active"
+                                      ? "default"
+                                      : sup.status === "On Hold"
+                                        ? "secondary"
+                                        : "outline"
+                                  }
+                                >
+                                  {sup.status || "Active"}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center justify-center gap-2">
+                                  <Button size="icon" variant="ghost">
+                                    <Eye className="h-4 w-4" />
+                                  </Button>
+                                  <Button size="icon" variant="ghost">
+                                    <Download className="h-4 w-4" />
+                                  </Button>
+                                  <Button size="icon" variant="ghost">
+                                    <Send className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="mt-6 flex justify-between items-center">
+                      <p className="text-sm text-gray-600">
+                        Showing {suppliers.length} supplier{suppliers.length !== 1 ? "s" : ""}
+                      </p>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm">
+                          Export CSV
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          Load More
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

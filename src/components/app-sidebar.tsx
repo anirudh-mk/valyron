@@ -77,6 +77,11 @@ export function AppSidebar() {
         { name: "Suppliers", icon: Truck, route: "/valyron/suppliers" },
       ],
     },
+    {
+      title: "Products",
+      icon: Package,
+      route: "/valyron/products",
+    },
     { title: "Inventory", icon: Package, route: "/valyron/inventory" },
     { title: "Reports", icon: BarChart3, route: "/valyron/reports" },
     { title: "Settings", icon: Settings, route: "/valyron/settings" },
