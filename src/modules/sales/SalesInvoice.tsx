@@ -10,8 +10,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Eye, Download, Send } from "lucide-react";
 import { format } from "date-fns";
 import LedgerAutoComplete from "@/components/CommonComponents/LedgerAutoComplete";
-import GridTable from "@/components/ItemTable/GridTable";
+import GridTable, {emptyRow, type GridRow } from "@/components/ItemTable/GridTable";
 import ActionButton from "@/components/Essentials/ActionButton";
+
 // Indian States for Place of Supply
 const indianStates = [
   { code: "AN", name: "Andaman and Nicobar Islands" },
@@ -21,7 +22,6 @@ const indianStates = [
   { code: "KA", name: "Karnataka" },
   { code: "TN", name: "Tamil Nadu" },
   { code: "DL", name: "Delhi" },
-  // Add more as needed
 ];
 
 const invoiceTypes = [
@@ -42,11 +42,12 @@ const currencies = [
   { value: "GBP", symbol: "£", label: "British Pound" },
 ];
 
+// Fixed duplicate IDs here
 const mockInvoices = [
   { id: "INV-2025-0048", date: "2025-11-29", customer: "Google LLC", amount: "$18,500", status: "Sent", type: "export_wp" },
   { id: "INV-2025-0047", date: "2025-11-24", customer: "Acme Corporation", amount: "₹5,90,000", status: "Paid", type: "tax_invoice" },
   { id: "INV-2025-0046", date: "2025-11-20", customer: "TechCorp Ltd", amount: "₹4,25,000", status: "Sent", type: "tax_invoice" },
-  { id: "INV-2025-0046", date: "2025-11-20", customer: "TechCorp Ltd", amount: "₹4,25,000", status: "Sent", type: "tax_invoice" },
+  { id: "INV-2025-0045", date: "2025-11-18", customer: "TechCorp Ltd", amount: "₹4,25,000", status: "Sent", type: "tax_invoice" },
 ];
 
 const ledgers = [
@@ -63,28 +64,14 @@ export default function SalesInvoiceGlobal() {
   const [reverseCharge, setReverseCharge] = useState(false);
   const [applyTDS, setApplyTDS] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
-  const [items, setItems] = useState<any[]>([]);
+  
+  const [items, setItems] = useState<GridRow[]>([emptyRow(1)]);
 
   const isIndianCustomer = selectedCustomer?.country === "India";
   const isDomesticGST = invoiceType === "tax_invoice" && isIndianCustomer;
 
   const currencySymbol = currencies.find(c => c.value === currency)?.symbol || "₹";
-
-
-
-  const [state, setState] = useState({
-    voucherType: "Sales Invoice",
-    currency: "INR", 
-    exchangeRate: 1,
-    placeOfSupply: "KL",
-    reverseCharge: false,
-    applyTDS: false,
-    selectedCustomer: null,
-    items: [],
-    grandtotal: 0,
-    taxamount: 0,
-    taxpercent: 0,
-  });
+  const hasHighValueItem = items.some(i => Number(i.rate) * Number(i.qty) > 250000);
 
   return (
     <div className="min-h-screen bg-gray-50 ">
@@ -111,7 +98,7 @@ export default function SalesInvoiceGlobal() {
                   <ActionButton
                     label="Submit"
                     icon={Send}
-                    onClick={() => console.log("Submitted")}
+                    onClick={() => console.log("Submitted", { items, selectedCustomer, invoiceType })}
                   />
                 </div>
               </div>
@@ -129,7 +116,7 @@ export default function SalesInvoiceGlobal() {
                         <div className="flex-1">
                           <LedgerAutoComplete
                             ledgers={ledgers}
-                            onSelect={(ledger) => setSelectedCustomer(ledger)}
+                            onSelect={(ledger: any) => setSelectedCustomer(ledger)}
                           />
                         </div>
                       </div>
@@ -221,7 +208,7 @@ export default function SalesInvoiceGlobal() {
                                  <Label htmlFor="rc" className="text-[10px] text-gray-600 font-medium leading-none cursor-pointer">Reverse Charge</Label>
                                </div>
                              )}
-                             {(isDomesticGST && items.some(i => i.rate * i.qty > 250000)) && (
+                             {(isDomesticGST && hasHighValueItem) && (
                                <div className="flex items-center space-x-2">
                                  <Checkbox id="tds" className="w-3.5 h-3.5 rounded-[2px]" checked={applyTDS} onCheckedChange={(c) => setApplyTDS(!!c)} />
                                  <Label htmlFor="tds" className="text-[10px] text-gray-600 font-medium leading-none cursor-pointer">Apply TDS u/s 194J</Label>
@@ -234,13 +221,12 @@ export default function SalesInvoiceGlobal() {
                 </div>
               </div>
 
-              {/* Items Table Background Block */}
-                <GridTable/>
+              {/* Items Table */}
+              <GridTable items={items} onItemsChange={setItems} />
             </div>
           </TabsContent>
 
           <TabsContent value="all">
-            {/* Your existing All Invoices table */}
             <Card>
               <CardHeader>
                 <CardTitle>All Invoices</CardTitle>
@@ -260,8 +246,8 @@ export default function SalesInvoiceGlobal() {
                       </tr>
                     </thead>
                     <tbody>
-                      {mockInvoices.map(inv => (
-                        <tr key={inv.id} className="border-t hover:bg-gray-50 text-[13px]">
+                      {mockInvoices.map((inv, index) => (
+                        <tr key={index} className="border-t hover:bg-gray-50 text-[13px]">
                           <td className="px-4 py-4">{inv.id}</td>
                           <td>{format(new Date(inv.date), "dd MMM yyyy")}</td>
                           <td>{inv.customer}</td>
