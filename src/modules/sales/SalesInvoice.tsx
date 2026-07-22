@@ -10,8 +10,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Eye, Download, Send } from "lucide-react";
 import { format } from "date-fns";
 import LedgerAutoComplete from "@/components/CommonComponents/LedgerAutoComplete";
-import { FrappeStyleInvoiceTable } from "@/components/ItemTable/GlobalInvoiceItemsTable";
 import GridTable from "@/components/ItemTable/GridTable";
+import ActionButton from "@/components/Essentials/ActionButton";
 // Indian States for Place of Supply
 const indianStates = [
   { code: "AN", name: "Andaman and Nicobar Islands" },
@@ -106,14 +106,13 @@ export default function SalesInvoiceGlobal() {
                   <h2 className="text-[13px] font-bold text-gray-700 uppercase tracking-widest pl-1">Create Sales Invoice</h2>
                   <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-[10px] rounded-sm px-1.5 py-0 font-medium tracking-wide">DRAFT</Badge>
                 </div>
+                
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="h-6 px-2.5 text-[11px] bg-white rounded-sm border-gray-300 font-medium shadow-sm hover:bg-gray-50">Save</Button>
-                  <Button variant="secondary" size="sm" className="h-6 px-2.5 text-[11px] bg-white text-gray-700 rounded-sm border-gray-300 shadow-sm hover:bg-gray-50 font-medium">
-                    <Download className="h-3 w-3 mr-1.5 text-gray-500" /> PDF
-                  </Button>
-                  <Button size="sm" className="h-6 px-3.5 text-[11px] bg-blue-600 hover:bg-blue-700 text-white rounded-sm font-medium shadow-sm">
-                    <Send className="h-3 w-3 mr-1.5" /> Submit
-                  </Button>
+                  <ActionButton
+                    label="Submit"
+                    icon={Send}
+                    onClick={() => console.log("Submitted")}
+                  />
                 </div>
               </div>
 
