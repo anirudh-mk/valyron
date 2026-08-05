@@ -61,12 +61,12 @@ export function AppSidebar() {
       ],
     },
     {
-      title: "Purchase",
+      title: "purchase",
       icon: Truck,
       items: [
-        { name: "Purchase Invoice", icon: Receipt, route: "/valyron/purchase-invoice" },
-        { name: "Purchase Order", icon: ShoppingCart, route: "/valyron/purchase-order" },
-        { name: "Purchase Return", icon: ArrowLeftRight, route: "/valyron/purchase-return" },
+        { name: "purchase Invoice", icon: Receipt, route: "/valyron/purchase-invoice" },
+        { name: "purchase Order", icon: ShoppingCart, route: "/valyron/purchase-order" },
+        { name: "purchase Return", icon: ArrowLeftRight, route: "/valyron/purchase-return" },
       ],
     },
     {
@@ -78,7 +78,7 @@ export function AppSidebar() {
       ],
     },
     {
-      title: "Products",
+      title: "products",
       icon: Package,
       route: "/valyron/products",
     },

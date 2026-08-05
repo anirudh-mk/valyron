@@ -1,17 +1,8 @@
-import salesRoutes from "./Sales/SalesRoute";
-import purchaseRoutes from "./Purchase/PurchaseRoute";
-import dasheRoutes from "./DashBoardRoute/DashBoard";
-import contactRoutes from "./ContactRoute/ContactRoute";
-import reportRoutes from "./ReportRoute/ReportRoute";
-import productRoute from "./Productroute/ProductRoute";
+import {salesRoutes} from "@/features/sales/sales.routes.ts";
+import type {AppRoute} from "@/routes/types.ts";
 
-const allRoutes = [
-    ...salesRoutes,
-    ...purchaseRoutes,
-    ...dasheRoutes,
-    ...contactRoutes,
-    ...reportRoutes,
-    ...productRoute,    
+const routes: AppRoute[] = [
+  ...salesRoutes,
 ];
 
-export default allRoutes;
+export default routes;
