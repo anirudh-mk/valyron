@@ -2,7 +2,7 @@ import type {AppRoute} from "@/routes/types.ts";
 import {lazy} from "react";
 
 const Product = lazy(
-  () => import("@/features/products/Products.tsx")
+  () => import("@/features/products/pages/Products.tsx")
 );
 
 const productRoutes: AppRoute[] = [
