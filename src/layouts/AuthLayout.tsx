@@ -1,6 +1,6 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Navbar } from "@/components/navbar";
+import { SidebarProvider } from "@/components/ui/sidebar.tsx";
+import { AppSidebar } from "@/components/app-sidebar.tsx";
+import { Navbar } from "@/components/navbar.tsx";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
