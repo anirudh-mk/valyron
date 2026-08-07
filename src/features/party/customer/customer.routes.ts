@@ -7,7 +7,7 @@ const Customer = lazy(
 
 const customerRoutes: AppRoute[] = [
   {
-    path: "/valyron/customers",
+    path: "",
     component: Customer,
   },
 ];

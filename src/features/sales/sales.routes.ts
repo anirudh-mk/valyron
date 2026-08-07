@@ -5,8 +5,20 @@ import orderRoutes from "@/features/sales/order/order.routes.ts";
 import returnRoutes from "@/features/sales/return/return.routes.ts";
 
 export const salesRoutes: AppRoute[] = [
-  ...invoiceRoutes,
-  ...estimateRoutes,
-  ...orderRoutes,
-  ...returnRoutes
+  {
+    path: "invoice",
+    children: invoiceRoutes,
+  },
+  {
+    path: "estimate",
+    children: estimateRoutes,
+  },
+  {
+    path: "order",
+    children: orderRoutes,
+  },
+  {
+    path: "return",
+    children: returnRoutes,
+  },
 ];

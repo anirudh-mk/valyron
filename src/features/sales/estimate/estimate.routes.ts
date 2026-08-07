@@ -7,7 +7,7 @@ const SalesEstimate = lazy(
 
 const estimateRoutes: AppRoute[] = [
   {
-    path: "/valyron/sales-estimate",
+    path: "",
     component: SalesEstimate,
   },
 ];

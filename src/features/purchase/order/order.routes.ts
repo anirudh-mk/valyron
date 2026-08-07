@@ -7,7 +7,7 @@ const PurchaseOrder = lazy(
 
 const orderRoutes: AppRoute[] = [
   {
-    path: "/valyron/purchase-order",
+    path: "",
     component: PurchaseOrder,
   },
 ];

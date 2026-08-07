@@ -9,9 +9,9 @@ import {partyRoutes} from "@/features/party/party.routes.ts";
 const routes: AppRoute[] = [
   ...dashboardRoutes,
   ...productRoutes,
-  ...salesRoutes,
-  ...purchaseRoutes,
-  ...partyRoutes,
+  {path: "dashboard/sales", children: salesRoutes},
+  {path: "valyron/purchase", children: purchaseRoutes},
+  {path: "valyron/party", children: partyRoutes},
   ...reportRoutes,
 ];
 

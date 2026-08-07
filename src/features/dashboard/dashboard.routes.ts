@@ -7,7 +7,7 @@ const Dashboard = lazy(
 
 const dashboardRoutes: AppRoute[] = [
   {
-    path: "/valyron/",
+    path: "/dashboard",
     component: Dashboard,
   },
 ];

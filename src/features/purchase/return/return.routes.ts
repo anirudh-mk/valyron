@@ -7,7 +7,7 @@ const PurchaseReturn = lazy(
 
 const returnRoutes: AppRoute[] = [
   {
-    path: "/valyron/purchase-return",
+    path: "",
     component: PurchaseReturn,
   },
 ];
