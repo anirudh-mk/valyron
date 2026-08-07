@@ -4,7 +4,16 @@ import invoiceRoutes from "@/features/purchase/invoice/invoice.routes.ts";
 import type {AppRoute} from "@/routes/types.ts";
 
 export const purchaseRoutes: AppRoute[] = [
-  ...invoiceRoutes,
-  ...orderRoutes,
-  ...returnRoutes
-]
+  {
+    path: "invoice",
+    children: invoiceRoutes,
+  },
+  {
+    path: "order",
+    children: orderRoutes,
+  },
+  {
+    path: "return",
+    children: returnRoutes,
+  },
+];

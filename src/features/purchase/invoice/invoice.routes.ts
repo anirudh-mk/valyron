@@ -7,7 +7,7 @@ const PurchaseInvoice = lazy(
 
 const invoiceRoutes: AppRoute[] = [
   {
-    path: "/valyron/purchase-invoice",
+    path: "",
     component: PurchaseInvoice,
   },
 ];

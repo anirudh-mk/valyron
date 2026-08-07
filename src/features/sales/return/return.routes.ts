@@ -7,7 +7,7 @@ const SalesReturn = lazy(
 
 const returnRoutes: AppRoute[] = [
   {
-    path: "/valyron/sales-return",
+    path: "",
     component: SalesReturn,
   },
 ];

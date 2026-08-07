@@ -7,7 +7,7 @@ const Supplier = lazy(
 
 const supplierRoutes: AppRoute[] = [
   {
-    path: "/valyron/suppliers",
+    path: "",
     component: Supplier,
   },
 ];

@@ -116,7 +116,7 @@ export default function SalesInvoiceGlobal() {
                 </div>
               </div>
 
-              {/* Form Body - Excel Style Dense Layout */}
+              {/* Form Body - Excel Style Dense AuthLayout */}
               <div className="border-b bg-gray-50/50">
                 <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x border-gray-200">
                   
