@@ -15,8 +15,9 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import type {ReactNode} from "react";
+import {Outlet} from "react-router-dom";
 
-export default function AuthLayout({children}: { children: ReactNode }) {
+export default function AuthLayout({children}: { children?: ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar/>
@@ -44,7 +45,7 @@ export default function AuthLayout({children}: { children: ReactNode }) {
             </Breadcrumb>
           </div>
         </header>
-        {children}
+        {children ?? <Outlet />}
       </SidebarInset>
     </SidebarProvider>
   )
