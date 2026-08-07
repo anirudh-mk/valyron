@@ -5,6 +5,7 @@ import dashboardRoutes from "@/features/dashboard/dashboard.routes.ts";
 import productRoutes from "@/features/products/products.routes.ts";
 import reportRoutes from "@/features/report/reports.routes.ts";
 import {partyRoutes} from "@/features/party/party.routes.ts";
+import settingsRoutes from "@/features/settings/settings.routes.ts";
 
 const routes: AppRoute[] = [
   ...dashboardRoutes,
@@ -13,6 +14,7 @@ const routes: AppRoute[] = [
   {path: "valyron/purchase", children: purchaseRoutes},
   {path: "valyron/party", children: partyRoutes},
   ...reportRoutes,
+  ...settingsRoutes,
 ];
 
 export default routes;

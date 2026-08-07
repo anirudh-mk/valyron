@@ -147,7 +147,7 @@ export const sidebarConfig = {
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/valyron/settings",
         },
         {
           title: "Team",
