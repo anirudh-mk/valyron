@@ -1,17 +1,20 @@
-import salesRoutes from "./Sales/SalesRoute";
-import purchaseRoutes from "./Purchase/PurchaseRoute";
-import dasheRoutes from "./DashBoardRoute/DashBoard";
-import contactRoutes from "./ContactRoute/ContactRoute";
-import reportRoutes from "./ReportRoute/ReportRoute";
-import productRoute from "./Productroute/ProductRoute";
+import {salesRoutes} from "@/features/sales/sales.routes.ts";
+import type {AppRoute} from "@/routes/types.ts";
+import {purchaseRoutes} from "@/features/purchase/purchase.routes.ts";
+import dashboardRoutes from "@/features/dashboard/dashboard.routes.ts";
+import productRoutes from "@/features/products/products.routes.ts";
+import reportRoutes from "@/features/report/reports.routes.ts";
+import {partyRoutes} from "@/features/party/party.routes.ts";
+import settingsRoutes from "@/features/settings/settings.routes.ts";
 
-const allRoutes = [
-    ...salesRoutes,
-    ...purchaseRoutes,
-    ...dasheRoutes,
-    ...contactRoutes,
-    ...reportRoutes,
-    ...productRoute,    
+const routes: AppRoute[] = [
+  ...dashboardRoutes,
+  ...productRoutes,
+  {path: "dashboard/sales", children: salesRoutes},
+  {path: "valyron/purchase", children: purchaseRoutes},
+  {path: "valyron/party", children: partyRoutes},
+  ...reportRoutes,
+  ...settingsRoutes,
 ];
 
-export default allRoutes;
+export default routes;
