@@ -1,20 +1,35 @@
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import { Card } from "@/components/ui/card.tsx";
 
 export default function InventorySummarySection() {
   return (
-    <Card className="p-4">
-      <CardHeader className="p-0">
-        <CardTitle>Small Card</CardTitle>
-        <CardDescription>
-          This card uses the small size variant.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-0">
-        <p>
-          The card component supports a size prop that can be set to
-          &quot;sm&quot; for a more compact appearance.
-        </p>
-      </CardContent>
+    <Card className="p-4 space-y-3">
+      <h3 className="text-sm font-semibold">Inventory Summary</h3>
+
+      <div className="space-y-2.5">
+        {/* Initial Stock */}
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">Initial Stock</p>
+          <p className="text-xs font-medium">25</p>
+        </div>
+
+        {/* Reorder Point */}
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">Reorder Point</p>
+          <p className="text-xs font-medium">10</p>
+        </div>
+
+        {/* Reorder Quantity */}
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">Reorder Quantity</p>
+          <p className="text-xs font-medium">50</p>
+        </div>
+
+        {/* Default Warehouse */}
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">Default Warehouse</p>
+          <p className="text-xs font-medium">Main Warehouse</p>
+        </div>
+      </div>
     </Card>
   );
 }
