@@ -1,9 +1,20 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger,} from "@/components/ui/tabs.tsx";
 
 import BasicInformationSection from "@/features/products/sections/BasicInformationSection.tsx";
+import PricingSection from "@/features/products/sections/PricingSection.tsx";
+import InventorySection from "@/features/products/sections/InventorySection.tsx";
+import VariantsSection from "@/features/products/sections/VariantsSection.tsx";
+import AccountingSection from "@/features/products/sections/AccountingSection.tsx";
+import MediaSection from "@/features/products/sections/MediaSection.tsx";
+import AdditionalInfoSection from "@/features/products/sections/AdditionalInfoSection.tsx";
 import ProductPreviewSection from "@/features/products/sections/ProductPreviewSection.tsx";
+import VariantsSidebarSection from "@/features/products/sections/VariantsSidebarSection.tsx";
+import AccountingSidebarSection from "@/features/products/sections/AccountingSidebarSection.tsx";
+import MediaSidebarSection from "@/features/products/sections/MediaSidebarSection.tsx";
+import AdditionalInfoSidebarSection from "@/features/products/sections/AdditionalInfoSidebarSection.tsx";
 import {Info} from "lucide-react";
 import {Alert, AlertDescription} from "@/components/ui/alert.tsx";
+import {Card} from "@/components/ui/card.tsx";
 
 export default function Products() {
   return (
@@ -32,6 +43,18 @@ export default function Products() {
           <TabsTrigger value="variants" className="flex-none">
             Variants
           </TabsTrigger>
+
+          <TabsTrigger value="accounting" className="flex-none">
+            Accounting
+          </TabsTrigger>
+
+          <TabsTrigger value="media-documents" className="flex-none">
+            Media & Documents
+          </TabsTrigger>
+
+          <TabsTrigger value="additional-info" className="flex-none">
+            Additional Info
+          </TabsTrigger>
         </TabsList>
 
         {/* Basic Information */}
@@ -58,8 +81,9 @@ export default function Products() {
           className="mt-4"
         >
           <div className="grid grid-cols-[1fr_320px] gap-6">
-            <div>
-              {/* Pricing & Inventory */}
+            <div className="space-y-4 min-w-0">
+              <PricingSection />
+              <InventorySection />
             </div>
 
             <aside className="sticky top-4 self-start">
@@ -74,12 +98,60 @@ export default function Products() {
           className="mt-4"
         >
           <div className="grid grid-cols-[1fr_320px] gap-6">
-            <div>
-              {/* Variants */}
+            <div className="space-y-4 min-w-0">
+              <VariantsSection />
             </div>
 
             <aside className="sticky top-4 self-start">
-              <ProductPreviewSection/>
+              <VariantsSidebarSection />
+            </aside>
+          </div>
+        </TabsContent>
+
+        {/* Accounting */}
+        <TabsContent
+          value="accounting"
+          className="mt-4"
+        >
+          <div className="grid grid-cols-[1fr_320px] gap-6">
+            <div className="space-y-4 min-w-0">
+              <AccountingSection />
+            </div>
+
+            <aside className="sticky top-4 self-start">
+              <AccountingSidebarSection />
+            </aside>
+          </div>
+        </TabsContent>
+
+        {/* Media & Documents */}
+        <TabsContent
+          value="media-documents"
+          className="mt-4"
+        >
+          <div className="grid grid-cols-[1fr_320px] gap-6">
+            <div className="space-y-4 min-w-0">
+              <MediaSection />
+            </div>
+
+            <aside className="sticky top-4 self-start">
+              <MediaSidebarSection />
+            </aside>
+          </div>
+        </TabsContent>
+
+        {/* Additional Info */}
+        <TabsContent
+          value="additional-info"
+          className="mt-4"
+        >
+          <div className="grid grid-cols-[1fr_320px] gap-6">
+            <div className="space-y-4 min-w-0">
+              <AdditionalInfoSection />
+            </div>
+
+            <aside className="sticky top-4 self-start">
+              <AdditionalInfoSidebarSection />
             </aside>
           </div>
         </TabsContent>
