@@ -1,120 +1,88 @@
-import { Input } from "@/components/ui/input.tsx";
-import { Card } from "@/components/ui/card.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {Card} from "@/components/ui/card.tsx";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
 } from "@/components/ui/field.tsx";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Plus, ScanBarcode, Settings } from "lucide-react";
-import { ButtonGroup } from "@/components/ui/button-group.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { UnitConfiguration } from "@/features/products/components/UnitConfiguration.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
+
+import {Button} from "@/components/ui/button.tsx";
+import {Plus, ScanBarcode, Settings} from "lucide-react";
+import {Textarea} from "@/components/ui/textarea.tsx";
+import {UnitConfiguration} from "@/features/products/components/UnitConfiguration.tsx";
+import {Switch} from "@/components/ui/switch.tsx";
+import Grid from "@/components/common/Grid.tsx";
+import FormField from "@/components/common/FormField.tsx";
+import InputIconButton from "@/components/common/InputIconButton.tsx";
+import FormSelect from "@/components/common/FormSelect.tsx";
+
+const categoryOptions = [
+  {value: "engineering", label: "Engineering"},
+  {value: "design", label: "Design"},
+  {value: "marketing", label: "Marketing"},
+  {value: "sales", label: "Sales"},
+  {value: "support", label: "Customer Support"},
+  {value: "hr", label: "Human Resources"},
+  {value: "finance", label: "Finance"},
+  {value: "operations", label: "Operations"},
+];
 
 export default function BasicInformationSection() {
   return (
     <Card className="p-6 gap-4">
-      <div className="grid grid-cols-3 grid-rows-2 gap-4">
-
+      <Grid rows={2} columns={3} gap={4}>
         {/* Product Name */}
-        <Field>
-          <FieldLabel htmlFor="product-name">
-            Product Name
-            <span className="text-destructive">*</span>
-          </FieldLabel>
-
+        <FormField
+          label="Product Name"
+          htmlFor="product-name"
+          required
+        >
           <Input
             id="product-name"
             placeholder="Enter product name"
-            required
           />
-        </Field>
+        </FormField>
 
         {/* SKU */}
-        <Field>
-          <FieldLabel htmlFor="product-sku">
-            SKU
-            <span className="text-destructive">*</span>
-          </FieldLabel>
-
-          <ButtonGroup>
-            <Input
-              id="product-sku"
-              placeholder="Enter SKU"
-              required
-            />
-
-            <Button
-              type="button"
-              variant="outline"
-              aria-label="SKU settings"
-            >
-              <Settings />
-            </Button>
-          </ButtonGroup>
-        </Field>
+        <FormField
+          label="SKU"
+          htmlFor="product-sku"
+          required
+        >
+          <InputIconButton
+            id="product-sku"
+            placeholder="Enter SKU"
+            required
+            icon={<Settings/>}
+            ariaLabel="SKU settings"
+            onClick={() => {
+              // Open settings
+            }}
+          />
+        </FormField>
 
         {/* Barcode */}
-        <Field>
-          <FieldLabel htmlFor="product-barcode">
-            Barcode
-          </FieldLabel>
-
-          <ButtonGroup>
-            <Input
-              id="product-barcode"
-              placeholder="Enter Barcode"
-            />
-
-            <Button
-              type="button"
-              variant="outline"
-              aria-label="Scan barcode"
-            >
-              <ScanBarcode />
-            </Button>
-          </ButtonGroup>
-        </Field>
+        <FormField
+          label="Barcode"
+          htmlFor="product-barcode"
+        >
+          <InputIconButton
+            id="product-barcode"
+            placeholder="Enter Barcode"
+            icon={<ScanBarcode/>}
+            ariaLabel="Scan barcode"
+          />
+        </FormField>
 
         {/* Category */}
-        <Field>
-          <FieldLabel htmlFor="product-category">
-            Category
-            <span className="text-destructive">*</span>
-          </FieldLabel>
-
+        <FormField label="Category" htmlFor="product-category" required>
           <div className="flex gap-2">
-            <Select>
-              <SelectTrigger
-                id="product-category"
-                className="flex-1"
-              >
-                <SelectValue placeholder="Select Category" />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="design">Design</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="support">Customer Support</SelectItem>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FormSelect
+              id="product-category"
+              placeholder="Select Category"
+              options={categoryOptions}
+            />
 
             <Button
               type="button"
@@ -122,68 +90,34 @@ export default function BasicInformationSection() {
               size="icon"
               aria-label="Add category"
             >
-              <Plus />
+              <Plus/>
             </Button>
           </div>
-        </Field>
+        </FormField>
 
         {/* Product Type */}
-        <Field>
-          <FieldLabel htmlFor="product-type">
-            Product Type
-          </FieldLabel>
-
-          <Select>
-            <SelectTrigger
-              id="product-type"
-              className="flex-1"
-            >
-              <SelectValue placeholder="Select Type" />
-            </SelectTrigger>
-
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="engineering">Engineering</SelectItem>
-                <SelectItem value="design">Design</SelectItem>
-                <SelectItem value="marketing">Marketing</SelectItem>
-                <SelectItem value="sales">Sales</SelectItem>
-                <SelectItem value="support">Customer Support</SelectItem>
-                <SelectItem value="hr">Human Resources</SelectItem>
-                <SelectItem value="finance">Finance</SelectItem>
-                <SelectItem value="operations">Operations</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </Field>
+        <FormField
+          label="Product Type"
+          htmlFor="product-type"
+        >
+          <FormSelect
+            id="product-type"
+            placeholder="Select Type"
+            options={categoryOptions}
+          />
+        </FormField>
 
         {/* Brand / Manufacturer */}
-        <Field>
-          <FieldLabel htmlFor="product-brand">
-            Brand/Manufacturer
-          </FieldLabel>
-
+        <FormField
+          label="Brand"
+          htmlFor="product-brand"
+        >
           <div className="flex gap-2">
-            <Select>
-              <SelectTrigger
-                id="product-brand"
-                className="flex-1"
-              >
-                <SelectValue placeholder="Select brand" />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="design">Design</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="support">Customer Support</SelectItem>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FormSelect
+              id="product-brand"
+              placeholder="Select Brand"
+              options={categoryOptions}
+            />
 
             <Button
               type="button"
@@ -191,56 +125,38 @@ export default function BasicInformationSection() {
               size="icon"
               aria-label="Add brand"
             >
-              <Plus />
+              <Plus/>
             </Button>
           </div>
-        </Field>
-      </div>
+        </FormField>
+      </Grid>
 
       {/* Product Description */}
-      <Field>
-        <FieldLabel htmlFor="product-description">
-          Product Description
-        </FieldLabel>
-
+      <FormField
+        label="Description"
+        htmlFor="product-description"
+      >
         <Textarea
           id="product-description"
           placeholder="Enter Product Description..."
         />
-      </Field>
+      </FormField>
 
       {/* Units */}
-      <div className="grid grid-cols-3 grid-rows-1 gap-4">
+      <Grid columns={3} gap={4}>
 
         {/* Sales Unit */}
-        <Field>
-          <FieldLabel htmlFor="sales-unit">
-            Sales Unit
-            <span className="text-destructive">*</span>
-          </FieldLabel>
-
+        <FormField
+          label="Sales Unit"
+          htmlFor="sales-unit"
+          required
+        >
           <div className="flex gap-2">
-            <Select>
-              <SelectTrigger
-                id="sales-unit"
-                className="flex-1"
-              >
-                <SelectValue placeholder="Select Unit" />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="design">Design</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="support">Customer Support</SelectItem>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FormSelect
+              id="sales-unit"
+              placeholder="Select Unit"
+              options={categoryOptions}
+            />
 
             <Button
               type="button"
@@ -248,39 +164,22 @@ export default function BasicInformationSection() {
               size="icon"
               aria-label="Add sales unit"
             >
-              <Plus />
+              <Plus/>
             </Button>
           </div>
-        </Field>
+        </FormField>
 
         {/* Purchase Unit */}
-        <Field>
-          <FieldLabel htmlFor="purchase-unit">
-            Purchase Unit
-          </FieldLabel>
-
+        <FormField
+          label="Purchase Unit"
+          htmlFor="purchase-unit"
+        >
           <div className="flex gap-2">
-            <Select>
-              <SelectTrigger
-                id="purchase-unit"
-                className="flex-1"
-              >
-                <SelectValue placeholder="Select Unit" />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="design">Design</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                  <SelectItem value="sales">Sales</SelectItem>
-                  <SelectItem value="support">Customer Support</SelectItem>
-                  <SelectItem value="hr">Human Resources</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="operations">Operations</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FormSelect
+              id="purchase-unit"
+              placeholder="Select Unit"
+              options={categoryOptions}
+            />
 
             <Button
               type="button"
@@ -288,20 +187,24 @@ export default function BasicInformationSection() {
               size="icon"
               aria-label="Add purchase unit"
             >
-              <Plus />
+              <Plus/>
             </Button>
           </div>
-        </Field>
-
-        <UnitConfiguration />
-      </div>
+        </FormField>
+        <FormField
+          label="Conversion (Purchase → Sales)"
+          htmlFor="unit-conversion"
+        >
+          <UnitConfiguration/>
+        </FormField>
+      </Grid>
 
       {/* Product Settings */}
       <div className="grid grid-cols-2 grid-rows-2 gap-4">
 
         {/* Track Inventory */}
         <Field orientation="horizontal" className="max-w-sm">
-          <Switch id="track-inventory" />
+          <Switch id="track-inventory"/>
 
           <FieldContent>
             <FieldLabel htmlFor="track-inventory">
@@ -316,7 +219,7 @@ export default function BasicInformationSection() {
 
         {/* Is Active */}
         <Field orientation="horizontal" className="max-w-sm">
-          <Switch id="is-active" />
+          <Switch id="is-active"/>
 
           <FieldContent>
             <FieldLabel htmlFor="is-active">
@@ -330,28 +233,25 @@ export default function BasicInformationSection() {
         </Field>
 
         {/* Tags */}
-        <Field>
-          <FieldLabel htmlFor="product-tags">
-            Tags
-          </FieldLabel>
-
+        <FormField
+          label="Tags"
+          htmlFor="product-tags"
+        >
           <Input
             id="product-tags"
             placeholder="Type and press enter to add tags"
           />
-        </Field>
+        </FormField>
 
-        {/* HSN / SAC */}
-        <Field>
-          <FieldLabel htmlFor="hsn-sac-code">
-            HSN/SAC Code
-          </FieldLabel>
-
+        <FormField
+          label="HSN/SAC Code"
+          htmlFor="hsn-sac-code"
+        >
           <Input
             id="hsn-sac-code"
             placeholder="Enter HSN/SAC Code"
           />
-        </Field>
+        </FormField>
       </div>
     </Card>
   );
