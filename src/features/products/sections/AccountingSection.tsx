@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
+import {useState} from "react";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Switch} from "@/components/ui/switch.tsx";
+import {Checkbox} from "@/components/ui/checkbox.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {Input} from "@/components/ui/input.tsx";
 import {
-  Field,
+  Field, FieldContent,
   FieldDescription,
   FieldLabel,
 } from "@/components/ui/field.tsx";
@@ -13,7 +13,7 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
+  SelectItem, SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
@@ -23,191 +23,174 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "@/components/ui/input-group.tsx";
-import { FileSpreadsheet, Calculator, Settings2, IndianRupee } from "lucide-react";
+import {FileSpreadsheet, Calculator, Settings2, IndianRupee} from "lucide-react";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList
+} from "@/components/ui/combobox.tsx";
+import {Separator} from "@/components/ui/separator.tsx";
 
 export default function AccountingSection() {
   const [valuationMethod, setValuationMethod] = useState("weighted-average");
   const [isService, setIsService] = useState(false);
-
+  const frameworks = [
+    "Next.js",
+    "SvelteKit",
+    "Nuxt.js",
+    "Remix",
+    "Astro",
+  ] as const
   return (
     <div className="space-y-4">
       {/* Card 1: Accounting Information */}
       <Card className="p-6 gap-6 flex flex-col">
         {/* Header */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
-            <FileSpreadsheet className="size-4" />
+        <CardHeader>
+          <CardTitle>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
+                <FileSpreadsheet className="size-4"/>
+              </div>
+              Accounting Information
+            </div>
+          </CardTitle>
+          <CardDescription>
+            Configure how this product will be recorded in your accounts.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-4">
+            <Field>
+              <FieldLabel htmlFor="income-account">
+                Income Account
+                <span className="text-destructive">*</span>
+              </FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="expense-account">
+                Expense Account
+                <span className="text-destructive">*</span>
+              </FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="inventory-asset-account">
+                Inventory Asset Account
+                <span className="text-destructive">*</span>
+              </FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="tax-liability-account">Tax Liability Account</FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+
+            {/* Input Tax Credit Account */}
+            <Field>
+              <FieldLabel htmlFor="input-tax-credit">Input Tax Credit Account</FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
+
+            {/* Asset Account for Non-Inventory */}
+            <Field>
+              <FieldLabel htmlFor="asset-account-non-inventory">Asset Account (For Non-Inventory)</FieldLabel>
+              <Combobox items={frameworks}>
+                <ComboboxInput placeholder="Select a framework"/>
+                <ComboboxContent>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            </Field>
           </div>
-          <div>
-            <h2 className="text-sm font-semibold">Accounting Information</h2>
-            <p className="text-xs text-muted-foreground">Configure how this product will be recorded in your accounts.</p>
-          </div>
-        </div>
-
-        {/* Row 1: Income, Expense, Inventory Asset */}
-        <div className="grid grid-cols-3 gap-4">
-          {/* Income Account */}
-          <Field>
-            <FieldLabel htmlFor="income-account">
-              Income Account
-              <span className="text-destructive">*</span>
-            </FieldLabel>
-            <Select defaultValue="sales-goods">
-              <SelectTrigger id="income-account" className="h-14 py-2 flex flex-col items-start justify-center gap-0 text-left">
-                <span className="text-xs font-semibold">Sales of Goods</span>
-                <span className="text-[10px] text-muted-foreground">4001</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sales-goods">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Sales of Goods</span>
-                    <span className="text-[10px] text-muted-foreground">4001</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="other-income">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Other Income</span>
-                    <span className="text-[10px] text-muted-foreground">4002</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
+          <Separator className="my-6"/>
+          <Field orientation="horizontal" className="col-span-12">
+            <Switch
+              id="is-service-toggle"
+              checked={isService}
+              onCheckedChange={setIsService}
+            />
+            <FieldContent>
+              <FieldLabel htmlFor="is-service-toggle" className="font-semibold cursor-pointer">
+                This is a Service
+              </FieldLabel>
+              <FieldDescription>
+                Enable if this is a non-inventory service item.
+              </FieldDescription>
+            </FieldContent>
           </Field>
-
-          {/* Expense Account */}
-          <Field>
-            <FieldLabel htmlFor="expense-account">
-              Expense Account
-              <span className="text-destructive">*</span>
-            </FieldLabel>
-            <Select defaultValue="cogs">
-              <SelectTrigger id="expense-account" className="h-14 py-2 flex flex-col items-start justify-center gap-0 text-left">
-                <span className="text-xs font-semibold">Cost of Goods Sold</span>
-                <span className="text-[10px] text-muted-foreground">5001</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cogs">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Cost of Goods Sold</span>
-                    <span className="text-[10px] text-muted-foreground">5001</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="purchase-expense">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Purchase Expense</span>
-                    <span className="text-[10px] text-muted-foreground">5002</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-
-          {/* Inventory Asset Account */}
-          <Field>
-            <FieldLabel htmlFor="inventory-asset-account">
-              Inventory Asset Account
-              <span className="text-destructive">*</span>
-            </FieldLabel>
-            <Select defaultValue="trading-goods" disabled={isService}>
-              <SelectTrigger id="inventory-asset-account" className="h-14 py-2 flex flex-col items-start justify-center gap-0 text-left">
-                <span className="text-xs font-semibold">Inventory - Trading Goods</span>
-                <span className="text-[10px] text-muted-foreground">1201</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="trading-goods">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Inventory - Trading Goods</span>
-                    <span className="text-[10px] text-muted-foreground">1201</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-        </div>
-
-        {/* Row 2: Tax Liability, Input Tax Credit, Asset (Non-inventory) */}
-        <div className="grid grid-cols-3 gap-4">
-          {/* Tax Liability Account */}
-          <Field>
-            <FieldLabel htmlFor="tax-liability-account">Tax Liability Account</FieldLabel>
-            <Select defaultValue="output-cgst">
-              <SelectTrigger id="tax-liability-account" className="h-14 py-2 flex flex-col items-start justify-center gap-0 text-left">
-                <span className="text-xs font-semibold">Output CGST</span>
-                <span className="text-[10px] text-muted-foreground">2201</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="output-cgst">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Output CGST</span>
-                    <span className="text-[10px] text-muted-foreground">2201</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="output-sgst">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Output SGST</span>
-                    <span className="text-[10px] text-muted-foreground">2202</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-
-          {/* Input Tax Credit Account */}
-          <Field>
-            <FieldLabel htmlFor="input-tax-credit">Input Tax Credit Account</FieldLabel>
-            <Select defaultValue="input-cgst">
-              <SelectTrigger id="input-tax-credit" className="h-14 py-2 flex flex-col items-start justify-center gap-0 text-left">
-                <span className="text-xs font-semibold">Input CGST</span>
-                <span className="text-[10px] text-muted-foreground">1311</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="input-cgst">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Input CGST</span>
-                    <span className="text-[10px] text-muted-foreground">1311</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="input-sgst">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold">Input SGST</span>
-                    <span className="text-[10px] text-muted-foreground">1312</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-
-          {/* Asset Account for Non-Inventory */}
-          <Field>
-            <FieldLabel htmlFor="asset-account-non-inventory">Asset Account (For Non-Inventory)</FieldLabel>
-            <Select>
-              <SelectTrigger id="asset-account-non-inventory" className="h-14 text-left">
-                <span className="text-xs text-muted-foreground">Select account (Optional)</span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cash">Cash (1001)</SelectItem>
-                <SelectItem value="bank">Bank (1002)</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-        </div>
-
-        {/* This is a Service Toggle */}
-        <Field orientation="horizontal" className="items-start border-t border-border pt-4">
-          <Switch
-            id="is-service-toggle"
-            checked={isService}
-            onCheckedChange={setIsService}
-          />
-          <div className="flex flex-col gap-0.5">
-            <FieldLabel htmlFor="is-service-toggle" className="font-semibold cursor-pointer">
-              This is a Service
-            </FieldLabel>
-            <FieldDescription>
-              Enable if this is a non-inventory service item.
-            </FieldDescription>
-          </div>
-        </Field>
+        </CardContent>
       </Card>
 
       {/* Card 2: Inventory Valuation */}
@@ -215,11 +198,12 @@ export default function AccountingSection() {
         {/* Header */}
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
-            <Calculator className="size-4" />
+            <Calculator className="size-4"/>
           </div>
           <div>
             <h2 className="text-sm font-semibold">Inventory Valuation</h2>
-            <p className="text-xs text-muted-foreground">Choose how the inventory value of this product is calculated.</p>
+            <p className="text-xs text-muted-foreground">Choose how the inventory value of this product is
+              calculated.</p>
           </div>
         </div>
 
@@ -329,7 +313,7 @@ export default function AccountingSection() {
             <InputGroup>
               <InputGroupAddon align="inline-start">
                 <InputGroupText>
-                  <IndianRupee className="size-3.5" />
+                  <IndianRupee className="size-3.5"/>
                 </InputGroupText>
               </InputGroupAddon>
               <InputGroupInput
@@ -344,7 +328,7 @@ export default function AccountingSection() {
             <FieldLabel htmlFor="rounding-method">Rounding Method</FieldLabel>
             <Select defaultValue="nearest">
               <SelectTrigger id="rounding-method">
-                <SelectValue placeholder="Rounding Method" />
+                <SelectValue placeholder="Rounding Method"/>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="nearest">Round to Nearest</SelectItem>
@@ -358,7 +342,7 @@ export default function AccountingSection() {
             <FieldLabel htmlFor="decimal-places">Decimal Places</FieldLabel>
             <Select defaultValue="2">
               <SelectTrigger id="decimal-places">
-                <SelectValue placeholder="Decimal Places" />
+                <SelectValue placeholder="Decimal Places"/>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="0">0</SelectItem>
@@ -377,11 +361,12 @@ export default function AccountingSection() {
         {/* Header */}
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
-            <Settings2 className="size-4" />
+            <Settings2 className="size-4"/>
           </div>
           <div>
             <h2 className="text-sm font-semibold">Additional Settings</h2>
-            <p className="text-xs text-muted-foreground">Configure additional accounting related settings for this product.</p>
+            <p className="text-xs text-muted-foreground">Configure additional accounting related settings for this
+              product.</p>
           </div>
         </div>
 
@@ -391,7 +376,7 @@ export default function AccountingSection() {
           <div className="space-y-4">
             {/* Track Stock value in accounting */}
             <div className="flex items-start gap-3">
-              <Checkbox id="track-stock-value" defaultChecked />
+              <Checkbox id="track-stock-value" defaultChecked/>
               <div className="grid gap-1.5 leading-none">
                 <label
                   htmlFor="track-stock-value"
@@ -407,7 +392,7 @@ export default function AccountingSection() {
 
             {/* Include in financial reports */}
             <div className="flex items-start gap-3">
-              <Checkbox id="include-financial-reports" defaultChecked />
+              <Checkbox id="include-financial-reports" defaultChecked/>
               <div className="grid gap-1.5 leading-none">
                 <label
                   htmlFor="include-financial-reports"
@@ -423,7 +408,7 @@ export default function AccountingSection() {
 
             {/* Allow discount on sales */}
             <div className="flex items-start gap-3">
-              <Checkbox id="allow-discount-sales" defaultChecked />
+              <Checkbox id="allow-discount-sales" defaultChecked/>
               <div className="grid gap-1.5 leading-none">
                 <label
                   htmlFor="allow-discount-sales"
@@ -442,7 +427,7 @@ export default function AccountingSection() {
           <div className="space-y-4">
             {/* Allow purchase */}
             <Field orientation="horizontal" className="items-start gap-3">
-              <Switch id="allow-purchase" defaultChecked />
+              <Switch id="allow-purchase" defaultChecked/>
               <div className="flex flex-col gap-0.5">
                 <FieldLabel htmlFor="allow-purchase" className="font-semibold text-xs cursor-pointer">
                   Allow purchase
@@ -455,7 +440,7 @@ export default function AccountingSection() {
 
             {/* Allow sale */}
             <Field orientation="horizontal" className="items-start gap-3">
-              <Switch id="allow-sale" defaultChecked />
+              <Switch id="allow-sale" defaultChecked/>
               <div className="flex flex-col gap-0.5">
                 <FieldLabel htmlFor="allow-sale" className="font-semibold text-xs cursor-pointer">
                   Allow sale
@@ -468,7 +453,7 @@ export default function AccountingSection() {
 
             {/* Active */}
             <Field orientation="horizontal" className="items-start gap-3">
-              <Switch id="accounting-active" defaultChecked />
+              <Switch id="accounting-active" defaultChecked/>
               <div className="flex flex-col gap-0.5">
                 <FieldLabel htmlFor="accounting-active" className="font-semibold text-xs cursor-pointer">
                   Active
