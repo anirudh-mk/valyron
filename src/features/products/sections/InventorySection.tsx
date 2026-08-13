@@ -1,21 +1,30 @@
-import {useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import { useState } from "react";
 import {
-  Field, FieldContent,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
+import {
+  Field,
+  FieldContent,
   FieldDescription,
   FieldLabel,
 } from "@/components/ui/field.tsx";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
-import {Input} from "@/components/ui/input.tsx";
-import {Warehouse} from "lucide-react";
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox.tsx";
+import { Switch } from "@/components/ui/switch.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Warehouse } from "lucide-react";
+
+const INVENTORY_UNIT_OPTIONS = ["Piece", "Box", "KG", "Litre", "Meter"] as const;
+const WAREHOUSE_OPTIONS = ["Main Warehouse", "Secondary Warehouse", "Store"] as const;
 
 export default function InventorySection() {
   const [trackInventory, setTrackInventory] = useState(true);
@@ -24,14 +33,13 @@ export default function InventorySection() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
-            <Warehouse className="size-4"/>
-          </div>
-          <h2 className="text-base font-semibold">Inventory</h2>
-        </CardTitle>
+      <CardHeader className="flex flex-row items-center gap-2 pb-0">
+        <span className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary">
+          <Warehouse className="size-4" />
+        </span>
+        <CardTitle className="text-sm">Inventory</CardTitle>
       </CardHeader>
+
       <CardContent>
         <div className="grid grid-cols-12 gap-4">
 
@@ -54,9 +62,7 @@ export default function InventorySection() {
 
           {/* Initial Stock */}
           <Field className="col-span-6">
-            <FieldLabel htmlFor="initial-stock">
-              Initial Stock
-            </FieldLabel>
+            <FieldLabel htmlFor="initial-stock">Initial Stock</FieldLabel>
             <Input
               id="initial-stock"
               type="number"
@@ -68,9 +74,7 @@ export default function InventorySection() {
 
           {/* Stock Update Date */}
           <Field className="col-span-6">
-            <FieldLabel htmlFor="stock-update-date">
-              Stock Update Date
-            </FieldLabel>
+            <FieldLabel htmlFor="stock-update-date">Stock Update Date</FieldLabel>
             <Input
               id="stock-update-date"
               type="date"
@@ -81,64 +85,52 @@ export default function InventorySection() {
 
           {/* Inventory Unit */}
           <Field className="col-span-4">
-            <FieldLabel htmlFor="inventory-unit">
-              Inventory Unit
-            </FieldLabel>
-            <Select defaultValue="piece">
-              <SelectTrigger
-                id="inventory-unit"
-                disabled={!trackInventory}
-              >
-                <SelectValue placeholder="Select Unit"/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="piece">Piece</SelectItem>
-                  <SelectItem value="box">Box</SelectItem>
-                  <SelectItem value="kg">KG</SelectItem>
-                  <SelectItem value="ltr">Litre</SelectItem>
-                  <SelectItem value="mtr">Meter</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FieldLabel htmlFor="inventory-unit">Inventory Unit</FieldLabel>
+            <Combobox items={INVENTORY_UNIT_OPTIONS} disabled={!trackInventory}>
+              <ComboboxInput id="inventory-unit" placeholder="Select Unit" />
+              <ComboboxContent>
+                <ComboboxEmpty>No items found.</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item} value={item}>
+                      {item}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
           </Field>
 
           {/* Default Warehouse */}
           <Field className="col-span-4">
-            <FieldLabel htmlFor="default-warehouse">
-              Default Warehouse
-            </FieldLabel>
-            <Select defaultValue="main">
-              <SelectTrigger
-                id="default-warehouse"
-                disabled={!trackInventory}
-              >
-                <SelectValue placeholder="Select Warehouse"/>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="main">Main Warehouse</SelectItem>
-                  <SelectItem value="secondary">
-                    Secondary Warehouse
-                  </SelectItem>
-                  <SelectItem value="store">Store</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <FieldLabel htmlFor="default-warehouse">Default Warehouse</FieldLabel>
+            <Combobox items={WAREHOUSE_OPTIONS} disabled={!trackInventory}>
+              <ComboboxInput id="default-warehouse" placeholder="Select Warehouse" />
+              <ComboboxContent>
+                <ComboboxEmpty>No items found.</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item} value={item}>
+                      {item}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
           </Field>
 
           {/* SKU in Warehouse */}
           <Field className="col-span-4">
-            <FieldLabel htmlFor="sku-warehouse">
-              SKU in Warehouse (Optional)
-            </FieldLabel>
+            <FieldLabel htmlFor="sku-warehouse">SKU in Warehouse (Optional)</FieldLabel>
             <Input
               id="sku-warehouse"
               placeholder="Enter SKU in warehouse"
               disabled={!trackInventory}
             />
           </Field>
+
           <p className="text-sm font-semibold text-primary col-span-12">Stock Settings</p>
+
           <Field className="col-span-3">
             <FieldLabel htmlFor="reorder-point">Reorder Point</FieldLabel>
             <Input
@@ -148,10 +140,9 @@ export default function InventorySection() {
               defaultValue="10"
               disabled={!trackInventory}
             />
-            <FieldDescription>
-              Stock level at which you will be notified.
-            </FieldDescription>
+            <FieldDescription>Stock level at which you will be notified.</FieldDescription>
           </Field>
+
           <Field className="col-span-3">
             <FieldLabel htmlFor="reorder-qty">Reorder Quantity</FieldLabel>
             <Input
@@ -161,38 +152,31 @@ export default function InventorySection() {
               defaultValue="50"
               disabled={!trackInventory}
             />
-            <FieldDescription>
-              Quantity to reorder when stock reaches reorder point.
-            </FieldDescription>
+            <FieldDescription>Quantity to reorder when stock reaches reorder point.</FieldDescription>
           </Field>
+
           <Field className="col-span-3">
             <FieldLabel htmlFor="allow-negative-stock">Allow Negative Stock</FieldLabel>
-            <div className="h-9 flex items-center">
-              <Switch
-                id="allow-negative-stock"
-                checked={allowNegativeStock}
-                onCheckedChange={setAllowNegativeStock}
-                disabled={!trackInventory}
-              />
-            </div>
-            <FieldDescription>
-              Allow stock to go below zero.
-            </FieldDescription>
+            <Switch
+              id="allow-negative-stock"
+              checked={allowNegativeStock}
+              onCheckedChange={setAllowNegativeStock}
+              disabled={!trackInventory}
+            />
+            <FieldDescription>Allow stock to go below zero.</FieldDescription>
           </Field>
+
           <Field className="col-span-3">
             <FieldLabel htmlFor="stock-expiry-tracking">Stock Expiry Tracking</FieldLabel>
-            <div className="h-9 flex items-center">
-              <Switch
-                id="stock-expiry-tracking"
-                checked={stockExpiryTracking}
-                onCheckedChange={setStockExpiryTracking}
-                disabled={!trackInventory}
-              />
-            </div>
-            <FieldDescription>
-              Enable to track expiry date.
-            </FieldDescription>
+            <Switch
+              id="stock-expiry-tracking"
+              checked={stockExpiryTracking}
+              onCheckedChange={setStockExpiryTracking}
+              disabled={!trackInventory}
+            />
+            <FieldDescription>Enable to track expiry date.</FieldDescription>
           </Field>
+
         </div>
       </CardContent>
     </Card>

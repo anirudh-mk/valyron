@@ -1,9 +1,6 @@
 import {useState} from "react";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {
-  Field,
-  FieldLabel,
-} from "@/components/ui/field.tsx";
+import {Field, FieldLabel} from "@/components/ui/field.tsx";
 import {
   InputGroup,
   InputGroupAddon,
@@ -18,9 +15,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.tsx";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table.tsx";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
+import {Separator} from "@/components/ui/separator.tsx";
 import {
   IndianRupee,
   Plus,
@@ -28,8 +41,8 @@ import {
   Trash2,
   MoreHorizontal,
   Tag,
+  Pencil,
 } from "lucide-react";
-import {Separator} from "@/components/ui/separator.tsx";
 
 interface PriceLevel {
   id: number;
@@ -138,6 +151,7 @@ export default function PricingSection() {
             </div>
           </Field>
 
+          {/* Tax */}
           <Field>
             <FieldLabel htmlFor="tax">Tax</FieldLabel>
             <Select defaultValue="gst18">
@@ -173,94 +187,103 @@ export default function PricingSection() {
           </Field>
 
           {/* Price Inclusive of Tax */}
-          <Field
-            orientation="horizontal"
-            className="col-span-2 self-end h-9 items-center pb-0"
-          >
+          <Field orientation="horizontal" className="col-span-2 self-end h-9 items-center pb-0">
             <Switch
               id="price-inclusive-tax"
               checked={priceInclusive}
               onCheckedChange={setPriceInclusive}
             />
-
-            <FieldLabel
-              htmlFor="price-inclusive-tax"
-              className="mb-0 cursor-pointer font-normal text-sm"
-            >
+            <FieldLabel htmlFor="price-inclusive-tax" className="mb-0 cursor-pointer font-normal text-sm">
               Price Inclusive of Tax
             </FieldLabel>
           </Field>
         </div>
 
         <Separator className="my-6"/>
+
+        {/* Price Levels */}
         <div className="space-y-3">
           <FieldLabel>Price Levels (Optional)</FieldLabel>
 
           <div className="rounded-md border border-border overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-              <tr className="bg-muted/40 border-b border-border">
-                <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">Price Level</th>
-                <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">Selling Price</th>
-                <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">Margin %</th>
-                <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">Is Default</th>
-                <th className="text-left px-4 py-2.5 font-medium text-muted-foreground">Actions</th>
-              </tr>
-              </thead>
-              <tbody>
-              {priceLevels.map((level, idx) => (
-                <tr
-                  key={level.id}
-                  className={`border-b border-border last:border-b-0 ${idx % 2 === 0 ? "" : "bg-muted/20"}`}
-                >
-                  <td className="px-4 py-2.5 text-sm font-medium">{level.name}</td>
-                  <td className="px-4 py-2.5">
-                    <InputGroup className="h-8 max-w-[140px]">
-                      <InputGroupAddon align="inline-start">
-                        <InputGroupText>
-                          <IndianRupee className="size-3"/>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <InputGroupInput
-                        type="number"
-                        defaultValue={level.sellingPrice}
-                        className="text-sm"
-                      />
-                    </InputGroup>
-                  </td>
-                  <td className="px-4 py-2.5 text-sm text-muted-foreground">{level.margin}</td>
-                  <td className="px-4 py-2.5">
-                    {level.isDefault ? (
-                      <Badge
-                        className="gap-1 bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-800">
-                        <Star className="size-3 fill-amber-500 text-amber-500"/>
-                        Default
-                      </Badge>
-                    ) : (
-                      <span className="text-muted-foreground">–</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
-                        <MoreHorizontal className="size-4"/>
-                      </Button>
-                      {!level.isDefault && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          onClick={() => handleDeletePriceLevel(level.id)}
-                        >
-                          <Trash2 className="size-4"/>
-                        </Button>
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/40">
+                  <TableHead className="px-4 py-2.5 text-xs">Price Level</TableHead>
+                  <TableHead className="px-4 py-2.5 text-xs">Selling Price</TableHead>
+                  <TableHead className="px-4 py-2.5 text-xs">Margin %</TableHead>
+                  <TableHead className="px-4 py-2.5 text-xs">Is Default</TableHead>
+                  <TableHead className="px-4 py-2.5 text-xs">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {priceLevels.map((level) => (
+                  <TableRow key={level.id}>
+                    <TableCell className="px-4 py-2.5 text-sm font-medium">
+                      {level.name}
+                    </TableCell>
+
+                    <TableCell className="px-4 py-2.5">
+                      <InputGroup className="h-8 max-w-[140px]">
+                        <InputGroupAddon align="inline-start">
+                          <InputGroupText>
+                            <IndianRupee className="size-3"/>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <InputGroupInput
+                          type="number"
+                          defaultValue={level.sellingPrice}
+                          className="text-sm"
+                        />
+                      </InputGroup>
+                    </TableCell>
+
+                    <TableCell className="px-4 py-2.5 text-sm text-muted-foreground">
+                      {level.margin}
+                    </TableCell>
+
+                    <TableCell className="px-4 py-2.5">
+                      {level.isDefault ? (
+                        <Badge className="gap-1 bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-800">
+                          <Star className="size-3 fill-amber-500 text-amber-500"/>
+                          Default
+                        </Badge>
+                      ) : (
+                        <span className="text-muted-foreground">–</span>
                       )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              </tbody>
-            </table>
+                    </TableCell>
+
+                    <TableCell className="px-4 py-2.5">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
+                            <MoreHorizontal className="size-4"/>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Pencil className="size-3.5"/>
+                            Edit
+                          </DropdownMenuItem>
+                          {!level.isDefault && (
+                            <>
+                              <DropdownMenuSeparator/>
+                              <DropdownMenuItem
+                                variant="destructive"
+                                onClick={() => handleDeletePriceLevel(level.id)}
+                              >
+                                <Trash2 className="size-3.5"/>
+                                Delete
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
 
           {/* Add Price Level */}
