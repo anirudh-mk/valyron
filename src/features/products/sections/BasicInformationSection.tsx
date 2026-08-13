@@ -47,6 +47,7 @@ function ComboboxWithAdd({
 }) {
   return (
     <div className="flex gap-2">
+      <div className="flex-1 min-w-0">
       <Combobox items={items}>
         <ComboboxInput id={id} placeholder={placeholder} />
         <ComboboxContent>
@@ -60,6 +61,7 @@ function ComboboxWithAdd({
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
+      </div>
       <Button type="button" variant="outline" size="icon" aria-label={addLabel}>
         <Plus />
       </Button>
