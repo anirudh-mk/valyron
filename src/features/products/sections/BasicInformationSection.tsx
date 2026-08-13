@@ -1,258 +1,229 @@
-import {Input} from "@/components/ui/input.tsx";
-import {Card} from "@/components/ui/card.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
+import { Switch } from "@/components/ui/switch.tsx";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
 } from "@/components/ui/field.tsx";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group.tsx";
+import { UnitConfiguration } from "@/features/products/components/UnitConfiguration.tsx";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox.tsx";
+import { Plus, ScanBarcode, Settings } from "lucide-react";
 
-import {Button} from "@/components/ui/button.tsx";
-import {Plus, ScanBarcode, Settings} from "lucide-react";
-import {Textarea} from "@/components/ui/textarea.tsx";
-import {UnitConfiguration} from "@/features/products/components/UnitConfiguration.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
-import Grid from "@/components/common/Grid.tsx";
-import FormField from "@/components/common/FormField.tsx";
-import InputIconButton from "@/components/common/InputIconButton.tsx";
-import FormSelect from "@/components/common/FormSelect.tsx";
+const CATEGORY_OPTIONS = [
+  "Engineering", "Design", "Marketing", "Sales",
+  "Customer Support", "Human Resources", "Finance", "Operations",
+] as const;
 
-const categoryOptions = [
-  {value: "engineering", label: "Engineering"},
-  {value: "design", label: "Design"},
-  {value: "marketing", label: "Marketing"},
-  {value: "sales", label: "Sales"},
-  {value: "support", label: "Customer Support"},
-  {value: "hr", label: "Human Resources"},
-  {value: "finance", label: "Finance"},
-  {value: "operations", label: "Operations"},
-];
+const PRODUCT_TYPE_OPTIONS = ["Physical", "Service", "Digital"] as const;
+const UNIT_OPTIONS = ["Piece", "Box", "KG", "Litre", "Meter"] as const;
+
+function ComboboxWithAdd({
+  id,
+  placeholder,
+  items,
+  addLabel,
+}: {
+  id: string;
+  placeholder: string;
+  items: readonly string[];
+  addLabel: string;
+}) {
+  return (
+    <div className="flex gap-2">
+      <Combobox items={items}>
+        <ComboboxInput id={id} placeholder={placeholder} />
+        <ComboboxContent>
+          <ComboboxEmpty>No results.</ComboboxEmpty>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+      <Button type="button" variant="outline" size="icon" aria-label={addLabel}>
+        <Plus />
+      </Button>
+    </div>
+  );
+}
 
 export default function BasicInformationSection() {
   return (
-    <Card className="p-6 gap-4">
-      <Grid rows={2} columns={3} gap={4}>
-        {/* Product Name */}
-        <FormField
-          label="Product Name"
-          htmlFor="product-name"
-          required
-        >
-          <Input
-            id="product-name"
-            placeholder="Enter product name"
-          />
-        </FormField>
+    <Card>
+      <CardHeader className="flex flex-row items-center gap-2 pb-0">
+        <CardTitle className="text-sm">Basic Information</CardTitle>
+      </CardHeader>
 
-        {/* SKU */}
-        <FormField
-          label="SKU"
-          htmlFor="product-sku"
-          required
-        >
-          <InputIconButton
-            id="product-sku"
-            placeholder="Enter SKU"
-            required
-            icon={<Settings/>}
-            ariaLabel="SKU settings"
-            onClick={() => {
-              // Open settings
-            }}
-          />
-        </FormField>
+      <CardContent className="space-y-4">
+        {/* Row 1: Name, SKU, Barcode */}
+        <div className="grid grid-cols-3 gap-4">
+          <Field>
+            <FieldLabel htmlFor="product-name">
+              Product Name <span className="text-destructive">*</span>
+            </FieldLabel>
+            <Input id="product-name" placeholder="Enter product name" />
+          </Field>
 
-        {/* Barcode */}
-        <FormField
-          label="Barcode"
-          htmlFor="product-barcode"
-        >
-          <InputIconButton
-            id="product-barcode"
-            placeholder="Enter Barcode"
-            icon={<ScanBarcode/>}
-            ariaLabel="Scan barcode"
-          />
-        </FormField>
+          <Field>
+            <FieldLabel htmlFor="product-sku">
+              SKU <span className="text-destructive">*</span>
+            </FieldLabel>
+            <InputGroup>
+              <InputGroupInput id="product-sku" placeholder="Enter SKU" />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton aria-label="SKU settings">
+                  <Settings />
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
 
-        {/* Category */}
-        <FormField label="Category" htmlFor="product-category" required>
-          <div className="flex gap-2">
-            <FormSelect
+          <Field>
+            <FieldLabel htmlFor="product-barcode">Barcode</FieldLabel>
+            <InputGroup>
+              <InputGroupInput id="product-barcode" placeholder="Enter Barcode" />
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton aria-label="Scan barcode">
+                  <ScanBarcode />
+                </InputGroupButton>
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
+        </div>
+
+        {/* Row 2: Category, Product Type, Brand */}
+        <div className="grid grid-cols-3 gap-4">
+          <Field>
+            <FieldLabel htmlFor="product-category">
+              Category <span className="text-destructive">*</span>
+            </FieldLabel>
+            <ComboboxWithAdd
               id="product-category"
               placeholder="Select Category"
-              options={categoryOptions}
+              items={CATEGORY_OPTIONS}
+              addLabel="Add category"
             />
+          </Field>
 
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              aria-label="Add category"
-            >
-              <Plus/>
-            </Button>
-          </div>
-        </FormField>
+          <Field>
+            <FieldLabel htmlFor="product-type">Product Type</FieldLabel>
+            <Combobox items={PRODUCT_TYPE_OPTIONS}>
+              <ComboboxInput id="product-type" placeholder="Select Type" />
+              <ComboboxContent>
+                <ComboboxEmpty>No results.</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item} value={item}>
+                      {item}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
 
-        {/* Product Type */}
-        <FormField
-          label="Product Type"
-          htmlFor="product-type"
-        >
-          <FormSelect
-            id="product-type"
-            placeholder="Select Type"
-            options={categoryOptions}
-          />
-        </FormField>
-
-        {/* Brand / Manufacturer */}
-        <FormField
-          label="Brand"
-          htmlFor="product-brand"
-        >
-          <div className="flex gap-2">
-            <FormSelect
+          <Field>
+            <FieldLabel htmlFor="product-brand">Brand</FieldLabel>
+            <ComboboxWithAdd
               id="product-brand"
               placeholder="Select Brand"
-              options={categoryOptions}
+              items={CATEGORY_OPTIONS}
+              addLabel="Add brand"
             />
+          </Field>
+        </div>
 
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              aria-label="Add brand"
-            >
-              <Plus/>
-            </Button>
-          </div>
-        </FormField>
-      </Grid>
+        {/* Description */}
+        <Field>
+          <FieldLabel htmlFor="product-description">Description</FieldLabel>
+          <Textarea id="product-description" placeholder="Enter Product Description..." />
+        </Field>
 
-      {/* Product Description */}
-      <FormField
-        label="Description"
-        htmlFor="product-description"
-      >
-        <Textarea
-          id="product-description"
-          placeholder="Enter Product Description..."
-        />
-      </FormField>
-
-      {/* Units */}
-      <Grid columns={3} gap={4}>
-
-        {/* Sales Unit */}
-        <FormField
-          label="Sales Unit"
-          htmlFor="sales-unit"
-          required
-        >
-          <div className="flex gap-2">
-            <FormSelect
+        {/* Row 3: Sales Unit, Purchase Unit, Conversion */}
+        <div className="grid grid-cols-3 gap-4">
+          <Field>
+            <FieldLabel htmlFor="sales-unit">
+              Sales Unit <span className="text-destructive">*</span>
+            </FieldLabel>
+            <ComboboxWithAdd
               id="sales-unit"
               placeholder="Select Unit"
-              options={categoryOptions}
+              items={UNIT_OPTIONS}
+              addLabel="Add sales unit"
             />
+          </Field>
 
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              aria-label="Add sales unit"
-            >
-              <Plus/>
-            </Button>
-          </div>
-        </FormField>
-
-        {/* Purchase Unit */}
-        <FormField
-          label="Purchase Unit"
-          htmlFor="purchase-unit"
-        >
-          <div className="flex gap-2">
-            <FormSelect
+          <Field>
+            <FieldLabel htmlFor="purchase-unit">Purchase Unit</FieldLabel>
+            <ComboboxWithAdd
               id="purchase-unit"
               placeholder="Select Unit"
-              options={categoryOptions}
+              items={UNIT_OPTIONS}
+              addLabel="Add purchase unit"
             />
+          </Field>
 
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              aria-label="Add purchase unit"
-            >
-              <Plus/>
-            </Button>
-          </div>
-        </FormField>
-        <FormField
-          label="Conversion (Purchase → Sales)"
-          htmlFor="unit-conversion"
-        >
-          <UnitConfiguration/>
-        </FormField>
-      </Grid>
-
-      {/* Product Settings */}
-      <div className="grid grid-cols-2 grid-rows-2 gap-4">
-
-        {/* Track Inventory */}
-        <Field orientation="horizontal" className="max-w-sm">
-          <Switch id="track-inventory"/>
-
-          <FieldContent>
-            <FieldLabel htmlFor="track-inventory">
-              Track Inventory
+          <Field>
+            <FieldLabel htmlFor="purchase-conversion">
+              Conversion (Purchase → Sales)
             </FieldLabel>
+            <UnitConfiguration />
+          </Field>
+        </div>
 
-            <FieldDescription>
-              Enable if you want to track stock for this product.
-            </FieldDescription>
-          </FieldContent>
-        </Field>
+        {/* Settings row */}
+        <div className="grid grid-cols-2 gap-4">
+          <Field orientation="horizontal">
+            <Switch id="track-inventory" />
+            <FieldContent>
+              <FieldLabel htmlFor="track-inventory">Track Inventory</FieldLabel>
+              <FieldDescription>
+                Enable if you want to track stock for this product.
+              </FieldDescription>
+            </FieldContent>
+          </Field>
 
-        {/* Is Active */}
-        <Field orientation="horizontal" className="max-w-sm">
-          <Switch id="is-active"/>
+          <Field orientation="horizontal">
+            <Switch id="is-active" />
+            <FieldContent>
+              <FieldLabel htmlFor="is-active">Is Active</FieldLabel>
+              <FieldDescription>
+                Inactive products will not appear in transactions.
+              </FieldDescription>
+            </FieldContent>
+          </Field>
 
-          <FieldContent>
-            <FieldLabel htmlFor="is-active">
-              Is Active
-            </FieldLabel>
+          <Field>
+            <FieldLabel htmlFor="product-tags">Tags</FieldLabel>
+            <Input id="product-tags" placeholder="Type and press enter to add tags" />
+          </Field>
 
-            <FieldDescription>
-              Inactive products will not appear in transactions.
-            </FieldDescription>
-          </FieldContent>
-        </Field>
-
-        {/* Tags */}
-        <FormField
-          label="Tags"
-          htmlFor="product-tags"
-        >
-          <Input
-            id="product-tags"
-            placeholder="Type and press enter to add tags"
-          />
-        </FormField>
-
-        <FormField
-          label="HSN/SAC Code"
-          htmlFor="hsn-sac-code"
-        >
-          <Input
-            id="hsn-sac-code"
-            placeholder="Enter HSN/SAC Code"
-          />
-        </FormField>
-      </div>
+          <Field>
+            <FieldLabel htmlFor="hsn-sac-code">HSN/SAC Code</FieldLabel>
+            <Input id="hsn-sac-code" placeholder="Enter HSN/SAC Code" />
+          </Field>
+        </div>
+      </CardContent>
     </Card>
   );
 }
