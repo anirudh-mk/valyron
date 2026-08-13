@@ -385,9 +385,9 @@ export default function ProductListPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-4">
       {/* Header Row */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Products</h1>
           <p className="text-sm text-muted-foreground">Manage your product catalog and inventory</p>
@@ -433,10 +433,10 @@ export default function ProductListPage() {
       </div>
 
       {/* Stats Cards Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
         {/* Card 1 */}
         <Card className="shadow-xs border-muted-foreground/10 hover:border-blue-500/30 transition-all">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3 space-y-2">
             <div className="flex justify-between items-start">
               <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase">
                 Total Products
@@ -461,7 +461,7 @@ export default function ProductListPage() {
 
         {/* Card 2 */}
         <Card className="shadow-xs border-muted-foreground/10 hover:border-emerald-500/30 transition-all">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3 space-y-2">
             <div className="flex justify-between items-start">
               <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase">
                 Total Stock Value
@@ -482,7 +482,7 @@ export default function ProductListPage() {
 
         {/* Card 3 */}
         <Card className="shadow-xs border-muted-foreground/10 hover:border-amber-500/30 transition-all">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3 space-y-2">
             <div className="flex justify-between items-start">
               <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase">
                 Low Stock Items
@@ -507,7 +507,7 @@ export default function ProductListPage() {
 
         {/* Card 4 */}
         <Card className="shadow-xs border-muted-foreground/10 hover:border-rose-500/30 transition-all">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3 space-y-2">
             <div className="flex justify-between items-start">
               <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase">
                 Out of Stock Items
@@ -532,7 +532,7 @@ export default function ProductListPage() {
 
         {/* Card 5 */}
         <Card className="shadow-xs border-muted-foreground/10 hover:border-purple-500/30 transition-all">
-          <CardContent className="p-4 space-y-3">
+          <CardContent className="p-3 space-y-2">
             <div className="flex justify-between items-start">
               <span className="text-xs font-semibold text-muted-foreground tracking-wide uppercase">
                 Recently Added
@@ -553,10 +553,10 @@ export default function ProductListPage() {
 
       {/* Filters & Control Panel */}
       <Card className="shadow-xs border-muted-foreground/10">
-        <CardContent className="p-4 space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <CardContent className="p-3 space-y-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
             {/* Left aligned filter inputs */}
-            <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
               <div className="relative flex-1 min-w-[200px] max-w-sm">
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -683,28 +683,28 @@ export default function ProductListPage() {
                   aria-label="Select all products"
                 />
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 Product
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 SKU
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 Category
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3 text-right">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2 text-right">
                 Sales Price
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3 text-right">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2 text-right">
                 Cost Price
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 Stock
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 Stock Status
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-3">
+              <TableHead className="font-semibold text-muted-foreground text-xs uppercase tracking-wider py-2">
                 Status
               </TableHead>
               <TableHead className="w-[50px] pr-4"></TableHead>
@@ -737,9 +737,9 @@ export default function ProductListPage() {
                         aria-label={`Select ${product.name}`}
                       />
                     </TableCell>
-                    <TableCell className="py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 shrink-0 rounded-md border bg-muted/30 flex items-center justify-center shadow-xs">
+                    <TableCell className="py-2">
+                      <div className="flex items-center gap-2">
+                        <div className="h-9 w-9 shrink-0 rounded-md border bg-muted/30 flex items-center justify-center shadow-xs">
                           {renderProductIcon(product.iconType)}
                         </div>
                         <div className="flex flex-col min-w-0">
@@ -752,19 +752,19 @@ export default function ProductListPage() {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground font-medium py-3">
+                    <TableCell className="font-mono text-xs text-muted-foreground font-medium py-2">
                       {product.sku}
                     </TableCell>
-                    <TableCell className="py-3">
+                    <TableCell className="py-2">
                       {getCategoryBadge(product.category)}
                     </TableCell>
-                    <TableCell className="text-right font-medium text-foreground py-3">
+                    <TableCell className="text-right font-medium text-foreground py-2">
                       ${product.salesPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                     </TableCell>
-                    <TableCell className="text-right text-muted-foreground py-3">
+                    <TableCell className="text-right text-muted-foreground py-2">
                       ${product.costPrice.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                     </TableCell>
-                    <TableCell className="py-3">
+                    <TableCell className="py-2">
                       <div className="flex flex-col">
                         <span className="font-semibold text-sm text-foreground">{product.stock}</span>
                         <span className="text-[10px] text-muted-foreground uppercase font-medium tracking-wider">
@@ -772,15 +772,15 @@ export default function ProductListPage() {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="py-3">
+                    <TableCell className="py-2">
                       {getStockStatusBadge(product.stockStatus)}
                     </TableCell>
-                    <TableCell className="py-3">
+                    <TableCell className="py-2">
                       <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 rounded-md font-semibold px-2">
                         {product.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="pr-4 text-right">
+                    <TableCell className="pr-4 text-right py-2">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
