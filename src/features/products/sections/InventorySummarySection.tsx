@@ -1,35 +1,34 @@
-import { Card } from "@/components/ui/card.tsx";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
+
+const INVENTORY_ROWS = [
+  { label: "Initial Stock", value: "25" },
+  { label: "Reorder Point", value: "10" },
+  { label: "Reorder Quantity", value: "50" },
+  { label: "Default Warehouse", value: "Main Warehouse" },
+] as const;
 
 export default function InventorySummarySection() {
   return (
-    <Card className="p-4 space-y-3">
-      <h3 className="text-sm font-semibold">Inventory Summary</h3>
+    <Card>
+      <CardHeader className="pb-0">
+        <CardTitle className="text-sm">Inventory Summary</CardTitle>
+      </CardHeader>
 
-      <div className="space-y-2.5">
-        {/* Initial Stock */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">Initial Stock</p>
-          <p className="text-xs font-medium">25</p>
-        </div>
-
-        {/* Reorder Point */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">Reorder Point</p>
-          <p className="text-xs font-medium">10</p>
-        </div>
-
-        {/* Reorder Quantity */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">Reorder Quantity</p>
-          <p className="text-xs font-medium">50</p>
-        </div>
-
-        {/* Default Warehouse */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">Default Warehouse</p>
-          <p className="text-xs font-medium">Main Warehouse</p>
-        </div>
-      </div>
+      <CardContent>
+        <dl className="space-y-2.5">
+          {INVENTORY_ROWS.map(({ label, value }) => (
+            <div key={label} className="flex items-center justify-between">
+              <dt className="text-xs text-muted-foreground">{label}</dt>
+              <dd className="text-xs font-medium">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </CardContent>
     </Card>
   );
 }
