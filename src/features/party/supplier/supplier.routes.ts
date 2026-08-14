@@ -1,14 +1,14 @@
 import type {AppRoute} from "@/routes/types.ts";
 import {lazy} from "react";
 
-const Supplier = lazy(
-  () => import("@/features/party/supplier/pages/SuppliersWithTabs.tsx")
+const SupplierCreate = lazy(
+  () => import("@/features/party/supplier/pages/SupplierCreate.tsx")
 );
 
 const supplierRoutes: AppRoute[] = [
   {
     path: "",
-    component: Supplier,
+    component: SupplierCreate,
   },
 ];
 
