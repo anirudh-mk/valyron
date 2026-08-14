@@ -1,12 +1,12 @@
 import {useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Field, FieldLabel} from "@/components/ui/field.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/base/card.tsx";
+import {Field, FieldLabel} from "@/components/base/field.tsx";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "@/components/ui/input-group.tsx";
+} from "@/components/base/input-group.tsx";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select.tsx";
+} from "@/components/base/select.tsx";
 import {
   Table,
   TableBody,
@@ -22,18 +22,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table.tsx";
+} from "@/components/base/table.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
-import {Separator} from "@/components/ui/separator.tsx";
+} from "@/components/base/dropdown-menu.tsx";
+import {Switch} from "@/components/base/switch.tsx";
+import {Button} from "@/components/base/button.tsx";
+import {Badge} from "@/components/base/badge.tsx";
+import {Separator} from "@/components/base/separator.tsx";
 import {
   IndianRupee,
   Plus,

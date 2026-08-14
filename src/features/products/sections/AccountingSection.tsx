@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/base/card.tsx";
+import { RadioGroup, RadioGroupItem } from "@/components/base/radio-group.tsx";
+import { Switch } from "@/components/base/switch.tsx";
+import { Checkbox } from "@/components/base/checkbox.tsx";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
   FieldTitle,
-} from "@/components/ui/field.tsx";
+} from "@/components/base/field.tsx";
 
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "@/components/ui/input-group.tsx";
+} from "@/components/base/input-group.tsx";
 import {
   Combobox,
   ComboboxContent,
@@ -24,8 +24,8 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "@/components/ui/combobox.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+} from "@/components/base/combobox.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 import { FileSpreadsheet, Calculator, Settings2, IndianRupee } from "lucide-react";
 
 const VALUATION_METHODS = [

@@ -5,20 +5,20 @@ import {
   CheckCircle2, CreditCard, ClipboardList,
   Activity, Sparkles, ShoppingCart,
 } from "lucide-react";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Input } from "@/components/base/input.tsx";
+import { Label } from "@/components/base/label.tsx";
+import { Separator } from "@/components/base/separator.tsx";
+import { Textarea } from "@/components/base/textarea.tsx";
+import { Badge } from "@/components/base/badge.tsx";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select.tsx";
+} from "@/components/base/select.tsx";
 import { cn } from "@/lib/utils.ts";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/base/popover.tsx";
 import {
   Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
-} from "@/components/ui/command.tsx";
+} from "@/components/base/command.tsx";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type LineItem = {

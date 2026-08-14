@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field.tsx";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/base/card.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Field, FieldDescription, FieldLabel } from "@/components/base/field.tsx";
 import {
   Attachment,
   AttachmentAction,
@@ -13,19 +13,19 @@ import {
   AttachmentMedia,
   AttachmentTitle,
   AttachmentTrigger,
-} from "@/components/ui/attachment.tsx";
+} from "@/components/base/attachment.tsx";
 import {
   Empty,
   EmptyDescription,
   EmptyMedia,
   EmptyTitle,
-} from "@/components/ui/empty.tsx";
+} from "@/components/base/empty.tsx";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "@/components/ui/input-group.tsx";
+} from "@/components/base/input-group.tsx";
 import {
   Table,
   TableBody,
@@ -33,20 +33,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table.tsx";
+} from "@/components/base/table.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
+} from "@/components/base/dropdown-menu.tsx";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip.tsx";
+} from "@/components/base/tooltip.tsx";
 import {
   Upload,
   MoreVertical,

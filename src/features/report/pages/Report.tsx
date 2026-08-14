@@ -1,7 +1,7 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/base/card.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 import { 
   FileText, 
   TrendingUp, 

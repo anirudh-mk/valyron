@@ -32,25 +32,25 @@ import {
   Check,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button.tsx";
-import { Card, CardContent } from "@/components/ui/card.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Card, CardContent } from "@/components/base/card.tsx";
+import { Input } from "@/components/base/input.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Checkbox } from "@/components/base/checkbox.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
+} from "@/components/base/dropdown-menu.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select.tsx";
+} from "@/components/base/select.tsx";
 import {
   Table,
   TableBody,
@@ -58,7 +58,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table.tsx";
+} from "@/components/base/table.tsx";
 
 // Mock product items based on screenshot
 interface ProductItem {

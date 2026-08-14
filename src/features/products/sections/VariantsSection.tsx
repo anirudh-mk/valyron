@@ -1,9 +1,9 @@
 import {useState} from "react";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Input} from "@/components/ui/input.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/base/card.tsx";
+import {Switch} from "@/components/base/switch.tsx";
+import {Badge} from "@/components/base/badge.tsx";
+import {Button} from "@/components/base/button.tsx";
+import {Input} from "@/components/base/input.tsx";
 import {
   Table,
   TableBody,
@@ -11,14 +11,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table.tsx";
+} from "@/components/base/table.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
+} from "@/components/base/dropdown-menu.tsx";
 import {
   Info,
   GripVertical,
@@ -36,8 +36,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "@/components/ui/input-group.tsx";
-import {Alert, AlertAction, AlertDescription, AlertTitle} from "@/components/ui/alert.tsx";
+} from "@/components/base/input-group.tsx";
+import {Alert, AlertAction, AlertDescription, AlertTitle} from "@/components/base/alert.tsx";
 
 interface Attribute {
   id: string;

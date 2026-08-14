@@ -3,8 +3,8 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+} from "@/components/base/card.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 
 export default function PricingSummarySection() {
   return (

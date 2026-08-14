@@ -8,7 +8,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/base/sidebar"
 import {sidebarConfig} from "@/shared/config/navigation/sidebar.config.ts";
 import type {ComponentProps} from "react";
 

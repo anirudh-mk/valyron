@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+import { Card, CardHeader, CardContent } from "@/components/base/card.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/base/tabs.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 import { FileText, Plus, AlertCircle, Download, Eye, Send, Printer } from "lucide-react";
 import { format } from "date-fns";
 

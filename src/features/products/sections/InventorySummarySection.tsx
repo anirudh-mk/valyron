@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card.tsx";
+} from "@/components/base/card.tsx";
 
 const INVENTORY_ROWS = [
   { label: "Initial Stock", value: "25" },
