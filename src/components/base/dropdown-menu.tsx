@@ -2,31 +2,9 @@ import * as React from "react"
 import * as UI from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 
-const DropdownMenu = React.forwardRef<
-  React.ComponentRef<typeof UI.DropdownMenu>,
-  React.ComponentPropsWithoutRef<typeof UI.DropdownMenu>
->((props, ref) => {
-  return (
-    <UI.DropdownMenu
-      ref={ref}
-      {...props}
-    />
-  )
-})
-DropdownMenu.displayName = "DropdownMenu"
+const DropdownMenu = UI.DropdownMenu
 
-const DropdownMenuPortal = React.forwardRef<
-  React.ComponentRef<typeof UI.DropdownMenuPortal>,
-  React.ComponentPropsWithoutRef<typeof UI.DropdownMenuPortal>
->((props, ref) => {
-  return (
-    <UI.DropdownMenuPortal
-      ref={ref}
-      {...props}
-    />
-  )
-})
-DropdownMenuPortal.displayName = "DropdownMenuPortal"
+const DropdownMenuPortal = UI.DropdownMenuPortal
 
 const DropdownMenuTrigger = React.forwardRef<
   React.ComponentRef<typeof UI.DropdownMenuTrigger>,
@@ -165,18 +143,7 @@ const DropdownMenuShortcut = React.forwardRef<
 })
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
-const DropdownMenuSub = React.forwardRef<
-  React.ComponentRef<typeof UI.DropdownMenuSub>,
-  React.ComponentPropsWithoutRef<typeof UI.DropdownMenuSub>
->((props, ref) => {
-  return (
-    <UI.DropdownMenuSub
-      ref={ref}
-      {...props}
-    />
-  )
-})
-DropdownMenuSub.displayName = "DropdownMenuSub"
+const DropdownMenuSub = UI.DropdownMenuSub
 
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ComponentRef<typeof UI.DropdownMenuSubTrigger>,

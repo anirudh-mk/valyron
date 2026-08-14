@@ -2,18 +2,7 @@ import * as React from "react"
 import * as UI from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
-const Popover = React.forwardRef<
-  React.ComponentRef<typeof UI.Popover>,
-  React.ComponentPropsWithoutRef<typeof UI.Popover>
->((props, ref) => {
-  return (
-    <UI.Popover
-      ref={ref}
-      {...props}
-    />
-  )
-})
-Popover.displayName = "Popover"
+const Popover = UI.Popover
 
 const PopoverTrigger = React.forwardRef<
   React.ComponentRef<typeof UI.PopoverTrigger>,

@@ -2,19 +2,7 @@ import * as React from "react"
 import * as UI from "@/components/ui/combobox"
 import { cn } from "@/lib/utils"
 
-const Combobox = React.forwardRef<
-  React.ComponentRef<typeof UI.Combobox>,
-  React.ComponentPropsWithoutRef<typeof UI.Combobox>
->(({ className, ...props }, ref) => {
-  return (
-    <UI.Combobox
-      ref={ref}
-      className={cn("", className)}
-      {...props}
-    />
-  )
-})
-Combobox.displayName = "Combobox"
+const Combobox = UI.Combobox
 
 const ComboboxInput = React.forwardRef<
   React.ComponentRef<typeof UI.ComboboxInput>,
@@ -100,18 +88,7 @@ const ComboboxLabel = React.forwardRef<
 })
 ComboboxLabel.displayName = "ComboboxLabel"
 
-const ComboboxCollection = React.forwardRef<
-  React.ComponentRef<typeof UI.ComboboxCollection>,
-  React.ComponentPropsWithoutRef<typeof UI.ComboboxCollection>
->((props, ref) => {
-  return (
-    <UI.ComboboxCollection
-      ref={ref}
-      {...props}
-    />
-  )
-})
-ComboboxCollection.displayName = "ComboboxCollection"
+const ComboboxCollection = UI.ComboboxCollection
 
 const ComboboxEmpty = React.forwardRef<
   React.ComponentRef<typeof UI.ComboboxEmpty>,
@@ -197,18 +174,7 @@ const ComboboxTrigger = React.forwardRef<
 })
 ComboboxTrigger.displayName = "ComboboxTrigger"
 
-const ComboboxValue = React.forwardRef<
-  React.ComponentRef<typeof UI.ComboboxValue>,
-  React.ComponentPropsWithoutRef<typeof UI.ComboboxValue>
->((props, ref) => {
-  return (
-    <UI.ComboboxValue
-      ref={ref}
-      {...props}
-    />
-  )
-})
-ComboboxValue.displayName = "ComboboxValue"
+const ComboboxValue = UI.ComboboxValue
 
 const useComboboxAnchor = UI.useComboboxAnchor
 

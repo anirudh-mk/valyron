@@ -2,18 +2,7 @@ import * as React from "react"
 import * as UI from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 
-const Select = React.forwardRef<
-  React.ComponentRef<typeof UI.Select>,
-  React.ComponentPropsWithoutRef<typeof UI.Select>
->((props, ref) => {
-  return (
-    <UI.Select
-      ref={ref}
-      {...props}
-    />
-  )
-})
-Select.displayName = "Select"
+const Select = UI.Select
 
 const SelectContent = React.forwardRef<
   React.ComponentRef<typeof UI.SelectContent>,

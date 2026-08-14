@@ -2,18 +2,7 @@ import * as React from "react"
 import * as UI from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 
-const Dialog = React.forwardRef<
-  React.ComponentRef<typeof UI.Dialog>,
-  React.ComponentPropsWithoutRef<typeof UI.Dialog>
->((props, ref) => {
-  return (
-    <UI.Dialog
-      ref={ref}
-      {...props}
-    />
-  )
-})
-Dialog.displayName = "Dialog"
+const Dialog = UI.Dialog
 
 const DialogClose = React.forwardRef<
   React.ComponentRef<typeof UI.DialogClose>,
@@ -98,18 +87,7 @@ const DialogOverlay = React.forwardRef<
 })
 DialogOverlay.displayName = "DialogOverlay"
 
-const DialogPortal = React.forwardRef<
-  React.ComponentRef<typeof UI.DialogPortal>,
-  React.ComponentPropsWithoutRef<typeof UI.DialogPortal>
->((props, ref) => {
-  return (
-    <UI.DialogPortal
-      ref={ref}
-      {...props}
-    />
-  )
-})
-DialogPortal.displayName = "DialogPortal"
+const DialogPortal = UI.DialogPortal
 
 const DialogTitle = React.forwardRef<
   React.ComponentRef<typeof UI.DialogTitle>,

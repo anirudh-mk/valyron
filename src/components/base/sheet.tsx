@@ -2,18 +2,7 @@ import * as React from "react"
 import * as UI from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 
-const Sheet = React.forwardRef<
-  React.ComponentRef<typeof UI.Sheet>,
-  React.ComponentPropsWithoutRef<typeof UI.Sheet>
->((props, ref) => {
-  return (
-    <UI.Sheet
-      ref={ref}
-      {...props}
-    />
-  )
-})
-Sheet.displayName = "Sheet"
+const Sheet = UI.Sheet
 
 const SheetTrigger = React.forwardRef<
   React.ComponentRef<typeof UI.SheetTrigger>,

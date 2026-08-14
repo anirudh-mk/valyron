@@ -16,19 +16,13 @@ const Command = React.forwardRef<
 })
 Command.displayName = "Command"
 
-const CommandDialog = React.forwardRef<
-  React.ComponentRef<typeof UI.CommandDialog>,
-  React.ComponentPropsWithoutRef<typeof UI.CommandDialog>
->(({ className, ...props }, ref) => {
+const CommandDialog = (props: React.ComponentProps<typeof UI.CommandDialog>) => {
   return (
     <UI.CommandDialog
-      ref={ref}
-      className={cn("", className)}
       {...props}
     />
   )
-})
-CommandDialog.displayName = "CommandDialog"
+}
 
 const CommandInput = React.forwardRef<
   React.ComponentRef<typeof UI.CommandInput>,
