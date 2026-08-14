@@ -1,7 +1,7 @@
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import {Progress} from "@/components/ui/progress.tsx";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/base/card.tsx";
+import {Button} from "@/components/base/button.tsx";
+import {Progress} from "@/components/base/progress.tsx";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/base/tabs.tsx";
 import {
   TrendingUp,
   DollarSign,

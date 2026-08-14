@@ -1,5 +1,5 @@
 import type {ReactNode} from "react";
-import {Field, FieldLabel} from "@/components/ui/field";
+import {Field, FieldLabel} from "@/components/base/field";
 
 interface FormFieldProps {
   label: string;

@@ -6,7 +6,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from "@/components/ui/command";
+} from "@/components/base/command";
 import { useTabs } from "@/hooks/use-tabs";
 import { sidebarConfig } from "@/shared/config/navigation/sidebar.config";
 

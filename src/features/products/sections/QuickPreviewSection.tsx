@@ -3,9 +3,9 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+} from "@/components/base/card.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 
 const DETAIL_ROWS = [
   { label: "Category", value: "Laptops" },

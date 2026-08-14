@@ -7,13 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import {Separator} from "@/components/ui/separator"
+} from "@/components/base/breadcrumb"
+import {Separator} from "@/components/base/separator"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/base/sidebar"
 import type {ReactNode} from "react";
 import {Outlet, useLocation} from "react-router-dom";
 import {TabProvider, getPageTitle, useTabs} from "@/hooks/use-tabs.tsx";

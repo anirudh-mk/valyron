@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
+import { Input } from "@/components/base/input";
+import { Button } from "@/components/base/button";
+import { ButtonGroup } from "@/components/base/button-group";
 
 interface InputIconButtonProps {
   id: string;

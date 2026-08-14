@@ -1,20 +1,20 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/base/card.tsx";
+import { Input } from "@/components/base/input.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Textarea } from "@/components/base/textarea.tsx";
+import { Switch } from "@/components/base/switch.tsx";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
-} from "@/components/ui/field.tsx";
+} from "@/components/base/field.tsx";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@/components/ui/input-group.tsx";
+} from "@/components/base/input-group.tsx";
 import { UnitConfiguration } from "@/features/products/components/UnitConfiguration.tsx";
 import {
   Combobox,
@@ -23,7 +23,7 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "@/components/ui/combobox.tsx";
+} from "@/components/base/combobox.tsx";
 import { Plus, ScanBarcode, Settings } from "lucide-react";
 
 const CATEGORY_OPTIONS = [

@@ -4,13 +4,13 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card.tsx";
+} from "@/components/base/card.tsx";
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldLabel,
-} from "@/components/ui/field.tsx";
+} from "@/components/base/field.tsx";
 import {
   Combobox,
   ComboboxContent,
@@ -18,9 +18,9 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "@/components/ui/combobox.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
-import { Input } from "@/components/ui/input.tsx";
+} from "@/components/base/combobox.tsx";
+import { Switch } from "@/components/base/switch.tsx";
+import { Input } from "@/components/base/input.tsx";
 import { Warehouse } from "lucide-react";
 
 const INVENTORY_UNIT_OPTIONS = ["Piece", "Box", "KG", "Litre", "Meter"] as const;

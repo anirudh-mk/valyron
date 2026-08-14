@@ -4,17 +4,17 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/components/ui/card.tsx";
-import { Switch } from "@/components/ui/switch.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
+} from "@/components/base/card.tsx";
+import { Switch } from "@/components/base/switch.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Input } from "@/components/base/input.tsx";
+import { Textarea } from "@/components/base/textarea.tsx";
+import { Separator } from "@/components/base/separator.tsx";
 import {
   Field,
   FieldDescription,
   FieldLabel,
-} from "@/components/ui/field.tsx";
+} from "@/components/base/field.tsx";
 import {
   Combobox,
   ComboboxInput,
@@ -22,7 +22,7 @@ import {
   ComboboxList,
   ComboboxItem,
   ComboboxEmpty,
-} from "@/components/ui/combobox.tsx";
+} from "@/components/base/combobox.tsx";
 import {
   FileText,
   AlignLeft,

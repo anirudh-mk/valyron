@@ -5,9 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+} from "@/components/base/card";
+import { Checkbox } from "@/components/base/checkbox";
+import { Label } from "@/components/base/label";
 import { useTabs } from "@/hooks/use-tabs";
 import type { TabPosition } from "@/hooks/use-tabs";
 import {
@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/base/select";
 import { Settings2, Layout, Database, Sliders, Info, ShieldAlert } from "lucide-react";
 
 export default function SettingsPage() {

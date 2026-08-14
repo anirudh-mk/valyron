@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button.tsx";
+import { Button } from "@/components/base/button.tsx";
 import { ArrowLeft, Home } from "lucide-react";
 
 export default function NotFound() {

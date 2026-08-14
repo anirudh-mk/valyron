@@ -1,4 +1,4 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/base/tabs.tsx";
 
 import BasicInformationSection from "@/features/products/sections/BasicInformationSection.tsx";
 import PricingSection from "@/features/products/sections/PricingSection.tsx";
@@ -9,7 +9,7 @@ import MediaSection from "@/features/products/sections/MediaSection.tsx";
 import AdditionalInfoSection from "@/features/products/sections/AdditionalInfoSection.tsx";
 import TabLayout from "@/features/products/components/TabLayout.tsx";
 import { Info } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert.tsx";
+import { Alert, AlertDescription } from "@/components/base/alert.tsx";
 
 
 export default function ProductCreatePage() {

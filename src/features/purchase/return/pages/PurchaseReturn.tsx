@@ -4,18 +4,18 @@ import {
   CardHeader,
   CardContent,
   CardTitle,
-} from "@/components/ui/card.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { Label } from "@/components/ui/label.tsx";
+} from "@/components/base/card.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Input } from "@/components/base/input.tsx";
+import { Textarea } from "@/components/base/textarea.tsx";
+import { Label } from "@/components/base/label.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select.tsx";
+} from "@/components/base/select.tsx";
 import {
   Table,
   TableBody,
@@ -23,10 +23,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Separator } from "@/components/ui/separator.tsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.tsx";
+} from "@/components/base/table.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Separator } from "@/components/base/separator.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/base/tabs.tsx";
 import { FileText, Plus, Eye, Download, Send, PackageX } from "lucide-react";
 import { format } from "date-fns";
 
