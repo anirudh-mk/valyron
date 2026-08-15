@@ -111,6 +111,30 @@ export const sidebarConfig = {
       ],
     },
     {
+      title: "Quotations",
+      url: "/dashboard/sales/quotation",
+      icon: FileText,
+      isActive: false,
+      items: [
+        {
+          title: "Quotation List",
+          url: "/dashboard/sales/quotation/list",
+        },
+        {
+          title: "Send Quotations",
+          url: "/dashboard/sales/quotation/send",
+        },
+        {
+          title: "Expired Quotations",
+          url: "/dashboard/sales/quotation/expired",
+        },
+        {
+          title: "Quotation Approvals",
+          url: "/dashboard/sales/quotation/approval",
+        },
+      ],
+    },
+    {
       title: "Leads & Opportunities",
       url: "/dashboard/sales/leads",
       icon: Users,

@@ -2,6 +2,7 @@ import type {AppRoute} from "@/routes/types";
 import {lazy} from "react";
 import invoiceRoutes from "@/features/sales/invoice/invoice.routes";
 import estimateRoutes from "@/features/sales/estimate/estimate.routes.ts";
+import quotationRoutes from "@/features/sales/quotation/quotation.routes.ts";
 import orderRoutes from "@/features/sales/order/order.routes.ts";
 import returnRoutes from "@/features/sales/return/return.routes.ts";
 
@@ -67,6 +68,10 @@ export const salesRoutes: AppRoute[] = [
   {
     path: "estimate",
     children: estimateRoutes,
+  },
+  {
+    path: "quotation",
+    children: quotationRoutes,
   },
   {
     path: "order",
