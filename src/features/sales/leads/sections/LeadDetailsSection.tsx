@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Card } from "@/components/base/card.tsx";
-import { Button } from "@/components/base/button.tsx";
-import { Badge } from "@/components/base/badge.tsx";
-import { Avatar } from "@/components/base/avatar.tsx";
+import React, {useState} from "react";
+import {Card} from "@/components/base/card.tsx";
+import {Button} from "@/components/base/button.tsx";
+import {Badge} from "@/components/base/badge.tsx";
 import {
   X,
   Edit2,
@@ -14,7 +13,7 @@ import {
   Upload,
   Activity,
 } from "lucide-react";
-import type { Lead } from "../pages/LeadsList.tsx";
+import type {Lead} from "../pages/LeadsList.tsx";
 
 const getScoreColor = (score: number) => {
   if (score >= 75) return "bg-emerald-100 text-emerald-800 border-emerald-200";
@@ -28,13 +27,14 @@ interface LeadDetailsSectionProps {
 }
 
 export default function LeadDetailsSection({
-  selectedLead,
-  setSelectedLeadId,
-}: LeadDetailsSectionProps) {
+                                             selectedLead,
+                                             setSelectedLeadId,
+                                           }: LeadDetailsSectionProps) {
   const [selectedTab, setSelectedTab] = useState<"overview" | "activities" | "notes" | "files">("overview");
 
   return (
-    <Card className="col-span-12 xl:col-span-4 border-slate-100 border-l-2 shadow-lg sticky top-6 bg-white overflow-hidden max-h-[800px] flex flex-col">
+    <Card
+      className="col-span-12 xl:col-span-4 border-l-2 sticky top-6 bg-white overflow-hidden max-h-[800px] flex flex-col">
       {/* Drawer Header */}
       <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
         <div className="flex flex-col gap-0.5">
@@ -61,7 +61,7 @@ export default function LeadDetailsSection({
             className="h-7 w-7 rounded-full text-slate-400 hover:bg-slate-100"
             onClick={() => setSelectedLeadId(null)}
           >
-            <X className="h-4.5 w-4.5" />
+            <X className="h-4.5 w-4.5"/>
           </Button>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function LeadDetailsSection({
           size="sm"
           className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
         >
-          <Edit2 className="h-3.5 w-3.5" />
+          <Edit2 className="h-3.5 w-3.5"/>
           Edit
         </Button>
         <Button
@@ -81,7 +81,7 @@ export default function LeadDetailsSection({
           size="sm"
           className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
         >
-          <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+          <Sparkles className="h-3.5 w-3.5 text-blue-600"/>
           Convert
         </Button>
         <Button
@@ -89,21 +89,21 @@ export default function LeadDetailsSection({
           size="sm"
           className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
         >
-          <Phone className="h-3.5 w-3.5 text-emerald-600" />
+          <Phone className="h-3.5 w-3.5 text-emerald-600"/>
           Follow Up
         </Button>
         <Button variant="outline" size="sm" className="h-7 w-7 p-0 bg-white ml-auto">
-          <MoreHorizontal className="h-4 w-4 text-slate-400" />
+          <MoreHorizontal className="h-4 w-4 text-slate-400"/>
         </Button>
       </div>
 
       {/* Drawer Tabs Header */}
       <div className="border-b border-slate-100 flex text-xs font-bold text-slate-500 bg-slate-50/20">
         {[
-          { id: "overview", label: "Overview", icon: User },
-          { id: "activities", label: "Activities", icon: FileText },
-          { id: "notes", label: "Notes", icon: Edit2 },
-          { id: "files", label: "Files", icon: Upload },
+          {id: "overview", label: "Overview", icon: User},
+          {id: "activities", label: "Activities", icon: FileText},
+          {id: "notes", label: "Notes", icon: Edit2},
+          {id: "files", label: "Files", icon: Upload},
         ].map((tab) => (
           <button
             key={tab.id}
@@ -114,7 +114,7 @@ export default function LeadDetailsSection({
                 : "border-transparent hover:bg-slate-50/50 hover:text-slate-700"
             }`}
           >
-            <tab.icon className="h-3.5 w-3.5 shrink-0" />
+            <tab.icon className="h-3.5 w-3.5 shrink-0"/>
             <span>{tab.label}</span>
           </button>
         ))}
@@ -197,7 +197,8 @@ export default function LeadDetailsSection({
               <h4 className="font-extrabold text-slate-900 uppercase tracking-wider text-[10px] text-slate-400">
                 Notes
               </h4>
-              <div className="bg-slate-50 border border-slate-100 rounded-lg p-3 font-semibold text-slate-700 leading-relaxed">
+              <div
+                className="bg-slate-50 border border-slate-100 rounded-lg p-3 font-semibold text-slate-700 leading-relaxed">
                 {selectedLead.notes}
               </div>
             </div>
@@ -226,7 +227,7 @@ export default function LeadDetailsSection({
 
         {selectedTab === "activities" && (
           <div className="flex flex-col gap-4 text-center py-6 text-slate-400">
-            <Activity className="h-8 w-8 text-slate-300 mx-auto" />
+            <Activity className="h-8 w-8 text-slate-300 mx-auto"/>
             <span>No activities logged yet for this lead.</span>
             <Button
               variant="outline"
@@ -255,8 +256,9 @@ export default function LeadDetailsSection({
         )}
 
         {selectedTab === "files" && (
-          <div className="flex flex-col gap-4 text-center py-8 border border-dashed border-slate-200 rounded-lg bg-slate-50/50 justify-center">
-            <Upload className="h-8 w-8 text-slate-300 mx-auto" />
+          <div
+            className="flex flex-col gap-4 text-center py-8 border border-dashed border-slate-200 rounded-lg bg-slate-50/50 justify-center">
+            <Upload className="h-8 w-8 text-slate-300 mx-auto"/>
             <div className="flex flex-col gap-1 text-[11px]">
               <span className="font-bold text-slate-700">Drag files here to upload</span>
               <span className="text-slate-400 font-semibold">Or click to browse from device</span>

@@ -1,6 +1,6 @@
 import React from "react";
-import {Phone, Sparkles, User, UserPlus, Users, X} from "lucide-react";
-import {Card, CardContent} from "@/components/base/card.tsx";
+import { Phone, Sparkles, User, UserPlus, Users, X } from "lucide-react";
+import { Card, CardContent } from "@/components/base/card.tsx";
 
 export default function MetricsSection() {
   return (
@@ -49,7 +49,7 @@ export default function MetricsSection() {
           icon: X
         },
       ].map((kpi, idx) => (
-        <Card key={idx} className=" hover:shadow-sm transition-shadow rounded-md border-gray-300 shadow-none">
+        <Card key={idx} className=" hover:shadow-sm transition-shadow">
           <CardContent className="flex items-center justify-between gap-3">
             <div className="space-y-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{kpi.label}</span>
@@ -60,7 +60,7 @@ export default function MetricsSection() {
               </div>
             </div>
             <div className={`p-2.5 rounded-xl shrink-0 ${kpi.color}`}>
-              <kpi.icon className="h-4.5 w-4.5"/>
+              <kpi.icon className="h-4.5 w-4.5" />
             </div>
           </CardContent>
         </Card>

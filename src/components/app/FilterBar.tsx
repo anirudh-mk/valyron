@@ -6,6 +6,7 @@ import {
   Settings2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/base/card.tsx";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/base/input-group.tsx";
 import { Button } from "@/components/base/button.tsx";
 import {
@@ -65,9 +66,9 @@ export function FilterBar({
   className,
 }: FilterBarProps) {
   return (
-    <div
+    <Card
       className={cn(
-        "flex flex-wrap md:flex-nowrap items-center justify-between bg-white border border-gray-300 rounded-md p-3 shadow-none gap-3",
+        "flex flex-row flex-wrap md:flex-nowrap items-center justify-between p-3 gap-3",
         className
       )}
     >
@@ -169,6 +170,6 @@ export function FilterBar({
           <Settings2 className="h-4 w-4" />
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }

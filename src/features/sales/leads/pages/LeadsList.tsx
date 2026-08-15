@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/base/card.tsx";
 import Surface from "@/components/app/Surface.tsx";
 import PageHeader from "@/components/app/PageHeader.tsx";
 import MetricsSection from "@/features/sales/leads/sections/MetricsSection.tsx";
 import { FilterBar } from "@/components/app/FilterBar.tsx";
 import LeadDetailsSection from "@/features/sales/leads/sections/LeadDetailsSection.tsx";
 import LeadsTable from "@/features/sales/leads/sections/LeadsTable.tsx";
+import Grid from "@/components/app/Grid.tsx";
 
 // --- Types ---
 export interface Lead {
@@ -333,14 +333,90 @@ const initialLeads: Lead[] = [
   },
 ];
 
+interface FilterConfigArgs {
+  searchTerm: string;
+  setSearchTerm: (v: string) => void;
+  statusFilter: string;
+  setStatusFilter: (v: string) => void;
+  sourceFilter: string;
+  setSourceFilter: (v: string) => void;
+  scoreFilter: string;
+  setScoreFilter: (v: string) => void;
+}
+
+const getFilterConfig = ({
+  searchTerm,
+  setSearchTerm,
+  statusFilter,
+  setStatusFilter,
+  sourceFilter,
+  setSourceFilter,
+  scoreFilter,
+  setScoreFilter,
+}: FilterConfigArgs) => ({
+  search: {
+    value: searchTerm,
+    onChange: setSearchTerm,
+    placeholder: "Search leads by name, email, phone...",
+  },
+  filters: [
+    {
+      type: "select" as const,
+      key: "status",
+      value: statusFilter,
+      onChange: setStatusFilter,
+      options: [
+        { label: "All Statuses", value: "All" },
+        { label: "New", value: "New" },
+        { label: "Contacted", value: "Contacted" },
+        { label: "Qualified", value: "Qualified" },
+        { label: "Lost / Disqualified", value: "Lost" },
+      ],
+    },
+    {
+      type: "select" as const,
+      key: "source",
+      value: sourceFilter,
+      onChange: setSourceFilter,
+      options: [
+        { label: "All Sources", value: "All" },
+        { label: "Website", value: "Website" },
+        { label: "Referral", value: "Referral" },
+        { label: "Social Media", value: "Social Media" },
+        { label: "Cold Call", value: "Cold Call" },
+        { label: "Advertisement", value: "Advertisement" },
+      ],
+    },
+    {
+      type: "select" as const,
+      key: "score",
+      value: scoreFilter,
+      onChange: setScoreFilter,
+      options: [
+        { label: "All Lead Scores", value: "All" },
+        { label: "High (> 70)", value: "High (> 70)" },
+        { label: "Medium (50-70)", value: "Medium (50-70)" },
+        { label: "Low (< 50)", value: "Low (< 50)" },
+      ],
+    },
+    {
+      type: "date" as const,
+      key: "created",
+      label: "Created: This Month",
+      onClick: () => {
+        // Open date picker
+      },
+    },
+  ],
+});
+
 export default function LeadsList() {
-  const [leads, setLeads] = useState<Lead[]>(initialLeads);
+  const [leads] = useState<Lead[]>(initialLeads);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>("glow-systems");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sourceFilter, setSourceFilter] = useState("All");
   const [scoreFilter, setScoreFilter] = useState("All");
-  const [showFilters, setShowFilters] = useState(false);
 
   // Filter Logic
   const filteredLeads = leads.filter((lead) => {
@@ -367,119 +443,29 @@ export default function LeadsList() {
 
   const selectedLead = leads.find((l) => l.id === selectedLeadId) || leads[0];
 
+  const filterConfig = getFilterConfig({
+    searchTerm,
+    setSearchTerm,
+    statusFilter,
+    setStatusFilter,
+    sourceFilter,
+    setSourceFilter,
+    scoreFilter,
+    setScoreFilter,
+  });
+
   return (
     <Surface>
       <PageHeader />
       <MetricsSection />
       {/* --- Filter / Controls Bar --- */}
       <FilterBar
-        search={{
-          value: searchTerm,
-          onChange: setSearchTerm,
-          placeholder: "Search leads by name, email, phone...",
-        }}
-        filters={[
-          {
-            type: "select",
-            key: "status",
-            value: statusFilter,
-            onChange: setStatusFilter,
-            options: [
-              {
-                label: "All Statuses",
-                value: "All",
-              },
-              {
-                label: "New",
-                value: "New",
-              },
-              {
-                label: "Contacted",
-                value: "Contacted",
-              },
-              {
-                label: "Qualified",
-                value: "Qualified",
-              },
-              {
-                label: "Lost / Disqualified",
-                value: "Lost",
-              },
-            ],
-          },
-
-          {
-            type: "select",
-            key: "source",
-            value: sourceFilter,
-            onChange: setSourceFilter,
-            options: [
-              {
-                label: "All Sources",
-                value: "All",
-              },
-              {
-                label: "Website",
-                value: "Website",
-              },
-              {
-                label: "Referral",
-                value: "Referral",
-              },
-              {
-                label: "Social Media",
-                value: "Social Media",
-              },
-              {
-                label: "Cold Call",
-                value: "Cold Call",
-              },
-              {
-                label: "Advertisement",
-                value: "Advertisement",
-              },
-            ],
-          },
-
-          {
-            type: "select",
-            key: "score",
-            value: scoreFilter,
-            onChange: setScoreFilter,
-            options: [
-              {
-                label: "All Lead Scores",
-                value: "All",
-              },
-              {
-                label: "High (> 70)",
-                value: "High (> 70)",
-              },
-              {
-                label: "Medium (50-70)",
-                value: "Medium (50-70)",
-              },
-              {
-                label: "Low (< 50)",
-                value: "Low (< 50)",
-              },
-            ],
-          },
-
-          {
-            type: "date",
-            key: "created",
-            label: "Created: This Month",
-            onClick: () => {
-              // Open date picker
-            },
-          },
-        ]}
+        search={filterConfig.search}
+        filters={filterConfig.filters}
       />
 
       {/* --- Main Table Layout with Right Details Sidebar Panel --- */}
-      <div className="grid grid-cols-12 gap-6 items-start">
-
+      <Grid>
         <LeadsTable
           filteredLeads={filteredLeads}
           selectedLeadId={selectedLeadId}
@@ -493,9 +479,7 @@ export default function LeadsList() {
             setSelectedLeadId={setSelectedLeadId}
           />
         )}
-
-      </div>
-
+      </Grid>
     </Surface>
   );
 }

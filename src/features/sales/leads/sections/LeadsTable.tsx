@@ -20,6 +20,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/base/pagination.tsx";
+import { Checkbox } from "@/components/base/checkbox.tsx";
 import { MoreHorizontal } from "lucide-react";
 import type { Lead } from "../pages/LeadsList.tsx";
 
@@ -55,7 +56,7 @@ export default function LeadsTable({
 }: LeadsTableProps) {
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize] = useState(10);
 
   // Reset page when filtered list changes or page size changes
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function LeadsTable({
 
   return (
     <Card
-      className={`border-slate-100 transition-all duration-300 ${selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"
+      className={`transition-all duration-300 ${selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"
         }`}
     >
       <CardContent className="p-0">
@@ -99,7 +100,7 @@ export default function LeadsTable({
             <TableHeader className="bg-slate-50/50">
               <TableRow className="hover:bg-transparent">
                 <TableHead className="w-12 text-center py-2.5">
-                  <input type="checkbox" className="rounded text-blue-600 focus:ring-blue-500" />
+                  <Checkbox className="translate-y-0.5" />
                 </TableHead>
                 <TableHead className="py-2.5 text-slate-400 font-bold">Lead Name</TableHead>
                 <TableHead className="py-2.5 text-slate-400 font-bold">Company</TableHead>
@@ -123,7 +124,7 @@ export default function LeadsTable({
                     onClick={() => setSelectedLeadId(isSelected ? null : lead.id)}
                   >
                     <TableCell className="text-center py-3.5" onClick={(e) => e.stopPropagation()}>
-                      <input type="checkbox" className="rounded text-blue-600 focus:ring-blue-500" />
+                      <Checkbox className="translate-y-0.5" />
                     </TableCell>
                     <TableCell className="py-3.5 font-bold text-blue-600 hover:underline">
                       {lead.name}
@@ -190,67 +191,53 @@ export default function LeadsTable({
             Showing {filteredLeads.length === 0 ? 0 : (currentPage - 1) * pageSize + 1} to{" "}
             {Math.min(currentPage * pageSize, filteredLeads.length)} of {filteredLeads.length} leads
           </span>
-          <div className="flex items-center gap-4">
-            <Pagination className="mx-0 w-auto">
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage > 1) setCurrentPage(currentPage - 1);
-                    }}
-                    disabled={currentPage === 1}
-                  />
-                </PaginationItem>
-                {getPageItems().map((item, idx) => {
-                  if (item === "ellipsis") {
-                    return (
-                      <PaginationItem key={`ellipsis-${idx}`}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
-                    );
-                  }
+          <Pagination className="mx-0 w-auto">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) setCurrentPage(currentPage - 1);
+                  }}
+                  disabled={currentPage === 1}
+                />
+              </PaginationItem>
+              {getPageItems().map((item, idx) => {
+                if (item === "ellipsis") {
                   return (
-                    <PaginationItem key={item}>
-                      <PaginationLink
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage(item);
-                        }}
-                        isActive={currentPage === item}
-                      >
-                        {item}
-                      </PaginationLink>
+                    <PaginationItem key={`ellipsis-${idx}`}>
+                      <PaginationEllipsis />
                     </PaginationItem>
                   );
-                })}
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                    }}
-                    disabled={currentPage === totalPages || totalPages === 0}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-            <select
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-              className="py-1 px-2 border rounded bg-white font-semibold cursor-pointer"
-            >
-              <option value={10}>10 / page</option>
-              <option value={20}>20 / page</option>
-              <option value={50}>50 / page</option>
-            </select>
-          </div>
+                }
+                return (
+                  <PaginationItem key={item}>
+                    <PaginationLink
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentPage(item);
+                      }}
+                      isActive={currentPage === item}
+                    >
+                      {item}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                  }}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </CardContent>
     </Card>
