@@ -47,25 +47,65 @@ export const sidebarConfig = {
     },
     {
       title: "Sales",
-      url: "/dashboard/sales/estimate",
+      url: "/dashboard/sales/dashboard",
       icon: TrendingUp,
-      isActive: true,
+      isActive: false,
       items: [
         {
-          title: "Estimate",
-          url: "/dashboard/sales/estimate",
+          title: "Dashboard",
+          url: "/dashboard/sales/dashboard",
         },
         {
-          title: "Order",
-          url: "/dashboard/sales/order",
-        },
-        {
-          title: "Invoice",
+          title: "Invoices",
           url: "/dashboard/sales/invoice",
         },
         {
-          title: "Return",
+          title: "Quotations",
+          url: "/dashboard/sales/estimate",
+        },
+        {
+          title: "Sales Orders",
+          url: "/dashboard/sales/order",
+        },
+        {
+          title: "Customers",
+          url: "/valyron/party/customer",
+        },
+        {
+          title: "Products",
+          url: "/valyron/products",
+        },
+        {
+          title: "Sales Returns",
           url: "/dashboard/sales/return",
+        },
+      ],
+    },
+    {
+      title: "Leads & Opportunities",
+      url: "/dashboard/sales/leads",
+      icon: Users,
+      isActive: true,
+      items: [
+        {
+          title: "Leads",
+          url: "/dashboard/sales/leads",
+        },
+        {
+          title: "Opportunities",
+          url: "/dashboard/sales/opportunities",
+        },
+        {
+          title: "Activities",
+          url: "/dashboard/sales/activities",
+        },
+        {
+          title: "Follow-ups",
+          url: "/dashboard/sales/followups",
+        },
+        {
+          title: "Sales Pipeline",
+          url: "/dashboard/sales/pipeline",
         },
       ],
     },
