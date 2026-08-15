@@ -11,7 +11,13 @@ const ComboboxInput = React.forwardRef<
   return (
     <UI.ComboboxInput
       ref={ref}
-      className={cn("", className)}
+      className={cn(
+        "rounded-md",
+        "has-[[data-slot=input-group-control]:focus-visible]:border-slate-200",
+        "has-[[data-slot=input-group-control]:focus-visible]:ring-0",
+        "has-[[data-slot=input-group-control]:focus-visible]:ring-offset-0",
+        className
+      )}
       {...props}
     />
   )

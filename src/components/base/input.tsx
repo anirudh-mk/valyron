@@ -9,7 +9,13 @@ const Input = React.forwardRef<
   return (
     <UI.Input
       ref={ref}
-      className={cn("", className)}
+      className={cn(
+        "rounded-md",
+        "focus-visible:border-transparent",
+        "focus-visible:ring-0",
+        "focus-visible:ring-offset-0",
+        className
+      )}
       {...props}
     />
   )
