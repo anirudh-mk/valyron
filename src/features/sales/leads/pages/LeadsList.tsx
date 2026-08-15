@@ -1,42 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/base/card.tsx";
-import { Button } from "@/components/base/button.tsx";
-import { Badge } from "@/components/base/badge.tsx";
-import { Avatar } from "@/components/base/avatar.tsx";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/base/table.tsx";
-import {
-  Users,
-  Search,
-  Filter,
-  SlidersHorizontal,
-  Settings2,
-  ChevronDown,
-  UserPlus,
-  Upload,
-  MoreHorizontal,
-  Mail,
-  Phone,
-  Globe,
-  User,
-  MapPin,
-  Briefcase,
-  FileText,
-  Calendar,
-  Sparkles,
-  Edit2,
-  CheckSquare,
-  ArrowRight,
-  TrendingUp,
-  X,
-  Plus,
-  Activity
-} from "lucide-react";
 import Surface from "@/components/app/Surface.tsx";
 import PageHeader from "@/components/app/PageHeader.tsx";
 import MetricsSection from "@/features/sales/leads/sections/MetricsSection.tsx";
 import { FilterBar } from "@/components/app/FilterBar.tsx";
 import LeadDetailsSection from "@/features/sales/leads/sections/LeadDetailsSection.tsx";
+import LeadsTable from "@/features/sales/leads/sections/LeadsTable.tsx";
 
 // --- Types ---
 export interface Lead {
@@ -262,10 +231,109 @@ const initialLeads: Lead[] = [
     notes: "Disqualified. Budget too low and currently not looking for ERP setup.",
     tags: ["Disqualified", "Low Budget"],
   },
+  {
+    id: "delta-tech",
+    name: "Delta Technologies",
+    company: "Delta Technologies",
+    contactPerson: "Rajesh Kumar",
+    email: "rajesh@deltatech.in",
+    phone: "+91 99000 88888",
+    score: 92,
+    status: "Qualified",
+    source: "Referral",
+    ownerName: "Jane Smith",
+    ownerInitials: "JS",
+    createdOn: "19 May 2026",
+    industry: "Information Technology",
+    employees: "51 - 200",
+    revenue: "₹ 10 Cr - ₹ 25 Cr",
+    location: "Bangalore, Karnataka",
+    notes: "Requires custom CRM modules and payroll integration.",
+    tags: ["CRM", "High Priority"],
+  },
+  {
+    id: "apex-logistics",
+    name: "Apex Logistics Ltd",
+    company: "Apex Logistics Ltd",
+    contactPerson: "Siddharth Sen",
+    email: "siddharth@apexlog.com",
+    phone: "+91 98111 22222",
+    score: 68,
+    status: "Contacted",
+    source: "Website",
+    ownerName: "Arjun Jose",
+    ownerInitials: "AJ",
+    createdOn: "18 May 2026",
+    industry: "Logistics",
+    employees: "201 - 500",
+    revenue: "₹ 50 Cr - ₹ 100 Cr",
+    location: "Kolkata, West Bengal",
+    notes: "Interested in warehouse management systems.",
+    tags: ["Warehouse", "Logistics"],
+  },
+  {
+    id: "quantum-labs",
+    name: "Quantum Labs",
+    company: "Quantum Labs",
+    contactPerson: "Dr. Anil Prasad",
+    email: "anil@quantumlabs.co",
+    phone: "+91 97444 55555",
+    score: 82,
+    status: "Qualified",
+    source: "Advertisement",
+    ownerName: "Mike Johnson",
+    ownerInitials: "MJ",
+    createdOn: "17 May 2026",
+    industry: "Healthcare & Biotech",
+    employees: "11 - 50",
+    revenue: "₹ 5 Cr - ₹ 10 Cr",
+    location: "Hyderabad, India",
+    notes: "Looking for ERP solutions to track clinical test inventory.",
+    tags: ["Inventory", "Healthcare"],
+  },
+  {
+    id: "zenith-retail",
+    name: "Zenith Retail",
+    company: "Zenith Retail",
+    contactPerson: "Kavitha Rao",
+    email: "kavitha@zenithretail.com",
+    phone: "+91 96333 44444",
+    score: 58,
+    status: "New",
+    source: "Social Media",
+    ownerName: "Jane Smith",
+    ownerInitials: "JS",
+    createdOn: "16 May 2026",
+    industry: "Retail & Wholesale",
+    employees: "51 - 200",
+    revenue: "₹ 10 Cr - ₹ 25 Cr",
+    location: "Chennai, Tamil Nadu",
+    notes: "Inquired about POS integration with accounting software.",
+    tags: ["POS", "Retail"],
+  },
+  {
+    id: "blue-ocean",
+    name: "Blue Ocean Shipping",
+    company: "Blue Ocean Shipping",
+    contactPerson: "Capt. Sandeep",
+    email: "sandeep@blueoceanship.com",
+    phone: "+91 95222 33333",
+    score: 35,
+    status: "Lost",
+    source: "Cold Call",
+    ownerName: "Mike Johnson",
+    ownerInitials: "MJ",
+    createdOn: "15 May 2026",
+    industry: "Transportation & Shipping",
+    employees: "500+",
+    revenue: "₹ 100 Cr+",
+    location: "Visakhapatnam, Andhra Pradesh",
+    notes: "Disqualified. Decided to build internal system instead.",
+    tags: ["Disqualified", "Shipping"],
+  },
 ];
 
 export default function LeadsList() {
-  const navigate = useNavigate();
   const [leads, setLeads] = useState<Lead[]>(initialLeads);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>("glow-systems");
   const [searchTerm, setSearchTerm] = useState("");
@@ -298,25 +366,6 @@ export default function LeadsList() {
   });
 
   const selectedLead = leads.find((l) => l.id === selectedLeadId) || leads[0];
-
-  const getScoreColor = (score: number) => {
-    if (score >= 75) return "bg-emerald-100 text-emerald-800 border-emerald-200";
-    if (score >= 50) return "bg-amber-100 text-amber-800 border-amber-200";
-    return "bg-rose-100 text-rose-800 border-rose-200";
-  };
-
-  const getStatusBadgeColor = (status: Lead["status"]) => {
-    switch (status) {
-      case "New":
-        return "bg-purple-100 text-purple-700 border-purple-200";
-      case "Contacted":
-        return "bg-blue-100 text-blue-700 border-blue-200";
-      case "Qualified":
-        return "bg-emerald-100 text-emerald-700 border-emerald-200";
-      case "Lost":
-        return "bg-slate-100 text-slate-700 border-slate-200";
-    }
-  };
 
   return (
     <Surface>
@@ -431,117 +480,11 @@ export default function LeadsList() {
       {/* --- Main Table Layout with Right Details Sidebar Panel --- */}
       <div className="grid grid-cols-12 gap-6 items-start">
 
-        {/* Leads Table Card (Spans less if drawer is open) */}
-        <Card
-          className={`border-slate-100 transition-all duration-300 ${selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"}`}>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto min-w-0">
-              <Table className="text-xs w-full">
-                <TableHeader className="bg-slate-50/50">
-                  <TableRow className="hover:bg-transparent">
-                    <TableHead className="w-12 text-center py-2.5">
-                      <input type="checkbox" className="rounded text-blue-600 focus:ring-blue-500" />
-                    </TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Lead Name</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Company</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Contact</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold text-center">Lead Score</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Status</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Source</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Owner</TableHead>
-                    <TableHead className="py-2.5 text-slate-400 font-bold">Created On</TableHead>
-                    <TableHead className="py-2.5 w-16 text-center" />
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="text-slate-600 font-medium">
-                  {filteredLeads.map((lead) => {
-                    const isSelected = selectedLeadId === lead.id;
-                    return (
-                      <TableRow
-                        key={lead.id}
-                        className={`cursor-pointer hover:bg-slate-50 transition-colors ${isSelected ? "bg-blue-50/20 hover:bg-blue-50/30 border-l-2 border-l-blue-600" : ""}`}
-                        onClick={() => setSelectedLeadId(isSelected ? null : lead.id)}
-                      >
-                        <TableCell className="text-center py-3.5" onClick={(e) => e.stopPropagation()}>
-                          <input type="checkbox" className="rounded text-blue-600 focus:ring-blue-500" />
-                        </TableCell>
-                        <TableCell className="py-3.5 font-bold text-blue-600 hover:underline">
-                          {lead.name}
-                        </TableCell>
-                        <TableCell className="py-3.5 text-slate-800">{lead.company}</TableCell>
-                        <TableCell className="py-3.5">
-                          <div className="flex flex-col gap-0.5 text-slate-700">
-                            <span>{lead.phone}</span>
-                            <span className="text-[10px] text-slate-400 font-semibold">{lead.email}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="py-3.5 text-center">
-                          <Badge variant="outline"
-                            className={`px-2 py-0.5 font-extrabold text-[10px] ${getScoreColor(lead.score)}`}>
-                            {lead.score}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="py-3.5">
-                          <Badge variant="outline"
-                            className={`px-2 py-0.5 text-[9px] font-bold tracking-wide uppercase ${getStatusBadgeColor(lead.status)}`}>
-                            {lead.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="py-3.5 text-slate-700">{lead.source}</TableCell>
-                        <TableCell className="py-3.5">
-                          <div className="flex items-center gap-2">
-                            <Avatar className="h-5.5 w-5.5 text-[9px] font-bold">
-                              <div
-                                className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-700 rounded-full font-bold">
-                                {lead.ownerInitials}
-                              </div>
-                            </Avatar>
-                            <span className="font-semibold text-slate-800 text-xs">{lead.ownerName}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="py-3.5 text-slate-400 font-semibold">{lead.createdOn}</TableCell>
-                        <TableCell className="text-center py-3.5" onClick={(e) => e.stopPropagation()}>
-                          <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-slate-200">
-                            <MoreHorizontal className="h-4.5 w-4.5 text-slate-400" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {filteredLeads.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={10} className="text-center py-8 text-slate-400 font-medium">
-                        No leads match your filter choices.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-
-            {/* Pagination footer */}
-            <div
-              className="flex items-center justify-between p-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
-              <span>Showing 1 to {filteredLeads.length} of {filteredLeads.length} leads</span>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled>
-                  &lt;
-                </Button>
-                <Button variant="outline" size="sm" className="h-8 w-8 p-0 bg-blue-50 text-blue-700 border-blue-200">
-                  1
-                </Button>
-                <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled>
-                  &gt;
-                </Button>
-                <select className="ml-2 py-1 px-2 border rounded bg-white font-semibold cursor-pointer">
-                  <option>10 / page</option>
-                  <option>20 / page</option>
-                  <option>50 / page</option>
-                </select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <LeadsTable
+          filteredLeads={filteredLeads}
+          selectedLeadId={selectedLeadId}
+          setSelectedLeadId={setSelectedLeadId}
+        />
 
         {/* --- Sliding Right-Side Details Drawer (Displays when a lead is selected) --- */}
         {selectedLeadId && selectedLead && (
