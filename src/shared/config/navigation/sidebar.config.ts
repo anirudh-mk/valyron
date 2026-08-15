@@ -12,6 +12,7 @@ import {
   ShoppingCart,
   Users,
   Package,
+  FileText
 } from "lucide-react"
 
 export const sidebarConfig = {
@@ -60,10 +61,6 @@ export const sidebarConfig = {
           url: "/dashboard/sales/invoice",
         },
         {
-          title: "Quotations",
-          url: "/dashboard/sales/estimate",
-        },
-        {
           title: "Sales Orders",
           url: "/dashboard/sales/order",
         },
@@ -82,10 +79,42 @@ export const sidebarConfig = {
       ],
     },
     {
+      title: "Estimates",
+      url: "/dashboard/sales/estimate",
+      icon: FileText,
+      isActive: true,
+      items: [
+        {
+          title: "Estimate List",
+          url: "/dashboard/sales/estimate/list",
+        },
+        {
+          title: "Create Estimate",
+          url: "/dashboard/sales/estimate/create",
+        },
+        {
+          title: "Estimate Details",
+          url: "/dashboard/sales/estimate/details",
+        },
+        {
+          title: "Estimate Revisions",
+          url: "/dashboard/sales/estimate/revisions",
+        },
+        {
+          title: "Estimate Approval",
+          url: "/dashboard/sales/estimate/approval",
+        },
+        {
+          title: "Estimate → Quotation",
+          url: "/dashboard/sales/estimate/to-quotation",
+        },
+      ],
+    },
+    {
       title: "Leads & Opportunities",
       url: "/dashboard/sales/leads",
       icon: Users,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Leads",
