@@ -91,15 +91,15 @@ export default function LeadsTable({
 
   return (
     <Card
-      className={`transition-all duration-300 ${selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"
-        }`}
+      className={`p-0 transition-all duration-300 ${selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"
+      }`}
     >
       <CardContent className="p-0">
         <div className="overflow-x-auto min-w-0">
           <Table className="text-xs w-full">
             <TableHeader className="bg-slate-50/50">
               <TableRow className="hover:bg-transparent">
-                <TableHead className="w-12 text-center py-2.5">
+                <TableHead className="w-12 text-center">
                   <Checkbox className="translate-y-0.5" />
                 </TableHead>
                 <TableHead className="py-2.5 text-slate-400 font-bold">Lead Name</TableHead>
