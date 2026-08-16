@@ -46,7 +46,7 @@ export function SalesTrendChart({ data }: SalesTrendChartProps) {
   )
 
   return (
-    <div className="w-full h-[240px]">
+    <div className="w-full h-full">
       <ReusableBarChart
         data={data}
         config={trendChartConfig}

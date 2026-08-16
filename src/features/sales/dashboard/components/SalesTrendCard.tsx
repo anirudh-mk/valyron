@@ -10,7 +10,7 @@ interface SalesTrendCardProps {
 
 export function SalesTrendCard({ data }: SalesTrendCardProps) {
   return (
-    <Card className="col-span-12 xl:col-span-4 border-slate-100 h-full flex flex-col">
+    <Card className="col-span-12 xl:col-span-4 h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div className="flex items-center gap-1.5">
           <CardTitle className="text-sm font-bold text-slate-800">Sales Trend</CardTitle>

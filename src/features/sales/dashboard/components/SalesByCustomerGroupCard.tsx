@@ -10,7 +10,7 @@ interface SalesByCustomerGroupCardProps {
 
 export function SalesByCustomerGroupCard({ data, centerLabel }: SalesByCustomerGroupCardProps) {
   return (
-    <Card className="col-span-12 md:col-span-6 xl:col-span-3 border-slate-100 h-full flex flex-col">
+    <Card className="col-span-12 md:col-span-6 xl:col-span-3 h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-center gap-1.5">
           <CardTitle className="text-sm font-bold text-slate-800">

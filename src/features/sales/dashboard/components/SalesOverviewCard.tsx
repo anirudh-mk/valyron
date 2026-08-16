@@ -31,7 +31,7 @@ const rows: OverviewRow[] = [
 
 export function SalesOverviewCard() {
   return (
-    <Card className="border-slate-100 h-full flex flex-col">
+    <Card className="h-full flex flex-col">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
@@ -41,8 +41,8 @@ export function SalesOverviewCard() {
         </div>
       </CardHeader>
 
-      <CardContent className="flex flex-col justify-between h-[300px]">
-        <div className="overflow-auto max-h-[245px] pr-1">
+      <CardContent className="flex flex-col justify-between h-75">
+        <div className="overflow-auto max-h-61.25 pr-1">
           <Table className="text-xs w-full">
             <TableHeader className="bg-slate-50/50 sticky top-0">
               <TableRow className="hover:bg-transparent">

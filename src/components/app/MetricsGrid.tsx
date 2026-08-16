@@ -19,7 +19,7 @@ export function MetricsGrid({ items }: MetricsGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
       {items.map((kpi, idx) => (
-        <Card key={idx} className="hover:shadow-sm transition-shadow">
+        <Card key={idx}>
           <CardContent className="flex items-center justify-between gap-3">
             <div className="space-y-1">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{kpi.label}</span>

@@ -13,7 +13,7 @@ interface AnalyticsRowProps {
 
 export function AnalyticsRow({ comparisonData }: AnalyticsRowProps) {
   return (
-    <div className="grid grid-cols-3 gap-6 items-stretch">
+    <div className="grid grid-cols-3 gap-3 items-stretch">
 
       {/* ── Row 1 ────────────────────────────────────────────────── */}
 

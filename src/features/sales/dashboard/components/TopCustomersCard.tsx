@@ -18,7 +18,7 @@ interface TopCustomersCardProps {
 
 export function TopCustomersCard({ customers, formatCurrency }: TopCustomersCardProps) {
   return (
-    <Card className="col-span-12 xl:col-span-2 border-slate-100 h-full flex flex-col">
+    <Card className="col-span-12 xl:col-span-2 h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-bold text-slate-800">Top Customers</CardTitle>
         <Badge
