@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Card} from "@/components/base/card.tsx";
+import {Card, CardHeader} from "@/components/base/card.tsx";
 import {Button} from "@/components/base/button.tsx";
 import {Badge} from "@/components/base/badge.tsx";
 import {
@@ -34,68 +34,70 @@ export default function LeadDetailsSection({
 
   return (
     <Card
-      className="w-[420px] shrink-0 border-l-2 sticky top-6 bg-white overflow-hidden max-h-[800px] flex flex-col">
-      {/* Drawer Header */}
-      <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-        <div className="flex flex-col gap-0.5">
-          <h3 className="font-bold text-slate-900 text-sm truncate max-w-[200px]">
-            {selectedLead.name}
-          </h3>
+      className="w-105 shrink-0 sticky top-6 overflow-hidden max-h-200 flex flex-col p-0">
+      <CardHeader className="p-0 flex-col gap-0">
+        {/* Drawer Header */}
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+          <div className="flex flex-col gap-0.5">
+            <h3 className="font-bold text-slate-900 text-sm truncate max-w-50">
+              {selectedLead.name}
+            </h3>
+            <div className="flex items-center gap-1.5">
+              <Badge className="bg-blue-100 text-blue-700 text-[10px] font-bold hover:bg-blue-100">
+                {selectedLead.status}
+              </Badge>
+              <Badge
+                variant="outline"
+                className={`text-[9px] font-bold ${getScoreColor(selectedLead.score)}`}
+              >
+                Lead Score: {selectedLead.score}
+              </Badge>
+            </div>
+          </div>
+
           <div className="flex items-center gap-1.5">
-            <Badge className="bg-blue-100 text-blue-700 text-[10px] font-bold hover:bg-blue-100">
-              {selectedLead.status}
-            </Badge>
-            <Badge
-              variant="outline"
-              className={`text-[9px] font-bold ${getScoreColor(selectedLead.score)}`}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 rounded-full text-slate-400 hover:bg-slate-100"
+              onClick={() => setSelectedLeadId(null)}
             >
-              Lead Score: {selectedLead.score}
-            </Badge>
+              <X className="h-4.5 w-4.5"/>
+            </Button>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        {/* Quick action button toolbar */}
+        <div className="px-4 py-2 bg-slate-50/20 border-b border-slate-100 flex items-center gap-1.5 text-xs">
           <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 rounded-full text-slate-400 hover:bg-slate-100"
-            onClick={() => setSelectedLeadId(null)}
+            variant="outline"
+            size="sm"
+            className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
           >
-            <X className="h-4.5 w-4.5"/>
+            <Edit2 className="h-3.5 w-3.5"/>
+            Edit
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-blue-600"/>
+            Convert
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
+          >
+            <Phone className="h-3.5 w-3.5 text-emerald-600"/>
+            Follow Up
+          </Button>
+          <Button variant="outline" size="sm" className="h-7 w-7 p-0 bg-white ml-auto">
+            <MoreHorizontal className="h-4 w-4 text-slate-400"/>
           </Button>
         </div>
-      </div>
-
-      {/* Quick action button toolbar */}
-      <div className="px-4 py-2 bg-slate-50/20 border-b border-slate-100 flex items-center gap-1.5 text-xs">
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
-        >
-          <Edit2 className="h-3.5 w-3.5"/>
-          Edit
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-blue-600"/>
-          Convert
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
-        >
-          <Phone className="h-3.5 w-3.5 text-emerald-600"/>
-          Follow Up
-        </Button>
-        <Button variant="outline" size="sm" className="h-7 w-7 p-0 bg-white ml-auto">
-          <MoreHorizontal className="h-4 w-4 text-slate-400"/>
-        </Button>
-      </div>
+      </CardHeader>
 
       {/* Drawer Tabs Header */}
       <div className="border-b border-slate-100 flex text-xs font-bold text-slate-500 bg-slate-50/20">
