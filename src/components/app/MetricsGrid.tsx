@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/base/card.tsx";
-import { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export interface MetricItem {
   label: string;

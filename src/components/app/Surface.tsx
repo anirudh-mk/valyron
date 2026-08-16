@@ -1,5 +1,5 @@
-import {cn} from "@/lib/utils";
-import type {ReactNode} from "react";
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 interface SurfaceProps {
   children: ReactNode;
@@ -7,9 +7,9 @@ interface SurfaceProps {
 }
 
 export default function Surface({
-                                  children,
-                                  className,
-                                }: SurfaceProps) {
+  children,
+  className,
+}: SurfaceProps) {
   return (
     <div
       className={cn(

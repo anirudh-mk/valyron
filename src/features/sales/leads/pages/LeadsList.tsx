@@ -6,6 +6,8 @@ import { FilterBar } from "@/components/app/FilterBar.tsx";
 import LeadDetailsSection from "@/features/sales/leads/sections/LeadDetailsSection.tsx";
 import LeadsTable from "@/features/sales/leads/sections/LeadsTable.tsx";
 import Grid from "@/components/app/Grid.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { ChevronDown, Plus, Upload } from "lucide-react";
 
 // --- Types ---
 export interface Lead {
@@ -456,7 +458,26 @@ export default function LeadsList() {
 
   return (
     <Surface>
-      <PageHeader />
+      <PageHeader
+        title="Leads"
+        description="Manage and track your potential customers."
+      >
+        <Button variant="outline" size="sm" className="bg-white border-slate-200 gap-1.5 font-semibold text-xs">
+          <Upload className="h-3.5 w-3.5 text-slate-400" />
+          Import Leads
+        </Button>
+        <Button variant="outline" size="sm" className="bg-white border-slate-200 gap-1.5 font-semibold text-xs">
+          More
+          <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+        </Button>
+        <Button
+          size="sm"
+          className="bg-blue-600 hover:bg-blue-700 text-white gap-1.5 font-semibold text-xs"
+        >
+          <Plus className="h-4 w-4" />
+          New Lead
+        </Button>
+      </PageHeader>
       <MetricsSection />
       {/* --- Filter / Controls Bar --- */}
       <FilterBar

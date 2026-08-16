@@ -1,35 +1,56 @@
-import {Button} from "@/components/base/button.tsx";
-import {ChevronDown, Plus, Upload} from "lucide-react";
+import { Button } from "@/components/base/button.tsx";
+import { Star } from "lucide-react";
 import React from "react";
-import {Typography} from "@/components/app/Typography.tsx";
+import type { ReactNode } from "react";
 
-export default function PageHeader() {
+interface PageHeaderProps {
+  title: string;
+  description?: string;
+  isStarred?: boolean;
+  onStarToggle?: () => void;
+  children?: ReactNode;
+}
+
+export default function PageHeader({
+  title,
+  description,
+  isStarred,
+  onStarToggle,
+  children
+}: PageHeaderProps) {
   return (
-    <div className="flex justify-between border-b border-slate-100">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-100">
       <div>
-        <Typography variant="heading">Leads</Typography>
-        <Typography variant="caption" >Manage and track your potential customers.</Typography>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h1>
+          {onStarToggle !== undefined && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 hover:bg-slate-100 rounded-full"
+              onClick={onStarToggle}
+            >
+              <Star
+                className={`h-5 w-5 transition-colors ${
+                  isStarred ? "fill-amber-400 stroke-amber-500" : "text-slate-400"
+                }`}
+              />
+            </Button>
+          )}
+        </div>
+        {description && (
+          <p className="text-sm text-slate-500 mt-0.5">
+            {description}
+          </p>
+        )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" className="bg-white border-slate-200 gap-1.5 font-semibold text-xs">
-          <Upload className="h-3.5 w-3.5 text-slate-400"/>
-          Import Leads
-        </Button>
-        <Button variant="outline" size="sm" className="bg-white border-slate-200 gap-1.5 font-semibold text-xs">
-          More
-          <ChevronDown className="h-3.5 w-3.5 text-slate-400"/>
-        </Button>
-        <Button
-          size="sm"
-          className="bg-blue-600 hover:bg-blue-700 text-white gap-1.5 font-semibold text-xs"
-          // onClick={() => navigate("/dashboard/sales/leads/create")}
-        >
-          <Plus className="h-4 w-4"/>
-          New Lead
-        </Button>
-      </div>
+      {/* Action Buttons / Controls */}
+      {children && (
+        <div className="flex items-center gap-3 self-end md:self-auto relative">
+          {children}
+        </div>
+      )}
     </div>
-  )
+  );
 }

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/base/card.tsx";
 import MetricsGrid from "@/components/app/MetricsGrid.tsx";
+import Surface from "@/components/app/Surface.tsx";
+import PageHeader from "@/components/app/PageHeader.tsx";
 import { Button } from "@/components/base/button.tsx";
 import { Badge } from "@/components/base/badge.tsx";
 import { Avatar, AvatarFallback } from "@/components/base/avatar.tsx";
@@ -107,142 +109,122 @@ export default function SalesDashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50/40 text-foreground p-6 gap-6">
-      
+    <Surface>
+
       {/* --- Page Header Section --- */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-100">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Sales Dashboard</h1>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 hover:bg-slate-100 rounded-full"
-              onClick={() => setIsStarred(!isStarred)}
-            >
-              <Star
-                className={`h-5 w-5 transition-colors ${
-                  isStarred ? "fill-amber-400 stroke-amber-500" : "text-slate-400"
-                }`}
-              />
-            </Button>
-          </div>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Overview of your sales performance and key metrics.
-          </p>
-        </div>
+      <PageHeader
+        title="Sales Dashboard"
+        description="Overview of your sales performance and key metrics."
+        isStarred={isStarred}
+        onStarToggle={() => setIsStarred(!isStarred)}
+      >
 
-        {/* Header Controls */}
-        <div className="flex items-center gap-3 self-end md:self-auto relative">
-          
-          {/* Date Picker Button */}
-          <div className="relative">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50"
-              onClick={() => setShowDatePicker(!showDatePicker)}
-            >
-              <Calendar className="h-4 w-4 text-slate-400" />
-              <span className="font-medium text-xs">{dateRange}</span>
-              <ChevronDown className="h-3 w-3 text-slate-400" />
-            </Button>
-
-            {/* Date Picker Simulator Dropdown */}
-            {showDatePicker && (
-              <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-xl z-50 py-1 text-xs">
-                <div className="px-3 py-2 text-slate-400 font-bold border-b select-none">
-                  Select Date Range
-                </div>
-                <button
-                  className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                  onClick={() => {
-                    setDateRange("01 May 2026 - 31 May 2026");
-                    setShowDatePicker(false);
-                  }}
-                >
-                  May 2026 (Active Month)
-                </button>
-                <button
-                  className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                  onClick={() => {
-                    setDateRange("01 Apr 2026 - 30 Apr 2026");
-                    setShowDatePicker(false);
-                  }}
-                >
-                  April 2026 (Previous Month)
-                </button>
-                <button
-                  className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                  onClick={() => {
-                    setDateRange("01 Mar 2026 - 31 May 2026");
-                    setShowDatePicker(false);
-                  }}
-                >
-                  Last 3 Months (Spring)
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Filters Toggle Button */}
+        {/* Date Picker Button */}
+        <div className="relative">
           <Button
             variant="outline"
             size="sm"
-            className={`flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50 ${
-              showFilters ? "border-blue-500 ring-1 ring-blue-500/25" : ""
-            }`}
-            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50"
+            onClick={() => setShowDatePicker(!showDatePicker)}
           >
-            <SlidersHorizontal className="h-4 w-4 text-slate-400" />
-            <span className="font-medium text-xs">Filters</span>
-            {activeFilterBranch !== "All" && (
-              <Badge className="ml-1 bg-blue-100 text-blue-700 hover:bg-blue-100 px-1 text-[10px]">
-                {activeFilterBranch}
-              </Badge>
-            )}
+            <Calendar className="h-4 w-4 text-slate-400" />
+            <span className="font-medium text-xs">{dateRange}</span>
+            <ChevronDown className="h-3 w-3 text-slate-400" />
           </Button>
 
-          {/* Filter Simulator Box */}
-          {showFilters && (
-            <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-xl z-50 p-4 text-xs flex flex-col gap-3">
-              <div className="font-bold text-slate-900 border-b pb-1 select-none flex justify-between items-center">
-                <span>Filter Dashboard</span>
-                <button
-                  className="text-blue-600 hover:underline font-medium"
-                  onClick={() => {
-                    setActiveFilterBranch("All");
-                    setShowFilters(false);
-                  }}
-                >
-                  Reset
-                </button>
+          {/* Date Picker Simulator Dropdown */}
+          {showDatePicker && (
+            <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-xl z-50 py-1 text-xs">
+              <div className="px-3 py-2 text-slate-400 font-bold border-b select-none">
+                Select Date Range
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-slate-500 font-semibold mb-1">Branch Location</span>
-                {["All", "Main Branch", "HSR Layout", "Whitefield", "Mysore Road"].map((branch) => (
-                  <label key={branch} className="flex items-center gap-2 py-1 cursor-pointer hover:text-slate-900">
-                    <input
-                      type="radio"
-                      name="branchFilter"
-                      checked={activeFilterBranch === branch}
-                      onChange={() => {
-                        setActiveFilterBranch(branch);
-                        setShowFilters(false);
-                      }}
-                      className="text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className={activeFilterBranch === branch ? "font-bold text-blue-700" : "text-slate-600"}>
-                      {branch}
-                    </span>
-                  </label>
-                ))}
-              </div>
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
+                onClick={() => {
+                  setDateRange("01 May 2026 - 31 May 2026");
+                  setShowDatePicker(false);
+                }}
+              >
+                May 2026 (Active Month)
+              </button>
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
+                onClick={() => {
+                  setDateRange("01 Apr 2026 - 30 Apr 2026");
+                  setShowDatePicker(false);
+                }}
+              >
+                April 2026 (Previous Month)
+              </button>
+              <button
+                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
+                onClick={() => {
+                  setDateRange("01 Mar 2026 - 31 May 2026");
+                  setShowDatePicker(false);
+                }}
+              >
+                Last 3 Months (Spring)
+              </button>
             </div>
           )}
-
         </div>
-      </div>
+
+        {/* Filters Toggle Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          className={`flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50 ${showFilters ? "border-blue-500 ring-1 ring-blue-500/25" : ""
+            }`}
+          onClick={() => setShowFilters(!showFilters)}
+        >
+          <SlidersHorizontal className="h-4 w-4 text-slate-400" />
+          <span className="font-medium text-xs">Filters</span>
+          {activeFilterBranch !== "All" && (
+            <Badge className="ml-1 bg-blue-100 text-blue-700 hover:bg-blue-100 px-1 text-[10px]">
+              {activeFilterBranch}
+            </Badge>
+          )}
+        </Button>
+
+        {/* Filter Simulator Box */}
+        {showFilters && (
+          <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-xl z-50 p-4 text-xs flex flex-col gap-3">
+            <div className="font-bold text-slate-900 border-b pb-1 select-none flex justify-between items-center">
+              <span>Filter Dashboard</span>
+              <button
+                className="text-blue-600 hover:underline font-medium"
+                onClick={() => {
+                  setActiveFilterBranch("All");
+                  setShowFilters(false);
+                }}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-slate-500 font-semibold mb-1">Branch Location</span>
+              {["All", "Main Branch", "HSR Layout", "Whitefield", "Mysore Road"].map((branch) => (
+                <label key={branch} className="flex items-center gap-2 py-1 cursor-pointer hover:text-slate-900">
+                  <input
+                    type="radio"
+                    name="branchFilter"
+                    checked={activeFilterBranch === branch}
+                    onChange={() => {
+                      setActiveFilterBranch(branch);
+                      setShowFilters(false);
+                    }}
+                    className="text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className={activeFilterBranch === branch ? "font-bold text-blue-700" : "text-slate-600"}>
+                    {branch}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </PageHeader>
 
       {/* --- Row 1: KPI Cards Grid --- */}
       <MetricsGrid
@@ -295,7 +277,7 @@ export default function SalesDashboard() {
 
       {/* --- Row 2: Charts and Highlights Row --- */}
       <div className="grid grid-cols-12 gap-6">
-        
+
         {/* Sales Trend Line Chart Card */}
         <Card className="col-span-12 xl:col-span-4 border-slate-100">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -309,7 +291,7 @@ export default function SalesDashboard() {
           </CardHeader>
           <CardContent className="h-[240px]">
             <SalesTrendChart data={currentTrendData} />
-            
+
             {/* Custom chart legend inside card content */}
             <div className="flex items-center justify-center gap-4 mt-1 text-[10px] font-semibold text-slate-500">
               <div className="flex items-center gap-1">
@@ -398,13 +380,13 @@ export default function SalesDashboard() {
 
       {/* --- Row 3: Grid containing Tables, Invoices, Feeds, and Sales Comparison --- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* LEFT & CENTER COMBINED VERTICAL STACK */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-          
+
           {/* Top Row: Sales Overview Table & Items/Branch Tables */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             {/* Sales Overview Comparison Card */}
             <Card className="border-slate-100">
               <CardHeader className="pb-2">
@@ -483,7 +465,7 @@ export default function SalesDashboard() {
 
             {/* Sales by Item & Sales by Branch Stacked Column */}
             <div className="flex flex-col gap-6">
-              
+
               {/* Sales by Item Card */}
               <Card className="border-slate-100 flex-1">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -612,11 +594,11 @@ export default function SalesDashboard() {
               </Badge>
             </CardHeader>
             <CardContent className="h-[240px] flex flex-col md:flex-row gap-6 items-center">
-              
+
               {/* Bar Chart Container */}
               <div className="flex-1 w-full h-full min-h-[170px]">
                 <SalesComparisonChart data={comparisonData} />
-                
+
                 {/* Custom chart legend */}
                 <div className="flex items-center justify-center gap-4 mt-2 text-[10px] font-semibold text-slate-500">
                   <div className="flex items-center gap-1">
@@ -654,7 +636,7 @@ export default function SalesDashboard() {
 
         {/* RIGHT COLUMN (Invoices, Activities) */}
         <div className="lg:col-span-1 flex flex-col gap-6">
-          
+
           {/* Recent Invoices Card */}
           <Card className="border-slate-100 flex flex-col h-[325px]">
             <CardHeader className="flex flex-row items-center justify-between pb-2 shrink-0">
@@ -747,6 +729,6 @@ export default function SalesDashboard() {
 
       </div>
 
-    </div>
+    </Surface>
   );
 }
