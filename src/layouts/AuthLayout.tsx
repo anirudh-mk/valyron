@@ -1,32 +1,17 @@
-import {AppSidebar} from "@/components/app-sidebar.tsx";
+import {AppSidebar} from "@/components/layout/app-sidebar.tsx";
+import {Navbar} from "@/components/layout/navbar.tsx";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/base/breadcrumb"
-import {Separator} from "@/components/base/separator"
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/base/sidebar"
 import type {ReactNode} from "react";
-import {Outlet, useLocation} from "react-router-dom";
-import {TabProvider, getPageTitle, useTabs} from "@/hooks/use-tabs.tsx";
+import {Outlet} from "react-router-dom";
+import {TabProvider, useTabs} from "@/hooks/use-tabs.tsx";
 import {TabBar} from "@/components/tabs/TabBar.tsx";
-import {getSearchPages} from "@/components/tabs/PageSearchDialog.tsx";
 
 function AuthLayoutContent({ children }: { children?: ReactNode }) {
   const { tabsEnabled, tabPosition } = useTabs();
-  const location = useLocation();
-  const searchPages = getSearchPages();
-  const activePage = searchPages.find(p => p.url === location.pathname);
-  const category = activePage?.category || "Platform";
-  const title = activePage?.title || getPageTitle(location.pathname);
 
   const isVertical = tabPosition === "left" || tabPosition === "right";
 
@@ -34,33 +19,7 @@ function AuthLayoutContent({ children }: { children?: ReactNode }) {
     <SidebarProvider>
       <AppSidebar/>
       <SidebarInset className="flex flex-col h-screen bg-background min-w-0 overflow-hidden">
-        <header
-          className="sticky top-0 z-50 bg-background border-b flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1"/>
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                {location.pathname !== "/dashboard" && location.pathname !== "/" && (
-                  <>
-                    <BreadcrumbItem className="hidden md:block">
-                      <span className="text-muted-foreground">
-                        {category}
-                      </span>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block"/>
-                  </>
-                )}
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{title}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+        <Navbar />
         
         {/* Horizontal Top Tab Bar */}
         {tabsEnabled && tabPosition === "top" && <TabBar />}
