@@ -414,7 +414,7 @@ const getFilterConfig = ({
 
 export default function LeadsList() {
   const [leads] = useState<Lead[]>(initialLeads);
-  const [selectedLeadId, setSelectedLeadId] = useState<string | null>("glow-systems");
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sourceFilter, setSourceFilter] = useState("All");
@@ -443,7 +443,7 @@ export default function LeadsList() {
     return matchesSearch && matchesStatus && matchesSource && matchesScore;
   });
 
-  const selectedLead = leads.find((l) => l.id === selectedLeadId) || leads[0];
+  const selectedLead = leads.find((l) => l.id === selectedLeadId);
 
   const filterConfig = getFilterConfig({
     searchTerm,
