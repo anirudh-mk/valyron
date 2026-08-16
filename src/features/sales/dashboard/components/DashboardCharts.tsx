@@ -1,5 +1,4 @@
 import React, { useMemo } from "react"
-import { ReusableLineChart } from "@/components/charts/line-chart"
 import { ReusablePieChart } from "@/components/charts/pie-chart"
 import { ReusableBarChart } from "@/components/charts/bar-chart"
 import { type ChartConfig } from "@/components/base/chart"
@@ -14,7 +13,7 @@ const formatCurrency = (val: number) => {
 }
 
 // ----------------------------------------------------
-// 1. Sales Trend Line Chart (This Month vs Last Month)
+// 1. Sales Trend Bar Chart (This Month vs Last Month)
 // ----------------------------------------------------
 export interface TrendDataPoint {
   label: string
@@ -33,27 +32,32 @@ const trendChartConfig: ChartConfig = {
   },
   lastMonth: {
     label: "Last Month",
-    color: "#94a3b8",
+    color: "#cbd5e1",
   },
 }
 
 export function SalesTrendChart({ data }: SalesTrendChartProps) {
   const series = useMemo(
     () => [
-      { key: "thisMonth", type: "area" as const, strokeWidth: 2.5 },
-      { key: "lastMonth", type: "line" as const, strokeDasharray: "4 4", strokeWidth: 1.5 },
+      { key: "thisMonth", radius: [4, 4, 0, 0] as [number, number, number, number] },
+      { key: "lastMonth", radius: [4, 4, 0, 0] as [number, number, number, number] },
     ],
     []
   )
 
   return (
     <div className="w-full h-[240px]">
-      <ReusableLineChart
+      <ReusableBarChart
         data={data}
         config={trendChartConfig}
         xAxisKey="label"
         series={series}
-        yFormatter={formatCurrency}
+        yFormatter={(v) =>
+          new Intl.NumberFormat("en-IN", {
+            notation: "compact",
+            maximumFractionDigits: 1,
+          }).format(v)
+        }
         className="w-full h-full"
       />
     </div>
