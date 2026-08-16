@@ -1,7 +1,9 @@
-import React, {useState} from "react";
-import {Card, CardHeader} from "@/components/base/card.tsx";
-import {Button} from "@/components/base/button.tsx";
-import {Badge} from "@/components/base/badge.tsx";
+import React from "react";
+import { Card, CardHeader, CardContent } from "@/components/base/card.tsx";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/base/tabs.tsx";
+import { Button } from "@/components/base/button.tsx";
+import { Badge } from "@/components/base/badge.tsx";
+import { Empty, EmptyMedia, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent } from "@/components/base/empty.tsx";
 import {
   X,
   Edit2,
@@ -13,7 +15,7 @@ import {
   Upload,
   Activity,
 } from "lucide-react";
-import type {Lead} from "../pages/LeadsList.tsx";
+import type { Lead } from "../pages/LeadsList.tsx";
 
 const getScoreColor = (score: number) => {
   if (score >= 75) return "bg-emerald-100 text-emerald-800 border-emerald-200";
@@ -27,14 +29,13 @@ interface LeadDetailsSectionProps {
 }
 
 export default function LeadDetailsSection({
-                                             selectedLead,
-                                             setSelectedLeadId,
-                                           }: LeadDetailsSectionProps) {
-  const [selectedTab, setSelectedTab] = useState<"overview" | "activities" | "notes" | "files">("overview");
+  selectedLead,
+  setSelectedLeadId,
+}: LeadDetailsSectionProps) {
 
   return (
     <Card
-      className="w-105 shrink-0 sticky top-6 overflow-hidden max-h-200 flex flex-col p-0">
+      className="w-105 shrink-0 sticky top-6 overflow-hidden max-h-200 flex flex-col p-0 gap-0">
       <CardHeader className="p-0 flex-col gap-0">
         {/* Drawer Header */}
         <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
@@ -62,19 +63,19 @@ export default function LeadDetailsSection({
               className="h-7 w-7 rounded-full text-slate-400 hover:bg-slate-100"
               onClick={() => setSelectedLeadId(null)}
             >
-              <X className="h-4.5 w-4.5"/>
+              <X className="h-4.5 w-4.5" />
             </Button>
           </div>
         </div>
 
         {/* Quick action button toolbar */}
-        <div className="px-4 py-2 bg-slate-50/20 border-b border-slate-100 flex items-center gap-1.5 text-xs">
+        <div className="px-4 py-3 bg-slate-50/20 border-b border-slate-100 flex items-center gap-1.5 text-xs">
           <Button
             variant="outline"
             size="sm"
             className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
           >
-            <Edit2 className="h-3.5 w-3.5"/>
+            <Edit2 className="h-3.5 w-3.5" />
             Edit
           </Button>
           <Button
@@ -82,7 +83,7 @@ export default function LeadDetailsSection({
             size="sm"
             className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
           >
-            <Sparkles className="h-3.5 w-3.5 text-blue-600"/>
+            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
             Convert
           </Button>
           <Button
@@ -90,42 +91,48 @@ export default function LeadDetailsSection({
             size="sm"
             className="h-7 px-2.5 text-[11px] gap-1 font-semibold text-slate-700 bg-white"
           >
-            <Phone className="h-3.5 w-3.5 text-emerald-600"/>
+            <Phone className="h-3.5 w-3.5 text-emerald-600" />
             Follow Up
           </Button>
           <Button variant="outline" size="sm" className="h-7 w-7 p-0 bg-white ml-auto">
-            <MoreHorizontal className="h-4 w-4 text-slate-400"/>
+            <MoreHorizontal className="h-4 w-4 text-slate-400" />
           </Button>
         </div>
       </CardHeader>
 
-      {/* Drawer Tabs Header */}
-      <div className="border-b border-slate-100 flex text-xs font-bold text-slate-500 bg-slate-50/20">
-        {[
-          {id: "overview", label: "Overview", icon: User},
-          {id: "activities", label: "Activities", icon: FileText},
-          {id: "notes", label: "Notes", icon: Edit2},
-          {id: "files", label: "Files", icon: Upload},
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setSelectedTab(tab.id as any)}
-            className={`flex-1 py-2.5 border-b-2 flex items-center justify-center gap-1.5 transition-colors ${
-              selectedTab === tab.id
-                ? "border-blue-600 text-blue-700 font-bold bg-white"
-                : "border-transparent hover:bg-slate-50/50 hover:text-slate-700"
-            }`}
-          >
-            <tab.icon className="h-3.5 w-3.5 shrink-0"/>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </div>
+      <CardContent className="p-0 flex flex-col flex-1 overflow-hidden">
+        {/* Tabs */}
+        <Tabs defaultValue="overview" className="flex flex-col flex-1 overflow-hidden">
+          {/* Tab List */}
+          <TabsList variant="line">
+            <TabsTrigger
+              value="overview"
+            >
+              <User className="h-3.5 w-3.5 shrink-0" />
+              Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="activities"
+            >
+              <FileText className="h-3.5 w-3.5 shrink-0" />
+              Activities
+            </TabsTrigger>
+            <TabsTrigger
+              value="notes"
+            >
+              <Edit2 className="h-3.5 w-3.5 shrink-0" />
+              Notes
+            </TabsTrigger>
+            <TabsTrigger
+              value="files"
+            >
+              <Upload className="h-3.5 w-3.5 shrink-0" />
+              Files
+            </TabsTrigger>
+          </TabsList>
 
-      {/* Drawer Content Body */}
-      <div className="p-4 overflow-y-auto flex-1 flex flex-col gap-5 text-xs text-slate-600 max-h-[580px]">
-        {selectedTab === "overview" && (
-          <>
+          {/* Overview */}
+          <TabsContent value="overview" className="p-4 overflow-y-auto flex-1 flex flex-col gap-5 text-xs text-slate-600 mt-0">
             {/* Lead Information */}
             <div className="flex flex-col gap-2.5">
               <h4 className="font-extrabold text-slate-900 uppercase tracking-wider text-[10px] text-slate-400">
@@ -199,8 +206,7 @@ export default function LeadDetailsSection({
               <h4 className="font-extrabold text-slate-900 uppercase tracking-wider text-[10px] text-slate-400">
                 Notes
               </h4>
-              <div
-                className="bg-slate-50 border border-slate-100 rounded-lg p-3 font-semibold text-slate-700 leading-relaxed">
+              <div className="bg-slate-50 border border-slate-100 rounded-lg p-3 font-semibold text-slate-700 leading-relaxed">
                 {selectedLead.notes}
               </div>
             </div>
@@ -224,50 +230,62 @@ export default function LeadDetailsSection({
                 </button>
               </div>
             </div>
-          </>
-        )}
+          </TabsContent>
 
-        {selectedTab === "activities" && (
-          <div className="flex flex-col gap-4 text-center py-6 text-slate-400">
-            <Activity className="h-8 w-8 text-slate-300 mx-auto"/>
-            <span>No activities logged yet for this lead.</span>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white border-slate-200 font-bold self-center"
-            >
-              Log Activity
-            </Button>
-          </div>
-        )}
+          {/* Activities */}
+          <TabsContent value="activities" className="p-4 overflow-y-auto flex-1 mt-0">
+            <Empty>
+              <EmptyMedia>
+                <Activity className="h-8 w-8 text-slate-300" />
+              </EmptyMedia>
+              <EmptyHeader>
+                <EmptyTitle>No activities yet</EmptyTitle>
+                <EmptyDescription>No activities logged yet for this lead.</EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button variant="outline" size="sm" className="bg-white border-slate-200 font-bold">
+                  Log Activity
+                </Button>
+              </EmptyContent>
+            </Empty>
+          </TabsContent>
 
-        {selectedTab === "notes" && (
-          <div className="flex flex-col gap-3">
-            <div className="font-bold text-slate-800 mb-1">Add a quick note</div>
-            <textarea
-              placeholder="Type details here..."
-              className="w-full min-h-[80px] p-2 border rounded-lg bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
-            />
-            <Button
-              size="sm"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold self-end text-xs"
-            >
-              Save Note
-            </Button>
-          </div>
-        )}
-
-        {selectedTab === "files" && (
-          <div
-            className="flex flex-col gap-4 text-center py-8 border border-dashed border-slate-200 rounded-lg bg-slate-50/50 justify-center">
-            <Upload className="h-8 w-8 text-slate-300 mx-auto"/>
-            <div className="flex flex-col gap-1 text-[11px]">
-              <span className="font-bold text-slate-700">Drag files here to upload</span>
-              <span className="text-slate-400 font-semibold">Or click to browse from device</span>
+          {/* Notes */}
+          <TabsContent value="notes" className="p-4 overflow-y-auto flex-1 mt-0">
+            <div className="flex flex-col gap-3 text-xs">
+              <div className="font-bold text-slate-800 mb-1">Add a quick note</div>
+              <textarea
+                placeholder="Type details here..."
+                className="w-full min-h-[80px] p-2 border rounded-lg bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
+              />
+              <Button
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold self-end text-xs"
+              >
+                Save Note
+              </Button>
             </div>
-          </div>
-        )}
-      </div>
+          </TabsContent>
+
+          {/* Files */}
+          <TabsContent value="files" className="p-4 overflow-y-auto flex-1 mt-0">
+            <Empty>
+              <EmptyMedia>
+                <Upload className="h-8 w-8 text-slate-300" />
+              </EmptyMedia>
+              <EmptyHeader>
+                <EmptyTitle>No files uploaded</EmptyTitle>
+                <EmptyDescription>Drag files here to upload, or click to browse from device.</EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button variant="outline" size="sm" className="bg-white border-slate-200 font-bold">
+                  Browse Files
+                </Button>
+              </EmptyContent>
+            </Empty>
+          </TabsContent>
+        </Tabs>
+      </CardContent>
     </Card>
   );
 }
