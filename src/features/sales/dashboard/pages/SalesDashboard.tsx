@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/base/card.tsx";
+import MetricsGrid from "@/components/app/MetricsGrid.tsx";
 import { Button } from "@/components/base/button.tsx";
 import { Badge } from "@/components/base/badge.tsx";
 import { Avatar, AvatarFallback } from "@/components/base/avatar.tsx";
@@ -244,123 +245,53 @@ export default function SalesDashboard() {
       </div>
 
       {/* --- Row 1: KPI Cards Grid --- */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        
-        {/* KPI 1: Total Sales */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Sales (₹)</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "₹ 18,35,000" : "₹ 15,48,750"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="h-3 w-3" />
-                <span>{isMayData ? "18.6%" : "12.4%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl shrink-0">
-              <ShoppingBag className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* KPI 2: Invoices */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Invoices</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "156" : "139"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="h-3 w-3" />
-                <span>{isMayData ? "12.5%" : "8.2%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl shrink-0">
-              <FileText className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* KPI 3: New Customers */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">New Customers</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "32" : "28"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="h-3 w-3" />
-                <span>{isMayData ? "10.3%" : "9.1%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl shrink-0">
-              <Users className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* KPI 4: Avg Order Value */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Avg. Order Value (₹)</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "₹ 11,762" : "₹ 11,142"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="h-3 w-3" />
-                <span>{isMayData ? "8.7%" : "5.4%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl shrink-0">
-              <ShoppingBag className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* KPI 5: Returns */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Returns (₹)</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "₹ 97,350" : "₹ 1,03,950"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-rose-600">
-                <ArrowDownRight className="h-3 w-3" />
-                <span>{isMayData ? "-6.4%" : "-2.1%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-teal-50 text-teal-600 rounded-2xl shrink-0">
-              <ArrowDownRight className="h-5 w-5 rotate-90" />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* KPI 6: Gross Profit */}
-        <Card className="border-slate-100 hover:shadow-md transition-shadow duration-300">
-          <CardContent className="p-4 flex items-center justify-between gap-3">
-            <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Gross Profit (₹)</span>
-              <div className="text-xl font-bold text-slate-900 font-mono">
-                {isMayData ? "₹ 6,48,250" : "₹ 5,58,600"}
-              </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-600">
-                <TrendingUp className="h-3 w-3" />
-                <span>{isMayData ? "16.2%" : "11.5%"} vs Apr 2026</span>
-              </div>
-            </div>
-            <div className="p-3 bg-pink-50 text-pink-600 rounded-2xl shrink-0">
-              <Percent className="h-5 w-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-      </div>
+      <MetricsGrid
+        items={[
+          {
+            label: "Total Sales (₹)",
+            value: isMayData ? "₹ 18,35,000" : "₹ 15,48,750",
+            change: isMayData ? "▲ 18.6% vs Apr 2026" : "▲ 12.4% vs Apr 2026",
+            color: "bg-blue-50 text-blue-600",
+            icon: ShoppingBag
+          },
+          {
+            label: "Invoices",
+            value: isMayData ? "156" : "139",
+            change: isMayData ? "▲ 12.5% vs Apr 2026" : "▲ 8.2% vs Apr 2026",
+            color: "bg-emerald-50 text-emerald-600",
+            icon: FileText
+          },
+          {
+            label: "New Customers",
+            value: isMayData ? "32" : "28",
+            change: isMayData ? "▲ 10.3% vs Apr 2026" : "▲ 9.1% vs Apr 2026",
+            color: "bg-purple-50 text-purple-600",
+            icon: Users
+          },
+          {
+            label: "Avg. Order Value (₹)",
+            value: isMayData ? "₹ 11,762" : "₹ 11,142",
+            change: isMayData ? "▲ 8.7% vs Apr 2026" : "▲ 5.4% vs Apr 2026",
+            color: "bg-amber-50 text-amber-600",
+            icon: ShoppingBag
+          },
+          {
+            label: "Returns (₹)",
+            value: isMayData ? "₹ 97,350" : "₹ 1,03,950",
+            change: isMayData ? "▼ -6.4% vs Apr 2026" : "▼ -2.1% vs Apr 2026",
+            color: "bg-teal-50 text-teal-600",
+            icon: ArrowDownRight,
+            iconClass: "rotate-90"
+          },
+          {
+            label: "Gross Profit (₹)",
+            value: isMayData ? "₹ 6,48,250" : "₹ 5,58,600",
+            change: isMayData ? "▲ 16.2% vs Apr 2026" : "▲ 11.5% vs Apr 2026",
+            color: "bg-pink-50 text-pink-600",
+            icon: Percent
+          }
+        ]}
+      />
 
       {/* --- Row 2: Charts and Highlights Row --- */}
       <div className="grid grid-cols-12 gap-6">
