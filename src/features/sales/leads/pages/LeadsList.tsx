@@ -5,7 +5,6 @@ import MetricsSection from "@/features/sales/leads/sections/MetricsSection.tsx";
 import { FilterBar } from "@/components/app/FilterBar.tsx";
 import LeadDetailsSection from "@/features/sales/leads/sections/LeadDetailsSection.tsx";
 import LeadsTable from "@/features/sales/leads/sections/LeadsTable.tsx";
-import Grid from "@/components/app/Grid.tsx";
 import { Button } from "@/components/base/button.tsx";
 import { ChevronDown, Plus, Upload } from "lucide-react";
 
@@ -486,7 +485,7 @@ export default function LeadsList() {
       />
 
       {/* --- Main Table Layout with Right Details Sidebar Panel --- */}
-      <Grid>
+      <div className="flex gap-3">
         <LeadsTable
           filteredLeads={filteredLeads}
           selectedLeadId={selectedLeadId}
@@ -500,7 +499,7 @@ export default function LeadsList() {
             setSelectedLeadId={setSelectedLeadId}
           />
         )}
-      </Grid>
+      </div>
     </Surface>
   );
 }

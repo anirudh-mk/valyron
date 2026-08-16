@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Card, CardContent } from "@/components/base/card.tsx";
+import { Card, CardContent, CardFooter } from "@/components/base/card.tsx";
 import { Button } from "@/components/base/button.tsx";
 import { Checkbox } from "@/components/base/checkbox.tsx";
 import {
@@ -112,10 +112,10 @@ export function DataTable<TData>({
   const totalPages = Math.ceil(data.length / pageSize);
 
   return (
-    <Card className={cn("p-0 transition-all duration-300", className)}>
-      <CardContent className="p-0">
+    <Card className={cn("p-0 gap-0 transition-all duration-300 flex flex-col", className)}>
+      <CardContent className="p-0 flex-1 overflow-auto flex flex-col">
         {/* ── Table ── */}
-        <div className="overflow-x-auto min-w-0">
+        <div className="flex-1">
           <Table className="text-xs w-full">
             <TableHeader className="bg-slate-50/50">
               <TableRow className="hover:bg-transparent">
@@ -203,59 +203,59 @@ export function DataTable<TData>({
             </TableBody>
           </Table>
         </div>
-
-        {/* ── Pagination Footer ── */}
-        <div className="flex items-center justify-between p-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
-          <span>
-            Showing {data.length === 0 ? 0 : (currentPage - 1) * pageSize + 1} to{" "}
-            {Math.min(currentPage * pageSize, data.length)} of {data.length} {rowLabel}
-          </span>
-          <Pagination className="mx-0 w-auto">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage > 1) setCurrentPage(currentPage - 1);
-                  }}
-                  disabled={currentPage === 1}
-                />
-              </PaginationItem>
-              {buildPageItems(currentPage, totalPages).map((item, idx) =>
-                item === "ellipsis" ? (
-                  <PaginationItem key={`ellipsis-${idx}`}>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                ) : (
-                  <PaginationItem key={item}>
-                    <PaginationLink
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setCurrentPage(item);
-                      }}
-                      isActive={currentPage === item}
-                    >
-                      {item}
-                    </PaginationLink>
-                  </PaginationItem>
-                )
-              )}
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                  }}
-                  disabled={currentPage === totalPages || totalPages === 0}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
       </CardContent>
+
+      {/* ── Pagination Footer ── */}
+      <CardFooter className="flex items-center justify-between !py-3 px-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+        <span>
+          Showing {data.length === 0 ? 0 : (currentPage - 1) * pageSize + 1} to{" "}
+          {Math.min(currentPage * pageSize, data.length)} of {data.length} {rowLabel}
+        </span>
+        <Pagination className="mx-0 w-auto">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) setCurrentPage(currentPage - 1);
+                }}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            {buildPageItems(currentPage, totalPages).map((item, idx) =>
+              item === "ellipsis" ? (
+                <PaginationItem key={`ellipsis-${idx}`}>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              ) : (
+                <PaginationItem key={item}>
+                  <PaginationLink
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrentPage(item);
+                    }}
+                    isActive={currentPage === item}
+                  >
+                    {item}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            )}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                }}
+                disabled={currentPage === totalPages || totalPages === 0}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </CardFooter>
     </Card>
   );
 }

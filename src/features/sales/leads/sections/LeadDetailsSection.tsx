@@ -34,7 +34,7 @@ export default function LeadDetailsSection({
 
   return (
     <Card
-      className="col-span-12 xl:col-span-4 border-l-2 sticky top-6 bg-white overflow-hidden max-h-[800px] flex flex-col">
+      className="w-[420px] shrink-0 border-l-2 sticky top-6 bg-white overflow-hidden max-h-[800px] flex flex-col">
       {/* Drawer Header */}
       <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
         <div className="flex flex-col gap-0.5">

@@ -121,7 +121,7 @@ export default function LeadsTable({
         setSelectedLeadId(selectedLeadId === lead.id ? null : lead.id)
       }
       className={`transition-all duration-300 ${
-        selectedLeadId ? "col-span-12 xl:col-span-8" : "col-span-12"
+        selectedLeadId ? "flex-1 min-w-0" : "flex-1 min-w-0"
       }`}
       emptyMessage="No leads match your filter choices."
       rowLabel="leads"
