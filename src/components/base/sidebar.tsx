@@ -23,7 +23,7 @@ const SidebarContent = React.forwardRef<
   return (
     <UI.SidebarContent
       ref={ref}
-      className={cn("", className)}
+      className={cn("no-scrollbar", className)}
       {...props}
     />
   )
