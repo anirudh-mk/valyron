@@ -39,7 +39,7 @@ const activities: ActivityItem[] = [
 
 export function ActivityFeedCard() {
   return (
-    <Card className="border-slate-100 flex flex-col h-full">
+    <Card className=" flex flex-col h-full">
       <CardHeader className="pb-2 shrink-0">
         <CardTitle className="text-sm font-bold text-slate-800">Activity Feed</CardTitle>
       </CardHeader>

@@ -21,7 +21,7 @@ export function AnalyticsRow({ comparisonData }: AnalyticsRowProps) {
       <SalesOverviewCard />
 
       {/* Col 2: Sales by Item + Sales by Branch stacked */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
         <SalesByItemCard />
         <SalesByBranchCard />
       </div>

@@ -10,7 +10,7 @@ interface SalesComparisonCardProps {
 
 export function SalesComparisonCard({ data }: SalesComparisonCardProps) {
   return (
-    <Card className="border-slate-100 h-full flex flex-col">
+    <Card className=" h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div className="flex items-center gap-1.5">
           <CardTitle className="text-sm font-bold text-slate-800">Sales Comparison</CardTitle>
@@ -21,7 +21,7 @@ export function SalesComparisonCard({ data }: SalesComparisonCardProps) {
         </Badge>
       </CardHeader>
 
-      <CardContent className="h-[240px] flex flex-col md:flex-row gap-6 items-center">
+      <CardContent className=" flex flex-col md:flex-row gap-6 items-center">
 
         {/* Bar Chart Container */}
         <div className="flex-1 w-full h-full min-h-[170px]">
