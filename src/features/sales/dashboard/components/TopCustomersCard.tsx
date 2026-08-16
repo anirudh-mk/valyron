@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/base/card"
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/base/card"
 import { Badge } from "@/components/base/badge"
 import { Button } from "@/components/base/button"
 import { Avatar, AvatarFallback } from "@/components/base/avatar"
@@ -52,13 +52,16 @@ export function TopCustomersCard({ customers, formatCurrency }: TopCustomersCard
           ))}
         </div>
 
+      </CardContent>
+
+      <CardFooter className="pt-0">
         <Button
           variant="link"
-          className="text-xs text-blue-600 hover:text-blue-700 hover:underline p-0 h-auto justify-start font-bold mt-2"
+          className="text-xs text-blue-600 hover:text-blue-700 hover:underline p-0 h-auto justify-start font-bold"
         >
           View All Customers →
         </Button>
-      </CardContent>
+      </CardFooter>
     </Card>
   )
 }
