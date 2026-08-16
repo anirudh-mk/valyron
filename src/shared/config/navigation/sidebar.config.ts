@@ -10,6 +10,11 @@ import {
   Settings2,
   SquareTerminal,
   PieChart,
+  Calculator,
+  Quote,
+  FileCheck,
+  Receipt,
+  RotateCcw,
 } from "lucide-react";
 
 export const sidebarConfig = {
@@ -89,7 +94,7 @@ export const sidebarConfig = {
         {
           title: "Estimates",
           url: "/dashboard/sales/estimate/list",
-          icon: FileText,
+          icon: Calculator,
           isActive: false,
           items: [
             {
@@ -121,7 +126,7 @@ export const sidebarConfig = {
         {
           title: "Quotations",
           url: "/dashboard/sales/quotation/list",
-          icon: FileText,
+          icon: Quote,
           isActive: false,
           items: [
             {
@@ -145,19 +150,19 @@ export const sidebarConfig = {
         {
           title: "Sales Orders",
           url: "/dashboard/sales/order",
-          icon: FileText,
+          icon: FileCheck,
           items: [],
         },
         {
           title: "Invoices",
           url: "/dashboard/sales/invoice",
-          icon: FileText,
+          icon: Receipt,
           items: [],
         },
         {
           title: "Sales Returns",
           url: "/dashboard/sales/return",
-          icon: FileText,
+          icon: RotateCcw,
           items: [],
         },
       ],

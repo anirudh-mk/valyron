@@ -122,6 +122,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -153,11 +154,15 @@
 
 /* Hide scrollbars but keep functionality */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .no-scrollbar::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 /* Narrow scrollbars globally for main content, cards, and other panels */
@@ -193,4 +198,26 @@
 [data-sidebar="menu-sub-button"][data-active="true"] {
   background-color: var(--sidebar-primary) !important;
   color: var(--sidebar-primary-foreground) !important;
+}
+
+/* Reduce gap between sidebar groups and main menu items */
+[data-sidebar="content"] {
+  gap: 0.25rem !important;
+}
+
+[data-sidebar="group"] {
+  padding-top: 0.125rem !important;
+  padding-bottom: 0.125rem !important;
+}
+
+
+[data-sidebar="group-label"] {
+  height: 1.5rem !important;
+  margin-top: 0.125rem !important;
+  margin-bottom: 0.125rem !important;
+}
+
+[data-sidebar="menu-item"] {
+  margin-top: 0.0625rem !important;
+  margin-bottom: 0.0625rem !important;
 }
