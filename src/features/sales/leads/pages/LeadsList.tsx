@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Surface from "@/components/app/Surface.tsx";
 import PageHeader from "@/components/app/PageHeader.tsx";
 import MetricsSection from "@/features/sales/leads/sections/MetricsSection.tsx";
@@ -413,6 +414,7 @@ const getFilterConfig = ({
 
 export default function LeadsList() {
   const [leads] = useState<Lead[]>(initialLeads);
+  const navigate = useNavigate();
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -472,6 +474,7 @@ export default function LeadsList() {
         <Button
           size="sm"
           className="bg-blue-600 hover:bg-blue-700 text-white gap-1.5 font-semibold text-xs"
+          onClick={() => navigate("/dashboard/sales/leads/create")}
         >
           <Plus className="h-4 w-4" />
           New Lead
