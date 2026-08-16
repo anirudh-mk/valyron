@@ -9,12 +9,16 @@ import { sidebarConfig } from "@/shared/config/navigation/sidebar.config";
 export function getTabIcon(url: string) {
   const pathname = url.split("?")[0];
   
-  if (sidebarConfig?.navMain) {
-    for (const item of sidebarConfig.navMain) {
-      if (item.url === pathname && item.icon) return item.icon;
-      if (item.items) {
-        for (const subItem of item.items) {
-          if (subItem.url === pathname && item.icon) return item.icon;
+  if (sidebarConfig?.groups) {
+    for (const group of sidebarConfig.groups) {
+      if (group.items) {
+        for (const item of group.items) {
+          if (item.url === pathname && item.icon) return item.icon;
+          if (item.items) {
+            for (const subItem of item.items) {
+              if (subItem.url === pathname && item.icon) return item.icon;
+            }
+          }
         }
       }
     }

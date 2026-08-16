@@ -25,9 +25,10 @@ export interface SearchPageItem {
 // Extract all valid navigable routes from sidebarConfig
 export function getSearchPages(): SearchPageItem[] {
   const pages: SearchPageItem[] = [];
+  const allItems = sidebarConfig.groups?.flatMap(group => group.items) || [];
 
   // Add Dashboard
-  const dbItem = sidebarConfig.navMain?.find(item => item.url === "/dashboard");
+  const dbItem = allItems.find(item => item.url === "/dashboard");
   pages.push({
     title: "Dashboard",
     url: "/dashboard",
@@ -35,7 +36,7 @@ export function getSearchPages(): SearchPageItem[] {
     icon: dbItem?.icon,
   });
 
-  sidebarConfig.navMain?.forEach(item => {
+  allItems.forEach(item => {
     // If the item has children/sub-items
     if (item.items && item.items.length > 0) {
       item.items.forEach(subItem => {

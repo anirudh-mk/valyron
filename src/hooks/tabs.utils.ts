@@ -7,12 +7,16 @@ export function getPageTitle(url: string): string {
   if (pathname === "/" || pathname === "/dashboard") return "Dashboard";
 
   // Check sidebar config
-  if (sidebarConfig?.navMain) {
-    for (const item of sidebarConfig.navMain) {
-      if (item.url === pathname) return item.title;
-      if (item.items) {
-        for (const subItem of item.items) {
-          if (subItem.url === pathname) return subItem.title;
+  if (sidebarConfig?.groups) {
+    for (const group of sidebarConfig.groups) {
+      if (group.items) {
+        for (const item of group.items) {
+          if (item.url === pathname) return item.title;
+          if (item.items) {
+            for (const subItem of item.items) {
+              if (subItem.url === pathname) return subItem.title;
+            }
+          }
         }
       }
     }
