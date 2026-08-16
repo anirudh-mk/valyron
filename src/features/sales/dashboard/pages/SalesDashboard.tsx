@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/base/card.tsx";
 import MetricsGrid from "@/components/app/MetricsGrid.tsx";
 import Surface from "@/components/app/Surface.tsx";
-import PageHeader from "@/components/app/PageHeader.tsx";
 import { Button } from "@/components/base/button.tsx";
 import { Badge } from "@/components/base/badge.tsx";
 import { Avatar, AvatarFallback } from "@/components/base/avatar.tsx";
@@ -29,6 +28,7 @@ import {
   DonutChart,
   SalesComparisonChart
 } from "../components/DashboardCharts";
+import DashboardHeader from "../components/DashboardHeader";
 import type {
   TrendDataPoint,
   DonutDataPoint,
@@ -91,8 +91,6 @@ const comparisonData: BarDataPoint[] = [
 export default function SalesDashboard() {
   const [isStarred, setIsStarred] = useState(false);
   const [dateRange, setDateRange] = useState("01 May 2026 - 31 May 2026");
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [activeFilterBranch, setActiveFilterBranch] = useState("All");
 
   // Toggle mockup states for data simulation
@@ -108,172 +106,67 @@ export default function SalesDashboard() {
     }).format(val);
   };
 
+  const kpiMetrics = [
+    {
+      label: "Total Sales (₹)",
+      value: isMayData ? "₹ 18,35,000" : "₹ 15,48,750",
+      change: isMayData ? "▲ 18.6% vs Apr 2026" : "▲ 12.4% vs Apr 2026",
+      color: "bg-blue-50 text-blue-600",
+      icon: ShoppingBag
+    },
+    {
+      label: "Invoices",
+      value: isMayData ? "156" : "139",
+      change: isMayData ? "▲ 12.5% vs Apr 2026" : "▲ 8.2% vs Apr 2026",
+      color: "bg-emerald-50 text-emerald-600",
+      icon: FileText
+    },
+    {
+      label: "New Customers",
+      value: isMayData ? "32" : "28",
+      change: isMayData ? "▲ 10.3% vs Apr 2026" : "▲ 9.1% vs Apr 2026",
+      color: "bg-purple-50 text-purple-600",
+      icon: Users
+    },
+    {
+      label: "Avg. Order Value (₹)",
+      value: isMayData ? "₹ 11,762" : "₹ 11,142",
+      change: isMayData ? "▲ 8.7% vs Apr 2026" : "▲ 5.4% vs Apr 2026",
+      color: "bg-amber-50 text-amber-600",
+      icon: ShoppingBag
+    },
+    {
+      label: "Returns (₹)",
+      value: isMayData ? "₹ 97,350" : "₹ 1,03,950",
+      change: isMayData ? "▼ -6.4% vs Apr 2026" : "▼ -2.1% vs Apr 2026",
+      color: "bg-teal-50 text-teal-600",
+      icon: ArrowDownRight,
+      iconClass: "rotate-90"
+    },
+    {
+      label: "Gross Profit (₹)",
+      value: isMayData ? "₹ 6,48,250" : "₹ 5,58,600",
+      change: isMayData ? "▲ 16.2% vs Apr 2026" : "▲ 11.5% vs Apr 2026",
+      color: "bg-pink-50 text-pink-600",
+      icon: Percent
+    }
+  ];
+
   return (
     <Surface>
 
       {/* --- Page Header Section --- */}
-      <PageHeader
-        title="Sales Dashboard"
-        description="Overview of your sales performance and key metrics."
+      <DashboardHeader
         isStarred={isStarred}
-        onStarToggle={() => setIsStarred(!isStarred)}
-      >
-
-        {/* Date Picker Button */}
-        <div className="relative">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50"
-            onClick={() => setShowDatePicker(!showDatePicker)}
-          >
-            <Calendar className="h-4 w-4 text-slate-400" />
-            <span className="font-medium text-xs">{dateRange}</span>
-            <ChevronDown className="h-3 w-3 text-slate-400" />
-          </Button>
-
-          {/* Date Picker Simulator Dropdown */}
-          {showDatePicker && (
-            <div className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-xl z-50 py-1 text-xs">
-              <div className="px-3 py-2 text-slate-400 font-bold border-b select-none">
-                Select Date Range
-              </div>
-              <button
-                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                onClick={() => {
-                  setDateRange("01 May 2026 - 31 May 2026");
-                  setShowDatePicker(false);
-                }}
-              >
-                May 2026 (Active Month)
-              </button>
-              <button
-                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                onClick={() => {
-                  setDateRange("01 Apr 2026 - 30 Apr 2026");
-                  setShowDatePicker(false);
-                }}
-              >
-                April 2026 (Previous Month)
-              </button>
-              <button
-                className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors font-medium text-slate-700"
-                onClick={() => {
-                  setDateRange("01 Mar 2026 - 31 May 2026");
-                  setShowDatePicker(false);
-                }}
-              >
-                Last 3 Months (Spring)
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Filters Toggle Button */}
-        <Button
-          variant="outline"
-          size="sm"
-          className={`flex items-center gap-2 bg-white text-slate-700 border-slate-200 shadow-sm hover:bg-slate-50 ${showFilters ? "border-blue-500 ring-1 ring-blue-500/25" : ""
-            }`}
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <SlidersHorizontal className="h-4 w-4 text-slate-400" />
-          <span className="font-medium text-xs">Filters</span>
-          {activeFilterBranch !== "All" && (
-            <Badge className="ml-1 bg-blue-100 text-blue-700 hover:bg-blue-100 px-1 text-[10px]">
-              {activeFilterBranch}
-            </Badge>
-          )}
-        </Button>
-
-        {/* Filter Simulator Box */}
-        {showFilters && (
-          <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-slate-200 rounded-lg shadow-xl z-50 p-4 text-xs flex flex-col gap-3">
-            <div className="font-bold text-slate-900 border-b pb-1 select-none flex justify-between items-center">
-              <span>Filter Dashboard</span>
-              <button
-                className="text-blue-600 hover:underline font-medium"
-                onClick={() => {
-                  setActiveFilterBranch("All");
-                  setShowFilters(false);
-                }}
-              >
-                Reset
-              </button>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-slate-500 font-semibold mb-1">Branch Location</span>
-              {["All", "Main Branch", "HSR Layout", "Whitefield", "Mysore Road"].map((branch) => (
-                <label key={branch} className="flex items-center gap-2 py-1 cursor-pointer hover:text-slate-900">
-                  <input
-                    type="radio"
-                    name="branchFilter"
-                    checked={activeFilterBranch === branch}
-                    onChange={() => {
-                      setActiveFilterBranch(branch);
-                      setShowFilters(false);
-                    }}
-                    className="text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className={activeFilterBranch === branch ? "font-bold text-blue-700" : "text-slate-600"}>
-                    {branch}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-        )}
-
-      </PageHeader>
+        setIsStarred={setIsStarred}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+        activeFilterBranch={activeFilterBranch}
+        setActiveFilterBranch={setActiveFilterBranch}
+      />
 
       {/* --- Row 1: KPI Cards Grid --- */}
-      <MetricsGrid
-        items={[
-          {
-            label: "Total Sales (₹)",
-            value: isMayData ? "₹ 18,35,000" : "₹ 15,48,750",
-            change: isMayData ? "▲ 18.6% vs Apr 2026" : "▲ 12.4% vs Apr 2026",
-            color: "bg-blue-50 text-blue-600",
-            icon: ShoppingBag
-          },
-          {
-            label: "Invoices",
-            value: isMayData ? "156" : "139",
-            change: isMayData ? "▲ 12.5% vs Apr 2026" : "▲ 8.2% vs Apr 2026",
-            color: "bg-emerald-50 text-emerald-600",
-            icon: FileText
-          },
-          {
-            label: "New Customers",
-            value: isMayData ? "32" : "28",
-            change: isMayData ? "▲ 10.3% vs Apr 2026" : "▲ 9.1% vs Apr 2026",
-            color: "bg-purple-50 text-purple-600",
-            icon: Users
-          },
-          {
-            label: "Avg. Order Value (₹)",
-            value: isMayData ? "₹ 11,762" : "₹ 11,142",
-            change: isMayData ? "▲ 8.7% vs Apr 2026" : "▲ 5.4% vs Apr 2026",
-            color: "bg-amber-50 text-amber-600",
-            icon: ShoppingBag
-          },
-          {
-            label: "Returns (₹)",
-            value: isMayData ? "₹ 97,350" : "₹ 1,03,950",
-            change: isMayData ? "▼ -6.4% vs Apr 2026" : "▼ -2.1% vs Apr 2026",
-            color: "bg-teal-50 text-teal-600",
-            icon: ArrowDownRight,
-            iconClass: "rotate-90"
-          },
-          {
-            label: "Gross Profit (₹)",
-            value: isMayData ? "₹ 6,48,250" : "₹ 5,58,600",
-            change: isMayData ? "▲ 16.2% vs Apr 2026" : "▲ 11.5% vs Apr 2026",
-            color: "bg-pink-50 text-pink-600",
-            icon: Percent
-          }
-        ]}
-      />
+      <MetricsGrid items={kpiMetrics} />
 
       {/* --- Row 2: Charts and Highlights Row --- */}
       <div className="grid grid-cols-12 gap-6">
